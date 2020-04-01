@@ -68,7 +68,7 @@ export const clearFields = () => {
 
     fieldsArray = Array.prototype.slice.call(fields);
     //pass in a callback funtion and then is applied to each item in the array
-    fieldsArray.forEach(function (currentValue, index, array) {
+    fieldsArray.forEach((currentValue, index, array) => {
 
         currentValue.value = '';
 
@@ -96,7 +96,7 @@ export const displayPercentage = percentages => {
 
     var fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
 
-    nodeListForEach(fields, function (current, index) {
+    nodeListForEach(fields, (current, index) => {
         if (percentages[index] > 0) {
             current.textContent = percentages[index] + '%';
         } else {
@@ -122,7 +122,7 @@ export const changeType = () => {
         DOMstrings.inputDescription + ',' +
         DOMstrings.inputValue);
 
-    nodeListForEach(fields, function (current) {
+    nodeListForEach(fields, current => {
         current.classList.toggle('red-focus');
     });
     document.querySelector(DOMstrings.inputBtn).classList.toggle('red');

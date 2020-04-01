@@ -17,7 +17,7 @@ export default class Budget {
 
     calculateTotal(type) {
         var sum = 0;
-        this.allItems[type].forEach(function (curr) {
+        this.allItems[type].forEach(curr => {
             sum += curr.value;
         });
 
@@ -46,7 +46,7 @@ export default class Budget {
     }
     deleteItem(type, id) {
         var ids, index;
-        ids = this.allItems[type].map(function (current) {
+        ids = this.allItems[type].map(current => {
             return current.id;
         });
 
@@ -77,10 +77,9 @@ export default class Budget {
         });
     }
     getPercentages(){
-        let allPercentages = this.allItems.exp.map(function (curr) {
+        return this.allItems.exp.map(curr => {
             return curr.getPercentage()
         });
-        return allPercentages;
     }
     // get
     getBudget(){

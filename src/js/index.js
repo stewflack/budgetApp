@@ -80,7 +80,7 @@ const budgetController = () => {
 
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
-        document.addEventListener('keypress', function (event) {
+        document.addEventListener('keypress',  event => {
             if(event.keyCode === 13 || event.which === 13) {
                 ctrlAddItem();
             }
