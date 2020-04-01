@@ -8,7 +8,7 @@ export default class Expense {
         this.percentage = -1;
     }
 
-    calcPercentage(totalIcome) {
+    calcPercentage(totalIncome) {
         if (totalIncome > 0) {
             this.percentage = Math.round((this.value / totalIncome) * 100);
         } else {

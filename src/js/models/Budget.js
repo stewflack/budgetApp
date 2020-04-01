@@ -22,7 +22,6 @@ export default class Budget {
         });
 
         this.totals[type] = sum;
-        console.log(sum);
     }
 
     addItem(type, desc, val) {
@@ -72,11 +71,8 @@ export default class Budget {
         }
     }
 
-    /***
-     * TODO: this doesnt work as no objects are being stored in an array and I will need to do another search for that
-     */
     calaculatePercentages() {
-        this.allItems.exp.forEach(function (curr) {
+        this.allItems.exp.forEach(curr => {
             curr.calcPercentage(this.totals.inc);
         });
     }

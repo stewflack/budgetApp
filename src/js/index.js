@@ -4,8 +4,8 @@ import * as budgetView from './views/budgetView';
 import {changeType} from "./views/budgetView";
 
 
-
 const state = {};
+window.state = state;
 /**** BUDGET CONTROLLER ******/
 const budgetController = () => {
     if(!state.budget) state.budget = new Budget();
