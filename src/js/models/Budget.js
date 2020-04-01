@@ -1,0 +1,101 @@
+import Expense from './Expense';
+import Income from './Income';
+
+export default class Budget {
+    constructor() {
+        this.allItems = {
+            exp:[],
+            inc:[]
+        };
+        this.totals = {
+            exp: 0,
+            inc:0
+        };
+        this.budget =0;
+        this.percentage= -1;
+    }
+
+    calculateTotal(type) {
+        var sum = 0;
+        this.allItems[type].forEach(function (curr) {
+            sum += curr.value;
+        });
+
+        this.totals[type] = sum;
+        console.log(sum);
+    }
+
+    addItem(type, desc, val) {
+        var newItem, ID;
+        //create new ID
+        if(this.allItems[type].length > 0 ) {
+            ID = this.allItems[type][this.allItems[type].length - 1].id + 1;
+        } else {
+            ID = 0;
+        }
+
+        // Create data based on type
+        if (type === 'exp') {
+            newItem = new Expense(ID, desc, val);
+        } else if (type === 'inc') {
+            newItem = new Income(ID, desc, val);
+        }
+        // push into data structure
+        this.allItems[type].push(newItem);
+        // return the new element
+        return newItem;
+    }
+    deleteItem(type, id) {
+        var ids, index;
+        ids = this.allItems[type].map(function (current) {
+            return current.id;
+        });
+
+        index = ids.indexOf(id);
+
+        if(index !== -1) {
+            // first parameter is the position in the array, 2nd is the number of elements
+            this.allItems[type].splice(index, 1);
+        }
+    }
+    calculateBudget() {
+        // total income and expenses
+        this.calculateTotal('inc');
+        this.calculateTotal('exp');
+        // total budget income - expenses
+        this.budget = this.totals.inc - this.totals.exp;
+        if( this.totals.inc > 0) {
+            // total % of income spent
+            this.percentage = Math.round((this.totals.exp / this.totals.inc) * 100);
+        } else {
+            this.percentage = -1;
+        }
+    }
+
+    /***
+     * TODO: this doesnt work as no objects are being stored in an array and I will need to do another search for that
+     */
+    calaculatePercentages() {
+        this.allItems.exp.forEach(function (curr) {
+            curr.calcPercentage(this.totals.inc);
+        });
+    }
+    getPercentages(){
+        let allPercentages = this.allItems.exp.map(function (curr) {
+            return curr.getPercentage()
+        });
+        return allPercentages;
+    }
+    // get
+    getBudget(){
+        return {
+            budget: this.budget,
+            totalIncome: this.totals.inc,
+            totalExpense: this.totals.exp,
+            percentage: this.percentage
+        }
+    }
+    testing() {
+        console.log(this);
+    }
+}
