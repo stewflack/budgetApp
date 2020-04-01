@@ -90,7 +90,4 @@ export default class Budget {
             percentage: this.percentage
         }
     }
-    testing() {
-        console.log(this);
-    }
 }

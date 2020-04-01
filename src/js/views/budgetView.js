@@ -23,7 +23,7 @@ const formatNumber = (num, type) => {
     //type === 'exp' ? sign = '-' : sign = '+';
     return (type === 'exp' ? '-' :'+') + ' ' + int + '.' + dec;
 };
-/*** TODO: Convert to foreach ***/
+/**** FOR EACH *****/
 const nodeListForEach = (list, callback) => {
     for(var i = 0; i < list.length; i++) {
         callback(list[i], i);
@@ -96,15 +96,13 @@ export const displayPercentage = percentages => {
 
     var fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
 
-    nodeListForEach(fields, (current, index) => {
-        if (percentages[index] > 0) {
-            current.textContent = percentages[index] + '%';
+    fields.forEach((curr, i) => {
+        if (percentages[i] > 0) {
+            curr.textContent = percentages[i] + '%';
         } else {
-            current.textContent = '---';
+            curr.textContent = '---';
         }
-
     });
-
 };
 
 export const displayMonth = () => {
@@ -122,8 +120,7 @@ export const changeType = () => {
         DOMstrings.inputDescription + ',' +
         DOMstrings.inputValue);
 
-    nodeListForEach(fields, current => {
-        current.classList.toggle('red-focus');
-    });
+    fields.forEach(curr => curr.classList.toggle('red-focus'));
+
     document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
 };
