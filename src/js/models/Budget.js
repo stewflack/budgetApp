@@ -15,7 +15,10 @@ export default class Budget {
             sav:0
         };
         this.budget =0;
-        this.percentage= -1;
+        this.percentage = {
+            exp: -1,
+            sav: -1
+        };
     }
 
     calculateTotal(type) {
@@ -71,11 +74,14 @@ export default class Budget {
         this.budget = this.totals.inc - (this.totals.exp + this.totals.sav);
         if( this.totals.inc > 0) {
             // total % of income spent
-            this.percentage = Math.round((this.totals.exp / this.totals.inc) * 100);
+            this.percentage.exp = Math.round((this.totals.exp / this.totals.inc) * 100);
+            this.percentage.sav = Math.round((this.totals.sav / this.totals.inc) * 100);
         } else {
-            this.percentage = -1;
+            this.percentage.exp = -1;
+            this.percentage.sav = -1;
         }
     }
+
 
     calaculatePercentages() {
         this.allItems.exp.forEach(curr => {
@@ -101,7 +107,8 @@ export default class Budget {
             totalIncome: this.totals.inc,
             totalExpense: this.totals.exp,
             totalSavings: this.totals.sav,
-            percentage: this.percentage
+            percentageExpense: this.percentage.exp,
+            percentageSavings: this.percentage.sav
         }
     }
 }

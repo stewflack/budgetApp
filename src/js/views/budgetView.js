@@ -99,9 +99,10 @@ export const displayBudget = obj => {
     document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalIncome, 'inc');
     document.querySelector(DOMstrings.savingsLabel).textContent = formatNumber(obj.totalSavings, 'sav');
     document.querySelector(DOMstrings.expenseLabel).textContent = formatNumber(obj.totalExpense, 'exp');
-    if (obj.percentage > 0) {
-        document.querySelector(DOMstrings.expensePercentLabel).textContent = obj.percentage+'%';
-        document.querySelector(DOMstrings.savingsPercentLabel).textContent = obj.percentage+'%';
+
+    if (obj.percentageExpense > 0 || obj.percentageSavings > 0) {
+        document.querySelector(DOMstrings.expensePercentLabel).textContent = obj.percentageExpense+'%';
+        document.querySelector(DOMstrings.savingsPercentLabel).textContent = obj.percentageSavings+'%';
     }  else {
         document.querySelector(DOMstrings.expensePercentLabel).textContent = '---';
         document.querySelector(DOMstrings.savingsPercentLabel).textContent = '---';
