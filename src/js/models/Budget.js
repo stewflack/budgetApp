@@ -1,15 +1,18 @@
 import Expense from './Expense';
 import Income from './Income';
+import Savings from './Savings';
 
 export default class Budget {
     constructor() {
         this.allItems = {
             exp:[],
-            inc:[]
+            inc:[],
+            sav:[]
         };
         this.totals = {
             exp: 0,
-            inc:0
+            inc:0,
+            sav:0
         };
         this.budget =0;
         this.percentage= -1;
@@ -38,6 +41,8 @@ export default class Budget {
             newItem = new Expense(ID, desc, val);
         } else if (type === 'inc') {
             newItem = new Income(ID, desc, val);
+        } else if (type === 'sav') {
+            newItem = new Savings(ID, desc, val);
         }
         // push into data structure
         this.allItems[type].push(newItem);
@@ -61,8 +66,9 @@ export default class Budget {
         // total income and expenses
         this.calculateTotal('inc');
         this.calculateTotal('exp');
+        this.calculateTotal('sav');
         // total budget income - expenses
-        this.budget = this.totals.inc - this.totals.exp;
+        this.budget = this.totals.inc - (this.totals.exp + this.totals.sav);
         if( this.totals.inc > 0) {
             // total % of income spent
             this.percentage = Math.round((this.totals.exp / this.totals.inc) * 100);
@@ -75,9 +81,16 @@ export default class Budget {
         this.allItems.exp.forEach(curr => {
             curr.calcPercentage(this.totals.inc);
         });
+
+        this.allItems.sav.forEach(curr => curr.calcPercentage(this.totals.inc));
     }
-    getPercentages(){
+    getExpensePercentages(){
         return this.allItems.exp.map(curr => {
+            return curr.getPercentage()
+        });
+    }
+    getSavingsPercentages(){
+        return this.allItems.sav.map(curr => {
             return curr.getPercentage()
         });
     }
@@ -87,6 +100,7 @@ export default class Budget {
             budget: this.budget,
             totalIncome: this.totals.inc,
             totalExpense: this.totals.exp,
+            totalSavings: this.totals.sav,
             percentage: this.percentage
         }
     }

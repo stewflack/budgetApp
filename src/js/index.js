@@ -23,9 +23,11 @@ const budgetController = () => {
         // Calculate Percentages
         state.budget.calaculatePercentages();
         // Read from the budget model
-        const percentages = state.budget.getPercentages();
+        const expensePercentages = state.budget.getExpensePercentages();
+        const savingsPercentages = state.budget.getSavingsPercentages();
         // Update the UI
-        budgetView.displayPercentage(percentages);
+        budgetView.displayPercentage(expensePercentages);
+        budgetView.displaySavingsPercent(savingsPercentages);
     };
 
     const ctrlAddItem = () => {
@@ -62,6 +64,7 @@ const budgetController = () => {
             // returns an array
             splitID = itemID.split('-'); // split the string and store in an array
             type = splitID[0]; // inc/exp
+            console.log(type);
             id = parseInt(splitID[1]); // number
 
             // 1. Delete item from data structure
@@ -99,6 +102,7 @@ const budgetController = () => {
                 budget: 0,
                 totalIncome: 0,
                 totalExpense: 0,
+                totalSavings: 0,
                 percentage: -1
             });
             setupEventListeners();

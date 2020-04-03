@@ -1,5 +1,13 @@
 import {DOMstrings} from "../base";
-
+function each(arr, percent) {
+    arr.forEach((curr, i) => {
+        if (percent[i] > 0) {
+            curr.textContent = percent[i] + '%';
+        } else {
+            curr.textContent = '---';
+        }
+    });
+}
 const formatNumber = (num, type) => {
     /*******
      * + or - before the number,
@@ -49,7 +57,12 @@ export const addListItem = (obj, type) => {
     } else if (type === 'exp') {
         element = DOMstrings.expenseContainer;
         markup = `<div class="item clearfix" id="exp-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix">
-            <div class="item__value">${obj.value}</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn">
+            <div class="item__value">${obj.value}</div><div class="expenses__item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn">
+            <i class="ion-ios-close-outline"></i></button></div></div></div>`;
+    } else if (type === 'sav') {
+        element = DOMstrings.savingsContainer;
+        markup = `<div class="item clearfix" id="sav-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix">
+            <div class="item__value">${obj.value}</div><div class="savings__item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn">
             <i class="ion-ios-close-outline"></i></button></div></div></div>`;
     }
     // Insert the HTML into the DOM
@@ -78,31 +91,31 @@ export const clearFields = () => {
 
 export const displayBudget = obj => {
 
-    var type;
+    let type;
     obj.budget > 0 ? type = 'inc' : type = 'exp';
-
+    // Budget total label
     document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+
     document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalIncome, 'inc');
+    document.querySelector(DOMstrings.savingsLabel).textContent = formatNumber(obj.totalSavings, 'sav');
     document.querySelector(DOMstrings.expenseLabel).textContent = formatNumber(obj.totalExpense, 'exp');
     if (obj.percentage > 0) {
         document.querySelector(DOMstrings.expensePercentLabel).textContent = obj.percentage+'%';
+        document.querySelector(DOMstrings.savingsPercentLabel).textContent = obj.percentage+'%';
     }  else {
         document.querySelector(DOMstrings.expensePercentLabel).textContent = '---';
+        document.querySelector(DOMstrings.savingsPercentLabel).textContent = '---';
     }
 
 };
 
 export const displayPercentage = percentages => {
-
-    var fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
-
-    fields.forEach((curr, i) => {
-        if (percentages[i] > 0) {
-            curr.textContent = percentages[i] + '%';
-        } else {
-            curr.textContent = '---';
-        }
-    });
+    let fields = document.querySelectorAll(DOMstrings.expensesPercentageLabel);
+    each(fields, percentages);
+};
+export const displaySavingsPercent = percentages => {
+    let fields = document.querySelectorAll(DOMstrings.savingsPercentageLabel);
+    each(fields, percentages);
 };
 
 export const displayMonth = () => {

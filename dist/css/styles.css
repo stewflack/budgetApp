@@ -32,7 +32,7 @@ body {
 **********************************************/
 
 .top {
-    height: 40vh;
+    height: 50vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(../img/back.png);
     background-size: cover;
     background-position: center;
@@ -64,7 +64,8 @@ body {
 }
 
 .budget__income,
-.budget__expenses {
+.budget__expenses,
+.budget__savings{
     padding: 12px;
     text-transform: uppercase;
 }
@@ -75,11 +76,17 @@ body {
 }
 
 .budget__expenses {
+    margin-bottom: 10px;
     background-color: #FF5049;
 }
 
+.budget__savings {
+    background-color: #0f76c1;
+}
+
 .budget__income--text,
-.budget__expenses--text {
+.budget__expenses--text,
+.budget__savings--text{
     float: left;
     font-size: 13px;
     color: #444;
@@ -87,13 +94,15 @@ body {
 }
 
 .budget__income--value,
-.budget__expenses--value {
+.budget__expenses--value,
+.budget__savings--value {
     letter-spacing: 1px;
     float: left;
 }
 
 .budget__income--percentage,
-.budget__expenses--percentage {
+.budget__expenses--percentage,
+.budget__savings--percentage §{
     float: left;
     width: 34px;
     font-size: 11px;
@@ -101,7 +110,8 @@ body {
     margin-left: 10px;
 }
 
-.budget__expenses--percentage {
+.budget__expenses--percentage,
+.budget__savings--percentage {
     background-color: rgba(255, 255, 255, 0.2);
     text-align: center;
     border-radius: 3px;
@@ -177,19 +187,25 @@ body {
 
 /***** LISTS *****/
 .container {
-    width: 1000px;
+    width: 1200px;
     margin: 60px auto;
 }
 
 .income {
     float: left;
-    width: 475px;
+    width: 300px;
     margin-right: 50px;
 }
 
 .expenses {
     float: left;
-    width: 475px;
+    width: 300px;
+}
+
+.savings {
+    float: left;
+    width: 300px;
+    margin-right: 50px;
 }
 
 h2 {
@@ -199,8 +215,9 @@ h2 {
     margin-bottom: 15px;
 }
 
-.icome__title { color: #28B9B5; }
+.income__title { color: #28B9B5; }
 .expenses__title { color: #FF5049; }
+.savings__title {color: #0f76c1; }
 
 .item {
     padding: 13px;
@@ -237,9 +254,15 @@ h2 {
 }
 
 .expenses .item__value,
-.expenses .item__percentage,
+.expenses__item__percentage,
 .expenses .item__delete--btn {
     color: #FF5049;
+}
+
+.savings .item__value,
+.savings__item__percentage,
+.savings .item__delete--btn {
+    color: #0f76c1;
 }
 
 

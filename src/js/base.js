@@ -5,12 +5,16 @@ export const DOMstrings = {
     inputBtn: '.add__btn',
     incomeContainer: '.income__list',
     expenseContainer: '.expenses__list',
+    savingsContainer: '.savings__list',
     budgetLabel: '.budget__value',
     incomeLabel: '.budget__income--value',
     expenseLabel: '.budget__expenses--value',
-    incomePercent: '.budget__income--percentage',
+    savingsLabel: '.budget__savings--value',
+    incomePercentLabel: '.budget__income--percentage',
     expensePercentLabel: '.budget__expenses--percentage',
+    savingsPercentLabel: '.budget__savings--percentage',
     container: '.container',
-    expensesPercentageLabel: '.item__percentage',
+    expensesPercentageLabel: '.expenses__item__percentage',
+    savingsPercentageLabel: '.savings__item__percentage',
     dateLabel: '.budget__title--month'
 };
