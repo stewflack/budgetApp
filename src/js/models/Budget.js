@@ -65,6 +65,40 @@ export default class Budget {
             this.allItems[type].splice(index, 1);
         }
     }
+    getItem(id,type) {
+        const data = this.allItems[type].map(curr => {
+            return curr;
+        });
+        console.log(data);
+    }
+    // data to be an object
+    editItem(type ,id, data) {
+        const ids = this.allItems[type].map(curr => {
+            return curr.id;
+        });
+
+        const index = ids.indexOf(id);
+        const item = this.allItems[type][index];
+        /* New Object */
+        const newDesc = data.description;
+        const newValue = data.value;
+
+        if (newDesc !== '') {
+            item.description = newDesc;
+        }
+
+        if (newValue !== '') {
+            if (newValue > 0) {
+                item.value = newValue;
+            } else {
+                // Error Handling
+                console.log('Enter a number which is higher than 0');
+            }
+        }
+
+         console.log('Edit data side complete')
+    }
+
     calculateBudget() {
         // total income and expenses
         this.calculateTotal('inc');

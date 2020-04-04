@@ -78,6 +78,35 @@ const budgetController = () => {
         }
     };
 
+    /***
+     * Edit Item
+     */
+
+    const ctrlEditItem = () => {
+        let itemID, splitID, type, id;
+        /*
+         Not the best way to complete as we have hardcoded the HTML to be this way, If we add in something else
+         then the chain will change
+         */
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        // if the element has an ID then do something
+        if (itemID) {
+            // returns an array
+            splitID = itemID.split('-'); // split the string and store in an array
+            type = splitID[0]; // inc/exp/sav
+            id = parseInt(splitID[1]); // number
+            console.log(event.target.parentNode.parentNode.parentNode.parentNode);
+            // 1. Delete item from data structure
+            // state.budget.editItem(type, id, data);
+
+            // updateBudget();
+
+            // updatePercentages();
+        }
+
+    };
+
+
     const setupEventListeners = () =>{
         const DOM = DOMstrings;
 
@@ -89,7 +118,8 @@ const budgetController = () => {
             }
         });
 
-        document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+         // document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
+        document.querySelector(DOM.container).addEventListener('click', ctrlEditItem);
 
         document.querySelector(DOM.inputType).addEventListener('change', changeType)
     };

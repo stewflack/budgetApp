@@ -52,18 +52,18 @@ export const addListItem = (obj, type) => {
     if(type === 'inc') {
         element = DOMstrings.incomeContainer;
         markup = `<div class="item clearfix" id="inc-${obj.id}"><div class="item__description">${obj.description}</div>\n<div class="right clearfix">
-            <div class="item__value">${obj.value}</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
+            <div class="item__value">${obj.value}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'exp') {
         element = DOMstrings.expenseContainer;
         markup = `<div class="item clearfix" id="exp-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix">
-            <div class="item__value">${obj.value}</div><div class="expenses__item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn">
-            <i class="ion-ios-close-outline"></i></button></div></div></div>`;
+            <div class="item__value">${obj.value}</div><div class="expenses__item__percentage">21%</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            </div></div></div>`;
     } else if (type === 'sav') {
         element = DOMstrings.savingsContainer;
         markup = `<div class="item clearfix" id="sav-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix">
-            <div class="item__value">${obj.value}</div><div class="savings__item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn">
-            <i class="ion-ios-close-outline"></i></button></div></div></div>`;
+            <div class="item__value">${obj.value}</div><div class="savings__item__percentage">21%</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            </div></div></div>`;
     }
     // Insert the HTML into the DOM
     document.querySelector(element).insertAdjacentHTML('beforeend', markup);
@@ -81,7 +81,7 @@ export const clearFields = () => {
 
     fieldsArray = Array.prototype.slice.call(fields);
     //pass in a callback funtion and then is applied to each item in the array
-    fieldsArray.forEach((currentValue, index, array) => {
+    fieldsArray.forEach((currentValue) => {
 
         currentValue.value = '';
 
@@ -153,4 +153,20 @@ export const changeType = () => {
             document.querySelector(DOMstrings.inputBtn).classList.remove('red');
         }
     });
+};
+
+export const focusFields = () => {
+    const fields = document.querySelectorAll(DOMstrings.inputValue +','+ DOMstrings.inputDescription);
+    // the above returns a list
+    // TODO what was the ES6 way of doing this
+    const fieldsArray = Array.prototype.slice.call(fields);
+    /* Focus on Desc field */
+    fieldsArray[1].focus();
+};
+
+export const updateInputs = obj => {
+
+    getInput().description.value = obj.value;
+    getInput().description.description = obj.description;
+
 };

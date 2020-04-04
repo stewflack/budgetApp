@@ -251,19 +251,23 @@ h2 {
 }
 
 .income .item__value,
-.income .item__delete--btn {
+.income .item__delete--btn,
+.income .item__edit--btn{
     color: #28B9B5;
 }
 
 .expenses .item__value,
 .expenses__item__percentage,
-.expenses .item__delete--btn {
+.expenses .item__delete--btn,
+.expenses .item__edit--btn
+{
     color: #FF5049;
 }
 
 .savings .item__value,
 .savings__item__percentage,
-.savings .item__delete--btn {
+.savings .item__delete--btn,
+.savings .item__edit--btn{
     color: #0f76c1;
 }
 
@@ -282,13 +286,25 @@ h2 {
     line-height: 1;
     display: none;
 }
+.item__edit--btn {
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    vertical-align: middle;
+    line-height: 1;
+    display: block;
+}
 
 .item__delete--btn:focus { outline: none; }
+.item__edit--btn:focus { outline: none; }
 .item__delete--btn:active { transform: translateY(2px); }
+.item__edit--btn:active { transform: translateY(2px); }
 
 .item:hover .item__delete--btn { display: block; }
-.item:hover .item__value { transform: translateX(-20px); }
-.item:hover .item__percentage { transform: translateX(-20px); }
+.item:hover .item__edit--btn {display: block;}
+.item:hover .item__value { transform: translateX(-40px); }
+.item:hover .item__percentage { transform: translateX(-40px); }
 
 
 .unpaid {
