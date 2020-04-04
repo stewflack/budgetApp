@@ -129,12 +129,28 @@ export const displayMonth = () => {
 };
 
 export const changeType = () => {
+    const type = DOMstrings.inputType;
     const fields = document.querySelectorAll(
-        DOMstrings.inputType + ',' +
+        type + ',' +
         DOMstrings.inputDescription + ',' +
         DOMstrings.inputValue);
+    // fields.forEach(curr => curr.classList.toggle('red-focus'));
+    console.log(type);
+    fields.forEach(curr => {
 
-    fields.forEach(curr => curr.classList.toggle('red-focus'));
-
-    document.querySelector(DOMstrings.inputBtn).classList.toggle('red');
+        if (curr.value === 'exp') {
+            fields.forEach(curr => curr.classList.remove('blue-focus'));
+            fields.forEach(curr => curr.classList.add('red-focus'));
+            document.querySelector(DOMstrings.inputBtn).classList.add('red');
+        } else if (curr.value === 'sav') {
+            fields.forEach(curr => curr.classList.remove('red-focus'));
+            fields.forEach(curr => curr.classList.add('blue-focus'));
+            document.querySelector(DOMstrings.inputBtn).classList.add('blue');
+        } else if (curr.value === 'inc') {
+            fields.forEach(curr => curr.classList.remove('red-focus'));
+            fields.forEach(curr => curr.classList.remove('blue-focus'));
+            document.querySelector(DOMstrings.inputBtn).classList.remove('blue');
+            document.querySelector(DOMstrings.inputBtn).classList.remove('red');
+        }
+    });
 };
