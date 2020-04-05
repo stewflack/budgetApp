@@ -69,7 +69,8 @@ export default class Budget {
         const data = this.allItems[type].map(curr => {
             return curr;
         });
-        console.log(data);
+        return data;
+        // console.log(data);
     }
     // data to be an object
     editItem(type ,id, data) {

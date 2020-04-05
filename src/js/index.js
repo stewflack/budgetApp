@@ -2,6 +2,7 @@ import {DOMstrings} from "./base";
 import Budget from './models/Budget';
 import * as budgetView from './views/budgetView';
 import {changeType} from "./views/budgetView";
+import {getInput} from "./views/budgetView";
 
 
 const state = {};
@@ -95,17 +96,34 @@ const budgetController = () => {
             splitID = itemID.split('-'); // split the string and store in an array
             type = splitID[0]; // inc/exp/sav
             id = parseInt(splitID[1]); // number
-            console.log(event.target.parentNode.parentNode.parentNode.parentNode);
-            // 1. Delete item from data structure
-            // state.budget.editItem(type, id, data);
-
-            // updateBudget();
-
-            // updatePercentages();
+            localStorage.setItem('type', type);
+            localStorage.setItem('itemId', splitID[1]);
+            const data = state.budget.getItem(id, type); //returns object
+            // Update Input
+            budgetView.clearFields();
+            budgetView.focusFields();
+            budgetView.updateInputs(data[0].description, data[0].value);
+            budgetView.toggleBtn();
         }
-
     };
+    const submitEditItem = () => {
+        let idStorage = localStorage.getItem('itemId');
+        const id = parseInt(idStorage);
+        const type = localStorage.getItem('type');
 
+        const newData = {
+            description: getInput().description,
+            value: getInput().value
+        };
+        state.budget.editItem(type, id, newData);
+        localStorage.removeItem('itemId');
+        localStorage.removeItem('type');
+        budgetView.updateItem(type, idStorage, newData.description, newData.value);
+        budgetView.clearFields();
+        updateBudget();
+
+        updatePercentages();
+    };
 
     const setupEventListeners = () =>{
         const DOM = DOMstrings;
@@ -120,7 +138,7 @@ const budgetController = () => {
 
          // document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
         document.querySelector(DOM.container).addEventListener('click', ctrlEditItem);
-
+        document.getElementById('edit_btn').addEventListener('click', submitEditItem)
         document.querySelector(DOM.inputType).addEventListener('change', changeType)
     };
 

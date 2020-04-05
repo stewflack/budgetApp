@@ -168,16 +168,32 @@ body {
     font-size: 35px;
     background: none;
     border: none;
+    display: none;
     color: #28B9B5;
     cursor: pointer;
-    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.1;
+    margin-left: 10px;
+}
+.edit__btn{
+    font-size: 35px;
+    background: none;
+    border: none;
+    display: none;
+    color: #28B9B5;
+    font-weight: 200;
+    cursor: pointer;
     vertical-align: middle;
     line-height: 1.1;
     margin-left: 10px;
 }
 
-.add__btn:active { transform: translateY(2px); }
+.btnDisplay {
+    display: inline-block;
+}
 
+.add__btn:active { transform: translateY(2px); }
+.edit__btn:active { transform: translateY(2px); }
 .add__type:focus,
 .add__description:focus,
 .add__value:focus {
@@ -186,6 +202,7 @@ body {
 }
 
 .add__btn:focus { outline: none; }
+.edit__btn:focus { outline: none; }
 
 /***** LISTS *****/
 .container {

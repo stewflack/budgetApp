@@ -161,12 +161,39 @@ export const focusFields = () => {
     // TODO what was the ES6 way of doing this
     const fieldsArray = Array.prototype.slice.call(fields);
     /* Focus on Desc field */
-    fieldsArray[1].focus();
+    fieldsArray[0].focus();
 };
 
-export const updateInputs = obj => {
-
-    getInput().description.value = obj.value;
-    getInput().description.description = obj.description;
-
+export const updateInputs = (desc, value) => {
+    document.querySelector(DOMstrings.inputValue).value = value.toString();
+    document.querySelector(DOMstrings.inputDescription).value = desc;
 };
+/*
+TODO - this will need to be improved but a good way for now while the items are not changing
+ */
+export const updateItem = (type, id, d, v) => {
+    const combinedID = document.getElementById(`${type}-${id}`);
+    const desc = combinedID.childNodes[0];
+    const value = combinedID.childNodes[2].childNodes[1]
+    desc.textContent = d;
+    value.textContent = v;
+};
+/***
+ * Toggle button to be complete edit and add new item
+ */
+console.log(DOMstrings.inputBtn);
+
+export const toggleBtn = () => {
+    // DOMstrings.inputBtn.classList.toggle('.btnDisplay');
+    const add = document.getElementById('add_btn');
+    const edit = document.getElementById('edit_btn');
+    if (add.classList.contains('btnDisplay')) {
+        add.classList.remove('btnDisplay');
+        edit.classList.add('btnDisplay');
+    } else if (edit.classList.contains('btnDisplay')) {
+        edit.classList.remove('btnDisplay');
+        add.classList.add('btnDisplay');
+    }
+};
+
+

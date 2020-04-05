@@ -3,6 +3,7 @@ export const DOMstrings = {
     inputDescription: '.add__description',
     inputValue: '.add__value',
     inputBtn: '.add__btn',
+    editBtn: '.edit__btn',
     incomeContainer: '.income__list',
     expenseContainer: '.expenses__list',
     savingsContainer: '.savings__list',
