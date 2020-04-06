@@ -163,10 +163,23 @@ export const focusFields = () => {
     /* Focus on Desc field */
     fieldsArray[0].focus();
 };
+/***
+ * Toggle the disabled select
+ */
+const toggleDisable = el => {
+    if (el.disabled === false) {
+        el.disabled = true;
+        el.style.cursor = 'no-drop';
+    } else if (el.disabled) {
+        el.disabled = false;
+        el.style.cursor = 'auto';
+    }
+
+};
 
 export const updateInputs = (desc, value) => {
     if (!document.querySelector(DOMstrings.inputType).disabled) {
-        document.querySelector(DOMstrings.inputType).disabled = true;
+        toggleDisable(document.querySelector(DOMstrings.inputType));
         document.querySelector(DOMstrings.inputValue).value = value.toString();
         document.querySelector(DOMstrings.inputDescription).value = desc;
     }
@@ -176,12 +189,14 @@ TODO - this will need to be improved but a good way for now while the items are 
  */
 export const updateItem = (type, id, d, v) => {
     const combinedID = document.getElementById(`${type}-${id}`);
+
     const desc = combinedID.childNodes[0];
     const value = combinedID.childNodes[2].childNodes[1];
+
     desc.textContent = d;
     value.textContent = v;
-    document.querySelector(DOMstrings.inputType).disabled = false;
 
+    toggleDisable(document.querySelector(DOMstrings.inputType));
 };
 /***
  * Toggle button to be complete edit and add new item
@@ -189,16 +204,25 @@ export const updateItem = (type, id, d, v) => {
 console.log(DOMstrings.inputBtn);
 
 export const toggleBtn = () => {
-    // DOMstrings.inputBtn.classList.toggle('.btnDisplay');
     const add = document.getElementById('add_btn');
     const edit = document.getElementById('edit_btn');
     if (add.classList.contains('btnDisplay')) {
         add.classList.remove('btnDisplay');
         edit.classList.add('btnDisplay');
+        // Disable the delete Button
+        document.querySelector(DOMstrings.deleteItemBtn).disabled = true;
+        document.querySelector(DOMstrings.deleteItemBtn).style.cursor = 'no-drop';
+        document.querySelector(DOMstrings.deleteItemBtn).style.pointerEvents = 'none';
     } else if (edit.classList.contains('btnDisplay')) {
         edit.classList.remove('btnDisplay');
         add.classList.add('btnDisplay');
+
+        document.querySelector(DOMstrings.deleteItemBtn).disabled = false;
+        document.querySelector(DOMstrings.deleteItemBtn).style.cursor = 'auto';
+        document.querySelector(DOMstrings.deleteItemBtn).style.pointerEvents = 'auto';
     }
 };
+
+
 
 
