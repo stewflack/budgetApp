@@ -298,10 +298,11 @@ h2 {
     background: none;
     border: none;
     cursor: pointer;
-    display: inline-block;
     vertical-align: middle;
     line-height: 1;
     display: none;
+    float: left;
+    margin: 0 4px;
 }
 .item__edit--btn {
     font-size: 22px;
@@ -310,7 +311,9 @@ h2 {
     cursor: pointer;
     vertical-align: middle;
     line-height: 1;
-    display: block;
+    display: none;
+    float: left;
+    margin: 0 4px;
 }
 
 .item__delete--btn:focus { outline: none; }
@@ -320,8 +323,8 @@ h2 {
 
 .item:hover .item__delete--btn { display: block; }
 .item:hover .item__edit--btn {display: block;}
-.item:hover .item__value { transform: translateX(-40px); }
-.item:hover .item__percentage { transform: translateX(-40px); }
+.item:hover .item__value { transform: translateX(-10px); }
+.item:hover .item__percentage { transform: translateX(-10px); }
 
 
 .unpaid {
