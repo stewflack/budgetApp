@@ -118,8 +118,11 @@ const budgetController = () => {
         state.budget.editItem(type, id, newData);
         localStorage.removeItem('itemId');
         localStorage.removeItem('type');
+
         budgetView.updateItem(type, idStorage, newData.description, newData.value);
         budgetView.clearFields();
+        budgetView.toggleBtn();
+
         updateBudget();
 
         updatePercentages();
@@ -137,8 +140,16 @@ const budgetController = () => {
         });
 
          // document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
-        document.querySelector(DOM.container).addEventListener('click', ctrlEditItem);
-        document.getElementById('edit_btn').addEventListener('click', submitEditItem)
+        // document.querySelector(DOM.container).addEventListener('click', ctrlEditItem);
+        document.querySelector(DOM.container).addEventListener('click', e => {
+            console.log(e.target.parentNode.className);
+            if(e.target.parentNode.className === DOMstrings.deleteItemBtn.replace('.', '')) {
+                ctrlDeleteItem();
+            } else if (e.target.parentNode.className === DOMstrings.editItemBtn.replace('.', '')) {
+                ctrlEditItem();
+            }
+        });
+        document.getElementById('edit_btn').addEventListener('click', submitEditItem);
         document.querySelector(DOM.inputType).addEventListener('change', changeType)
     };
 

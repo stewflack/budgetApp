@@ -4,6 +4,8 @@ export const DOMstrings = {
     inputValue: '.add__value',
     inputBtn: '.add__btn',
     editBtn: '.edit__btn',
+    editItemBtn: '.item__edit--btn',
+    deleteItemBtn: '.item__delete--btn',
     incomeContainer: '.income__list',
     expenseContainer: '.expenses__list',
     savingsContainer: '.savings__list',
