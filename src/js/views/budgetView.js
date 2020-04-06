@@ -165,8 +165,11 @@ export const focusFields = () => {
 };
 
 export const updateInputs = (desc, value) => {
-    document.querySelector(DOMstrings.inputValue).value = value.toString();
-    document.querySelector(DOMstrings.inputDescription).value = desc;
+    if (!document.querySelector(DOMstrings.inputType).disabled) {
+        document.querySelector(DOMstrings.inputType).disabled = true;
+        document.querySelector(DOMstrings.inputValue).value = value.toString();
+        document.querySelector(DOMstrings.inputDescription).value = desc;
+    }
 };
 /*
 TODO - this will need to be improved but a good way for now while the items are not changing
@@ -174,9 +177,11 @@ TODO - this will need to be improved but a good way for now while the items are 
 export const updateItem = (type, id, d, v) => {
     const combinedID = document.getElementById(`${type}-${id}`);
     const desc = combinedID.childNodes[0];
-    const value = combinedID.childNodes[2].childNodes[1]
+    const value = combinedID.childNodes[2].childNodes[1];
     desc.textContent = d;
     value.textContent = v;
+    document.querySelector(DOMstrings.inputType).disabled = false;
+
 };
 /***
  * Toggle button to be complete edit and add new item
