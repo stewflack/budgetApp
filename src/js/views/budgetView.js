@@ -220,7 +220,7 @@ export const updateItem = (type, id, d, v) => {
 /***
  * Toggle button to be complete edit and add new item
  */
-console.log(DOMstrings.inputBtn);
+// console.log(DOMstrings.inputBtn);
 
 export const toggleBtn = () => {
     const add = document.getElementById('add_btn');
