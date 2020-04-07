@@ -254,18 +254,22 @@ h2 {
     float: left;
     transition: transform 0.3s;
 }
+.expenses__item__percentage {
+    background-color: #FFDAD9;
+}
+.savings__item__percentage {background-color: #cfcfff}
 
-.item__percentage {
+.item__percentage, .savings__item__percentage, .expenses__item__percentage{
     float: left;
-    margin-left: 20px;
+    margin-left: 5px;
     transition: transform 0.3s;
     font-size: 11px;
-    background-color: #FFDAD9;
     padding: 3px;
     border-radius: 3px;
     width: 32px;
     text-align: center;
 }
+
 
 .income .item__value,
 .income .item__delete--btn,
@@ -290,7 +294,8 @@ h2 {
 
 
 .item__delete {
-    float: left;
+    position: absolute;
+    top: 0;
 }
 
 .item__delete--btn {
@@ -302,7 +307,7 @@ h2 {
     line-height: 1;
     display: none;
     float: left;
-    margin: 0 4px;
+    margin: 0 4px 0 15px;
 }
 .item__edit--btn {
     font-size: 22px;
@@ -313,7 +318,7 @@ h2 {
     line-height: 1;
     display: none;
     float: left;
-    margin: 0 4px;
+    margin: 0 4px 0 15px;
 }
 
 .item__delete--btn:focus { outline: none; }
@@ -323,8 +328,11 @@ h2 {
 
 .item:hover .item__delete--btn { display: block; }
 .item:hover .item__edit--btn {display: block;}
-.item:hover .item__value { transform: translateX(-10px); }
-.item:hover .item__percentage { transform: translateX(-10px); }
+.item:hover .item__value { transform: translateX(-60px); }
+.item:hover .item__percentage { transform: translateX(-60px); }
+.item:hover .expenses__item__percentage { transform: translateX(-60px); }
+.item:hover .savings__item__percentage { transform: translateX(-60px); }
+
 
 
 .unpaid {

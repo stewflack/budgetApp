@@ -135,6 +135,9 @@ const budgetController = () => {
 
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
+        /***
+         * TODO: Edit is not working off a click at the moment
+         */
         document.addEventListener('keypress',  event => {
             if(event.keyCode === 13 || event.which === 13) {
                 const add = document.getElementById('add_btn');
