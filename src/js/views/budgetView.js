@@ -206,8 +206,12 @@ export const updateItem = (type, id, d, v) => {
     const combinedID = document.getElementById(`${type}-${id}`);
 
     const desc = combinedID.childNodes[0];
-    const value = combinedID.childNodes[2].childNodes[1];
-
+    let value;
+    if (type === 'inc') {
+        value = combinedID.childNodes[2].childNodes[1];
+    } else {
+        value = combinedID.childNodes[1].childNodes[1];
+    }
     desc.textContent = d;
     value.textContent = v;
 
