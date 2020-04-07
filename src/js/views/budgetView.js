@@ -149,22 +149,23 @@ export const changeType = () => {
         DOMstrings.inputDescription + ',' +
         DOMstrings.inputValue);
 
-        if (select.options[select.selectedIndex].value === 'sav') {
+    if (select.options[select.selectedIndex].value === 'sav') {
 
-            inputFocusColour(fields, '1px solid #0f76c1');
-            document.querySelector(DOMstrings.inputBtn).style.color = '#0f76c1';
+        inputFocusColour(fields, '1px solid #0f76c1');
+        document.querySelector(DOMstrings.inputBtn).style.color = '#0f76c1';
 
-        } else if (select.options[select.selectedIndex].value === 'exp') {
+    } else if (select.options[select.selectedIndex].value === 'exp') {
 
-            inputFocusColour(fields, '1px solid #FF5049');
-            document.querySelector(DOMstrings.inputBtn).style.color = '#FF5049';
+        inputFocusColour(fields, '1px solid #FF5049');
+        document.querySelector(DOMstrings.inputBtn).style.color = '#FF5049';
 
-        } else if (select.options[select.selectedIndex].value === 'inc') {
+    } else if (select.options[select.selectedIndex].value === 'inc') {
 
-            inputFocusColour(fields, '1px solid #28B9B5');
-            document.querySelector(DOMstrings.inputBtn).style.color = '#28B9B5';
+        inputFocusColour(fields, '1px solid #28B9B5');
+        document.querySelector(DOMstrings.inputBtn).style.color = '#28B9B5';
 
-        }
+    }
+
     document.getElementById('addDesc').focus();
 
 };
