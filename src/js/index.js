@@ -96,9 +96,10 @@ const budgetController = () => {
             splitID = itemID.split('-'); // split the string and store in an array
             type = splitID[0]; // inc/exp/sav
             id = parseInt(splitID[1]); // number
-            console.log(itemID);
+
             localStorage.setItem('type', type);
             localStorage.setItem('itemId', splitID[1]);
+
             const data = state.budget.getItem(id, type); //returns object
             // Update Input
             budgetView.clearFields();
