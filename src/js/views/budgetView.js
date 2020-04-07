@@ -165,6 +165,8 @@ export const changeType = () => {
             document.querySelector(DOMstrings.inputBtn).style.color = '#28B9B5';
 
         }
+    document.getElementById('addDesc').focus();
+
 };
 
 export const focusFields = () => {
