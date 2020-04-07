@@ -96,13 +96,14 @@ const budgetController = () => {
             splitID = itemID.split('-'); // split the string and store in an array
             type = splitID[0]; // inc/exp/sav
             id = parseInt(splitID[1]); // number
+            console.log(itemID);
             localStorage.setItem('type', type);
             localStorage.setItem('itemId', splitID[1]);
             const data = state.budget.getItem(id, type); //returns object
             // Update Input
             budgetView.clearFields();
             budgetView.focusFields();
-            budgetView.updateInputs(data[0].description, data[0].value);
+            budgetView.updateInputs(data[id].description, data[id].value);
             budgetView.toggleBtn();
         }
     };
@@ -135,7 +136,14 @@ const budgetController = () => {
 
         document.addEventListener('keypress',  event => {
             if(event.keyCode === 13 || event.which === 13) {
-                ctrlAddItem();
+                const add = document.getElementById('add_btn');
+                const edit = document.getElementById('edit_btn');
+                /* Check which button is shown to the user */
+                if (add.classList.contains('btnDisplay')) {
+                    ctrlAddItem();
+                } else if (edit.classList.contains('btnDisplay')) {
+                    ctrlEditItem();
+                }
             }
         });
 
