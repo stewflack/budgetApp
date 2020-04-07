@@ -25,9 +25,9 @@ body {
 
 .right { float: right; }
 .red { color: #FF5049 !important; }
-.blue {color: #0f76c1 }
+.blue {color: #0f76c1 } /*0f76c1*/
 .red-focus:focus { border: 1px solid #FF5049 !important; }
-.blue-focus:focus { border: 1px solid #0f76c1 }
+.blue-focus:focus { border: 1px solid #0f76c1; }
 
 /**********************************************
 *** TOP PART

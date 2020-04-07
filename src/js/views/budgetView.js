@@ -127,6 +127,16 @@ export const displayMonth = () => {
     // return month + ' ' + year;
     document.querySelector(DOMstrings.dateLabel).textContent = months[month] + ' ' + year;
 };
+const inputFocusColour = (arr, style) => {
+    arr.forEach(curr => {
+        curr.addEventListener("focusin",() => {
+            curr.style.border = style;
+        });
+        curr.addEventListener("focusout", () => {
+            curr.style.border = '1px solid #e7e7e7';
+        });
+    });
+};
 
 export const changeType = () => {
     const type = DOMstrings.inputType;
@@ -137,21 +147,21 @@ export const changeType = () => {
     // fields.forEach(curr => curr.classList.toggle('red-focus'));
     console.log(type);
     fields.forEach(curr => {
-
-        if (curr.value === 'exp') {
-            fields.forEach(curr => curr.classList.remove('blue-focus'));
-            fields.forEach(curr => curr.classList.add('red-focus'));
-            document.querySelector(DOMstrings.inputBtn).classList.add('red');
-        } else if (curr.value === 'sav') {
-            fields.forEach(curr => curr.classList.remove('red-focus'));
-            fields.forEach(curr => curr.classList.add('blue-focus'));
-            document.querySelector(DOMstrings.inputBtn).classList.add('blue');
+        console.log(curr);
+        console.log(curr.value === 'sav');
+        if (curr.value === 'sav') {
+            // fields.forEach(curr => curr.classList.add('blue-focus'));
+            inputFocusColour(fields, '1px solid #0f76c1');
+            document.querySelector(DOMstrings.inputBtn).style.color = '#0f76c1';
+        } else if (curr.value === 'exp') {
+            inputFocusColour(fields, '1px solid #FF5049');
+            document.querySelector(DOMstrings.inputBtn).style.color = '#FF5049';
         } else if (curr.value === 'inc') {
-            fields.forEach(curr => curr.classList.remove('red-focus'));
-            fields.forEach(curr => curr.classList.remove('blue-focus'));
-            document.querySelector(DOMstrings.inputBtn).classList.remove('blue');
-            document.querySelector(DOMstrings.inputBtn).classList.remove('red');
+            inputFocusColour(fields, '1px solid #28B9B5');
+            document.querySelector(DOMstrings.inputBtn).style.color = '#28B9B5';
         }
+
+
     });
 };
 
