@@ -139,30 +139,32 @@ const inputFocusColour = (arr, style) => {
 };
 
 export const changeType = () => {
+    /*Select Type Input*/
     const type = DOMstrings.inputType;
+    const select = document.getElementById('addType');
+
+    // Array of Classes
     const fields = document.querySelectorAll(
         type + ',' +
         DOMstrings.inputDescription + ',' +
         DOMstrings.inputValue);
-    // fields.forEach(curr => curr.classList.toggle('red-focus'));
-    console.log(type);
-    fields.forEach(curr => {
-        console.log(curr);
-        console.log(curr.value === 'sav');
-        if (curr.value === 'sav') {
-            // fields.forEach(curr => curr.classList.add('blue-focus'));
+
+        if (select.options[select.selectedIndex].value === 'sav') {
+
             inputFocusColour(fields, '1px solid #0f76c1');
             document.querySelector(DOMstrings.inputBtn).style.color = '#0f76c1';
-        } else if (curr.value === 'exp') {
+
+        } else if (select.options[select.selectedIndex].value === 'exp') {
+
             inputFocusColour(fields, '1px solid #FF5049');
             document.querySelector(DOMstrings.inputBtn).style.color = '#FF5049';
-        } else if (curr.value === 'inc') {
+
+        } else if (select.options[select.selectedIndex].value === 'inc') {
+
             inputFocusColour(fields, '1px solid #28B9B5');
             document.querySelector(DOMstrings.inputBtn).style.color = '#28B9B5';
+
         }
-
-
-    });
 };
 
 export const focusFields = () => {
