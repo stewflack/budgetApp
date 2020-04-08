@@ -48,6 +48,8 @@ const budgetController = () => {
 
             // update percentages
             updatePercentages();
+            // Update Local Storage
+            state.budget.storeLocalStorage();
         } else {
             // Error Handling
         }
@@ -76,6 +78,8 @@ const budgetController = () => {
             updateBudget();
 
             updatePercentages();
+            // Update Local Storage
+            state.budget.storeLocalStorage();
         }
     };
 
@@ -128,6 +132,8 @@ const budgetController = () => {
         updateBudget();
 
         updatePercentages();
+        // Update Local Storage
+        state.budget.storeLocalStorage();
     };
 
     const setupEventListeners = () =>{
@@ -167,15 +173,30 @@ const budgetController = () => {
 
     return {
         init: () => {
+            // Budget.getLocalStorage();
             console.log('The application has started');
             budgetView.displayMonth();
             budgetView.displayBudget({
-                budget: 0,
-                totalIncome: 0,
-                totalExpense: 0,
-                totalSavings: 0,
-                percentage: -1
+                budget: state.budget.budget,
+                totalIncome: state.budget.totals.inc,
+                totalExpense: state.budget.totals.exp,
+                totalSavings: state.budget.totals.sav,
+                percentage: state.budget.percentage
             });
+
+            /**
+             * TODO Improve the below code
+             */
+            state.budget.allItems.inc.forEach(curr => {
+                budgetView.addListItem(curr, 'inc');
+            });
+            state.budget.allItems.exp.forEach(curr => {
+                budgetView.addListItem(curr, 'exp');
+            });
+            state.budget.allItems.sav.forEach(curr => {
+                budgetView.addListItem(curr, 'sav');
+            });
+
             setupEventListeners();
         }
     }

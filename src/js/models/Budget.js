@@ -5,19 +5,19 @@ import Savings from './Savings';
 export default class Budget {
     constructor() {
         this.allItems = {
-            exp:[],
-            inc:[],
-            sav:[]
+            exp: localStorage.getItem('allItems-exp') != null ? this.getLocalStorage('allItems', 'exp', Expense) : [],
+            inc: localStorage.getItem('allItems-inc') != null ? this.getLocalStorage('allItems', 'inc', Income)  : [],
+            sav: localStorage.getItem('allItems-sav') != null ? this.getLocalStorage('allItems', 'sav', Savings)  : []
         };
         this.totals = {
-            exp: 0,
-            inc:0,
-            sav:0
+            exp: localStorage.getItem('totals-exp') != null ? JSON.parse(localStorage.getItem('totalsExp')) : 0,
+            inc: localStorage.getItem('totals-inc') != null ? JSON.parse(localStorage.getItem('totalsInc')) : 0,
+            sav: localStorage.getItem('totals-sav') != null ? JSON.parse(localStorage.getItem('totalsSav')) : 0
         };
-        this.budget =0;
+        this.budget = localStorage.getItem('budget') != null ? JSON.parse(localStorage.getItem('budget')) : 0;
         this.percentage = {
-            exp: -1,
-            sav: -1
+            exp: localStorage.getItem('percentage-exp') != null ? JSON.parse(localStorage.getItem('percentageExp')) : -1,
+            sav: localStorage.getItem('percentage-sav') != null ? JSON.parse(localStorage.getItem('percentageSav')) : -1
         };
     }
 
@@ -143,5 +143,27 @@ export default class Budget {
             percentageExpense: this.percentage.exp,
             percentageSavings: this.percentage.sav
         }
+    }
+    storeLocalStorage() {
+        localStorage.setItem('allItems-inc', JSON.stringify(this.allItems.inc));
+        localStorage.setItem('allItems-exp', JSON.stringify(this.allItems.exp));
+        localStorage.setItem('allItems-sav', JSON.stringify(this.allItems.sav));
+        localStorage.setItem('totals-inc', JSON.stringify(this.totals.inc));
+        localStorage.setItem('totals-exp', JSON.stringify(this.totals.exp));
+        localStorage.setItem('totals-sav', JSON.stringify(this.totals.sav));
+        localStorage.setItem('budget', JSON.stringify(this.budget));
+        localStorage.setItem('percentage-exp', JSON.stringify(this.percentage.exp));
+        localStorage.setItem('percentage-sav', JSON.stringify(this.percentage.sav));
+    }
+
+    getLocalStorage(area, type, Obj) {
+        const array = JSON.parse(localStorage.getItem(`${area}-${type}`)); //allItems-inc
+        if (array !== null ) {
+            const newArray = array.map(curr => {
+                return new Obj(curr.id, curr.description, curr.value);
+            });
+            return newArray;
+        }
+
     }
 }
