@@ -107,7 +107,7 @@ const budgetController = () => {
             const data = state.budget.getItem(type); //returns object
 
             // Fix for when an item has been deleted
-            const obj = data.find((o) => {
+            const obj = data.find(o => {
                 if (o.id === id) {
                     return o;
                 }
