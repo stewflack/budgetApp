@@ -307,7 +307,7 @@ h2 {
     line-height: 1;
     display: none;
     float: left;
-    margin: 0 4px 0 15px;
+    margin: 0 10px 0;
 }
 .item__edit--btn {
     font-size: 22px;
@@ -318,7 +318,7 @@ h2 {
     line-height: 1;
     display: none;
     float: left;
-    margin: 0 4px 0 15px;
+    margin: 0 0 0 12px;
 }
 
 .item__delete--btn:focus { outline: none; }

@@ -51,7 +51,7 @@ export const addListItem = (obj, type) => {
     // create a HTML string with placeholder text
     if(type === 'inc') {
         element = DOMstrings.incomeContainer;
-        markup = `<div class="item clearfix" id="inc-${obj.id}"><div class="item__description">${obj.description}</div>\n<div class="right clearfix" style="width: 60px; position: relative;">
+        markup = `<div class="item clearfix" id="inc-${obj.id}"><div class="item__description">${obj.description}</div>\n<div class="right clearfix" style="width: 80px; position: relative;">
             <div class="item__value">${obj.value}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'exp') {
@@ -153,16 +153,18 @@ export const changeType = () => {
 
         inputFocusColour(fields, '1px solid #0f76c1');
         document.querySelector(DOMstrings.inputBtn).style.color = '#0f76c1';
-
+        document.querySelector(DOMstrings.editBtn).style.color = '#0f76c1';
     } else if (select.options[select.selectedIndex].value === 'exp') {
 
         inputFocusColour(fields, '1px solid #FF5049');
         document.querySelector(DOMstrings.inputBtn).style.color = '#FF5049';
+        document.querySelector(DOMstrings.editBtn).style.color = '#FF5049';
 
     } else if (select.options[select.selectedIndex].value === 'inc') {
 
         inputFocusColour(fields, '1px solid #28B9B5');
         document.querySelector(DOMstrings.inputBtn).style.color = '#28B9B5';
+        document.querySelector(DOMstrings.editBtn).style.color = '#28B9B5';
 
     }
 
