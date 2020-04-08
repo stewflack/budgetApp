@@ -10,14 +10,14 @@ export default class Budget {
             sav: localStorage.getItem('allItems-sav') != null ? this.getLocalStorage('allItems', 'sav', Savings)  : []
         };
         this.totals = {
-            exp: localStorage.getItem('totals-exp') != null ? JSON.parse(localStorage.getItem('totalsExp')) : 0,
-            inc: localStorage.getItem('totals-inc') != null ? JSON.parse(localStorage.getItem('totalsInc')) : 0,
-            sav: localStorage.getItem('totals-sav') != null ? JSON.parse(localStorage.getItem('totalsSav')) : 0
+            exp: localStorage.getItem('totals-exp') != null ? parseInt(localStorage.getItem('totals-exp')) : 0,
+            inc: localStorage.getItem('totals-inc') != null ? parseInt(localStorage.getItem('totals-inc')) : 0,
+            sav: localStorage.getItem('totals-sav') != null ? parseInt(localStorage.getItem('totals-sav')) : 0
         };
-        this.budget = localStorage.getItem('budget') != null ? JSON.parse(localStorage.getItem('budget')) : 0;
+        this.budget = localStorage.getItem('budget') != null ? parseInt(localStorage.getItem('budget')) : 0;
         this.percentage = {
-            exp: localStorage.getItem('percentage-exp') != null ? JSON.parse(localStorage.getItem('percentageExp')) : -1,
-            sav: localStorage.getItem('percentage-sav') != null ? JSON.parse(localStorage.getItem('percentageSav')) : -1
+            exp: localStorage.getItem('percentage-exp') != null ? parseInt(localStorage.getItem('percentage-exp')) : -1,
+            sav: localStorage.getItem('percentage-sav') != null ? parseInt(localStorage.getItem('percentage-sav')) : -1
         };
     }
 

@@ -196,6 +196,7 @@ const budgetController = () => {
             state.budget.allItems.sav.forEach(curr => {
                 budgetView.addListItem(curr, 'sav');
             });
+            updateBudget();
 
             setupEventListeners();
         }
