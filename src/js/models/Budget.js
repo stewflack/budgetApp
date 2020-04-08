@@ -65,7 +65,7 @@ export default class Budget {
             this.allItems[type].splice(index, 1);
         }
     }
-    getItem(id,type) {
+    getItem(type) {
         return this.allItems[type].map(curr => {
             return curr;
         });

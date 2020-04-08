@@ -104,11 +104,18 @@ const budgetController = () => {
             localStorage.setItem('type', type);
             localStorage.setItem('itemId', splitID[1]);
 
-            const data = state.budget.getItem(id, type); //returns object
+            const data = state.budget.getItem(type); //returns object
+
+            // Fix for when an item has been deleted
+            const obj = data.find((o) => {
+                if (o.id === id) {
+                    return o;
+                }
+            });
             // Update Input
             budgetView.clearFields();
             budgetView.focusFields();
-            budgetView.updateInputs(data[id].description, data[id].value);
+            budgetView.updateInputs(obj.description, obj.value);
             budgetView.toggleBtn();
         }
     };
