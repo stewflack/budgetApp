@@ -21,3 +21,14 @@ export const DOMstrings = {
     savingsPercentageLabel: '.savings__item__percentage',
     dateLabel: '.budget__title--month'
 };
+
+export const convertBudgetType = type => {
+    switch (type) {
+        case 'inc':
+            return 'Income';
+        case 'exp':
+            return 'Expense';
+        case 'sav':
+            return 'Savings';
+    }
+};

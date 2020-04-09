@@ -1,9 +1,9 @@
-import {DOMstrings} from "./base";
+import {DOMstrings, convertBudgetType} from "./base";
 import Budget from './models/Budget';
 import * as budgetView from './views/budgetView';
 import {changeType} from "./views/budgetView";
 import {getInput} from "./views/budgetView";
-
+import * as notifcation from './views/Notifications';
 
 const state = {};
 window.state = state;
@@ -43,6 +43,11 @@ const budgetController = () => {
             // 4 Clear the fields
             budgetView.clearFields();
 
+            let type = convertBudgetType(input.type);
+            let prefix = input.type !== 'sav' ? 'An' : 'A';
+            notifcation.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
+
+
             // call and calculate budget
             updateBudget();
 
@@ -74,6 +79,11 @@ const budgetController = () => {
             state.budget.deleteItem(type, id);
             // 2. delete item from UI
             budgetView.deleteListItem(itemID);
+
+
+            /* Get the type and output full in notifcation  */
+            type = convertBudgetType(type);
+            notifcation.createNotification('info', `<strong>${type}</strong> has been deleted`,'');
             // 3. Update and show the new budget
             updateBudget();
 
@@ -117,12 +127,16 @@ const budgetController = () => {
             budgetView.focusFields();
             budgetView.updateInputs(obj.description, obj.value);
             budgetView.toggleBtn();
+
+            /* Get the type and output full in notifcation  */
+            type = convertBudgetType(type);
+            notifcation.createNotification('info', `Edit the <strong>${type}</strong> from the input fields`, '');
         }
     };
     const submitEditItem = () => {
         let idStorage = localStorage.getItem('itemId');
         const id = parseInt(idStorage);
-        const type = localStorage.getItem('type');
+        let type = localStorage.getItem('type');
 
         const newData = {
             description: getInput().description,
@@ -135,6 +149,10 @@ const budgetController = () => {
         budgetView.updateItem(type, idStorage, newData.description, newData.value);
         budgetView.clearFields();
         budgetView.toggleBtn();
+
+        type = convertBudgetType(type);
+        notifcation.createNotification('info', `<strong>${type}</strong> has been updated`, '');
+
 
         updateBudget();
 
