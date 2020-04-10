@@ -93,7 +93,10 @@ export default class Budget {
                 // Error Handling
                 console.log('Enter a number which is higher than 0');
             }
+        } else {
+            console.log('Value empty');
         }
+
 
          console.log('Edit data side complete')
     }

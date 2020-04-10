@@ -1,9 +1,10 @@
 import AWN from "awesome-notifications";
 
-export const createNotification = (type, message, l) =>{
+export const createNotification = (type, message, l, dur = 2000) =>{
+
     const options = {
         position: "top-right",
-        durations: {global:2000},
+        durations: {global:dur},
         enabled: true,
         labels:{
             info: l,
