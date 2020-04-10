@@ -81,12 +81,13 @@ export default class Budget {
         /* New Object */
         const newDesc = data.description;
         const newValue = data.value;
+        console.log(data.value);
 
-        if (newDesc !== '') {
+        if (newDesc!=='' || newDesc.length === 0) {
             item.description = newDesc;
         }
 
-        if (newValue !== '') {
+        if (!isNaN(newValue)) {
             if (newValue > 0) {
                 item.value = newValue;
             } else {
@@ -98,7 +99,8 @@ export default class Budget {
         }
 
 
-         console.log('Edit data side complete')
+         console.log('Edit data side complete');
+        return [item.description, item.value];
     }
 
     calculateBudget() {

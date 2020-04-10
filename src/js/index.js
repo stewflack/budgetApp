@@ -146,19 +146,18 @@ const budgetController = () => {
 
         const newData = {
             description: getInput().description,
-            value: getInput().value
+            value: !isNaN(getInput().value) ? getInput().value : ''
         };
-        state.budget.editItem(type, id, newData);
+        const [desc, value] = state.budget.editItem(type, id, newData);
         localStorage.removeItem('itemId');
         localStorage.removeItem('type');
 
-        budgetView.updateItem(type, idStorage, newData.description, newData.value);
+        budgetView.updateItem(type, idStorage, desc, value);
         budgetView.clearFields();
         budgetView.toggleBtn();
 
         type = convertBudgetType(type);
         notification.createNotification('info', `<strong>${type}</strong> has been updated`, '');
-
 
         updateBudget();
 

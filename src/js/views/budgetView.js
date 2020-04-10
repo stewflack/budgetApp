@@ -232,14 +232,14 @@ export const toggleBtn = () => {
         edit.classList.add('btnDisplay');
         // Disable the delete Button
         document.querySelector(DOMstrings.deleteItemBtn).disabled = true;
-        document.querySelector(DOMstrings.deleteItemBtn).style.cursor = 'no-drop';
+        document.querySelector(DOMstrings.deleteItemBtn).parentNode.style.cursor = 'no-drop';
         document.querySelector(DOMstrings.deleteItemBtn).style.pointerEvents = 'none';
     } else if (edit.classList.contains('btnDisplay')) {
         edit.classList.remove('btnDisplay');
         add.classList.add('btnDisplay');
 
         document.querySelector(DOMstrings.deleteItemBtn).disabled = false;
-        document.querySelector(DOMstrings.deleteItemBtn).style.cursor = 'auto';
+        document.querySelector(DOMstrings.deleteItemBtn).parentNode.style.cursor = 'auto';
         document.querySelector(DOMstrings.deleteItemBtn).style.pointerEvents = 'auto';
     }
 };
