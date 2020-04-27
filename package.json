@@ -8,8 +8,7 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node index.js",
-    "build": "webpack"
+    "start": "node src/app.js"
   },
   "repository": {
     "type": "git",
@@ -21,17 +20,13 @@
     "url": "https://github.com/crazystew/budgetApp/issues"
   },
   "homepage": "https://github.com/crazystew/budgetApp#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.3"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
     "awesome-notifications": "^3.1.0",
     "express": "^4.17.1",
     "handlebars": "^4.7.6",
     "hbs": "^4.1.1",
-    "mongodb": "^3.5.6",
-    "mongoose": "^5.9.10",
     "validator": "^13.0.0"
   }
 }
