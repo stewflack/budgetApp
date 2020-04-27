@@ -1,9 +1,9 @@
 import {DOMstrings, convertBudgetType} from "./base";
-import Budget from './models/Budget';
-import * as budgetView from './views/budgetView';
-import {changeType} from "./views/budgetView";
-import {getInput} from "./views/budgetView";
-import * as notification from './views/Notifications';
+import Budget from '../../src/js/models/Budget';
+import * as budgetView from '../../src/js/views/budgetView';
+import {changeType} from "../../src/js/views/budgetView";
+import {getInput} from "../../src/js/views/budgetView";
+import * as notification from '../../src/js/views/Notifications';
 
 const state = {};
 window.state = state;

@@ -1,4 +1,4 @@
-import {data} from "../base";
+import {data} from "../../../dist/js/base";
 
 export default class Expense {
     constructor(id, description, value) {
