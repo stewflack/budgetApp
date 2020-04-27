@@ -1,21 +1,18 @@
-import AWN from "awesome-notifications";
+const AWN = require("awesome-notifications");
 
-export const createNotification = (type, message, l, dur = 2000) =>{
-
+function createNotification(type, message, l, dur = 2000){
     const options = {
         position: "top-right",
-        durations: {global:dur},
+        durations: {global: dur},
         enabled: true,
-        labels:{
+        labels: {
             info: l,
             tip: l,
             success: l,
             warning: l,
             alert: l
         }
-    };
-
-    const awn = new AWN(options);
+    }, awn = new AWN(options);
 
     switch (type) {
         case 'tip':
@@ -34,4 +31,6 @@ export const createNotification = (type, message, l, dur = 2000) =>{
             awn.alert(message);
             break;
     }
-};
+}
+
+module.exports = createNotification

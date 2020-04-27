@@ -1,8 +1,8 @@
-import Expense from './Expense';
-import Income from './Income';
-import Savings from './Savings';
+const Expense = require('./Expense');
+const Income = require('./Income');
+const Savings = require('./Savings');
 
-export default class Budget {
+module.exports = class Budget {
     constructor() {
         this.allItems = {
             exp: localStorage.getItem('allItems-exp') != null ? this.getLocalStorage('allItems', 'exp', Expense) : [],

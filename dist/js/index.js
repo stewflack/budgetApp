@@ -1,9 +1,15 @@
-import {DOMstrings, convertBudgetType} from "./base";
-import Budget from '../../src/js/models/Budget';
-import * as budgetView from '../../src/js/views/budgetView';
-import {changeType} from "../../src/js/views/budgetView";
-import {getInput} from "../../src/js/views/budgetView";
-import * as notification from '../../src/js/views/Notifications';
+// import {DOMstrings, convertBudgetType} from "./base";
+const base = require('./base')
+// import Budget from '../../src/js/models/Budget';
+const Budget = require('./models/Budget')
+// import * as budgetView from '../../src/js/views/budgetView';
+const budgetView = require('../js/views/budgetView')
+// import {changeType} from "../../src/js/views/budgetView";
+// import {getInput} from "../../src/js/views/budgetView";
+// import * as notification from '../../src/js/views/Notifications';
+const notification = require('../js/views/Notifications')
+const {getInput} = require("./views/budgetView");
+const {convertBudgetType} = require("./base");
 
 const state = {};
 window.state = state;
@@ -43,7 +49,7 @@ const budgetController = () => {
             // 4 Clear the fields
             budgetView.clearFields();
 
-            let type = convertBudgetType(input.type);
+            let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
             notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
 
@@ -167,7 +173,7 @@ const budgetController = () => {
     };
 
     const setupEventListeners = () =>{
-        const DOM = DOMstrings;
+        const DOM = base.DOMstrings;
 
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
@@ -189,14 +195,14 @@ const budgetController = () => {
 
         document.querySelector(DOM.container).addEventListener('click', e => {
             console.log(e.target.parentNode.className);
-            if(e.target.parentNode.className === DOMstrings.deleteItemBtn.replace('.', '')) {
+            if(e.target.parentNode.className === DOM.deleteItemBtn.replace('.', '')) {
                 ctrlDeleteItem();
-            } else if (e.target.parentNode.className === DOMstrings.editItemBtn.replace('.', '')) {
+            } else if (e.target.parentNode.className === DOM.editItemBtn.replace('.', '')) {
                 ctrlEditItem();
             }
         });
         document.getElementById('edit_btn').addEventListener('click', submitEditItem);
-        document.querySelector(DOM.inputType).addEventListener('change', changeType)
+        document.querySelector(DOM.inputType).addEventListener('change', budgetView.changeType)
     };
 
     return {

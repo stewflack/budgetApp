@@ -1,6 +1,4 @@
-import {data} from "../../../dist/js/base";
-
-export default class Expense {
+module.exports = class Expense {
     constructor(id, description, value) {
         this.id = id;
         this.description = description;
