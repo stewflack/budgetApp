@@ -91,7 +91,7 @@ const budgetController = () => {
 
             let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
-            notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
+            // notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
 
 
             // call and calculate budget
@@ -103,7 +103,7 @@ const budgetController = () => {
             state.budget.storeLocalStorage();
         } else {
             // Error Handling
-            notification.createNotification('alert', 'Please fill in the required input fields', '', 3000);
+            // notification.createNotification('alert', 'Please fill in the required input fields', '', 3000);
             budgetView.focusFields()
         }
 
@@ -131,7 +131,7 @@ const budgetController = () => {
 
             /* Get the type and output full in notification  */
             type = convertBudgetType(type);
-            notification.createNotification('info', `<strong>${type}</strong> has been deleted`,'');
+            // notification.createNotification('info', `<strong>${type}</strong> has been deleted`,'');
             // 3. Update and show the new budget
             updateBudget();
 
@@ -180,7 +180,7 @@ const budgetController = () => {
 
             /* Get the type and output full in notification  */
             type = convertBudgetType(type);
-            notification.createNotification('info', `Edit the <strong>${type}</strong> from the input fields`, '');
+            // notification.createNotification('info', `Edit the <strong>${type}</strong> from the input fields`, '');
         } else {
             console.log('Item ID not found')
         }
@@ -203,7 +203,7 @@ const budgetController = () => {
         budgetView.toggleBtn();
 
         type = convertBudgetType(type);
-        notification.createNotification('info', `<strong>${type}</strong> has been updated`, '');
+        // notification.createNotification('info', `<strong>${type}</strong> has been updated`, '');
 
         updateBudget();
 
