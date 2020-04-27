@@ -1,6 +1,5 @@
-import {data} from "../base";
+module.exports = class Savings {
 
-export default class Expense {
     constructor(id, description, value) {
         this.id = id;
         this.description = description;

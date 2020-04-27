@@ -1,4 +1,4 @@
-export const DOMstrings = {
+const DOMstrings = {
     inputType: '.add__type',
     inputDescription: '.add__description',
     inputValue: '.add__value',
@@ -21,8 +21,7 @@ export const DOMstrings = {
     savingsPercentageLabel: '.savings__item__percentage',
     dateLabel: '.budget__title--month'
 };
-
-export const convertBudgetType = type => {
+ const convertBudgetType = type => {
     switch (type) {
         case 'inc':
             return 'Income';
@@ -32,3 +31,8 @@ export const convertBudgetType = type => {
             return 'Savings';
     }
 };
+
+module.exports = {
+    DOMstrings,
+    convertBudgetType
+}

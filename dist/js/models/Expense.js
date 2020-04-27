@@ -1,5 +1,4 @@
-export default class Savings {
-
+module.exports = class Expense {
     constructor(id, description, value) {
         this.id = id;
         this.description = description;

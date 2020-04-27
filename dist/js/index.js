@@ -1,9 +1,15 @@
-import {DOMstrings, convertBudgetType} from "./base";
-import Budget from './models/Budget';
-import * as budgetView from './views/budgetView';
-import {changeType} from "./views/budgetView";
-import {getInput} from "./views/budgetView";
-import * as notifcation from './views/Notifications';
+// import {DOMstrings, convertBudgetType} from "./base";
+const base = require('./base')
+// import Budget from '../../src/js/models/Budget';
+const Budget = require('./models/Budget')
+// import * as budgetView from '../../src/js/views/budgetView';
+const budgetView = require('../js/views/budgetView')
+// import {changeType} from "../../src/js/views/budgetView";
+// import {getInput} from "../../src/js/views/budgetView";
+// import * as notification from '../../src/js/views/Notifications';
+const notification = require('../js/views/Notifications')
+const {getInput} = require("./views/budgetView");
+const {convertBudgetType} = require("./base");
 
 const state = {};
 window.state = state;
@@ -43,9 +49,9 @@ const budgetController = () => {
             // 4 Clear the fields
             budgetView.clearFields();
 
-            let type = convertBudgetType(input.type);
+            let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
-            notifcation.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
+            notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
 
 
             // call and calculate budget
@@ -57,6 +63,8 @@ const budgetController = () => {
             state.budget.storeLocalStorage();
         } else {
             // Error Handling
+            notification.createNotification('alert', 'Please fill in the required input fields', '', 3000);
+            budgetView.focusFields()
         }
 
     };
@@ -81,15 +89,17 @@ const budgetController = () => {
             budgetView.deleteListItem(itemID);
 
 
-            /* Get the type and output full in notifcation  */
+            /* Get the type and output full in notification  */
             type = convertBudgetType(type);
-            notifcation.createNotification('info', `<strong>${type}</strong> has been deleted`,'');
+            notification.createNotification('info', `<strong>${type}</strong> has been deleted`,'');
             // 3. Update and show the new budget
             updateBudget();
 
             updatePercentages();
             // Update Local Storage
             state.budget.storeLocalStorage();
+        } else {
+            console.log('Item ID not found')
         }
     };
 
@@ -128,9 +138,11 @@ const budgetController = () => {
             budgetView.updateInputs(obj.description, obj.value);
             budgetView.toggleBtn();
 
-            /* Get the type and output full in notifcation  */
+            /* Get the type and output full in notification  */
             type = convertBudgetType(type);
-            notifcation.createNotification('info', `Edit the <strong>${type}</strong> from the input fields`, '');
+            notification.createNotification('info', `Edit the <strong>${type}</strong> from the input fields`, '');
+        } else {
+            console.log('Item ID not found')
         }
     };
     const submitEditItem = () => {
@@ -140,19 +152,18 @@ const budgetController = () => {
 
         const newData = {
             description: getInput().description,
-            value: getInput().value
+            value: !isNaN(getInput().value) ? getInput().value : ''
         };
-        state.budget.editItem(type, id, newData);
+        const [desc, value] = state.budget.editItem(type, id, newData);
         localStorage.removeItem('itemId');
         localStorage.removeItem('type');
 
-        budgetView.updateItem(type, idStorage, newData.description, newData.value);
+        budgetView.updateItem(type, idStorage, desc, value);
         budgetView.clearFields();
         budgetView.toggleBtn();
 
         type = convertBudgetType(type);
-        notifcation.createNotification('info', `<strong>${type}</strong> has been updated`, '');
-
+        notification.createNotification('info', `<strong>${type}</strong> has been updated`, '');
 
         updateBudget();
 
@@ -162,12 +173,12 @@ const budgetController = () => {
     };
 
     const setupEventListeners = () =>{
-        const DOM = DOMstrings;
+        const DOM = base.DOMstrings;
 
         document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
 
         /***
-         * TODO: Edit is not working off a click at the moment
+         * TODO: Edit is not working off a enter at the moment
          */
         document.addEventListener('keypress',  event => {
             if(event.keyCode === 13 || event.which === 13) {
@@ -182,18 +193,16 @@ const budgetController = () => {
             }
         });
 
-         // document.querySelector(DOM.container).addEventListener('click', ctrlDeleteItem);
-        // document.querySelector(DOM.container).addEventListener('click', ctrlEditItem);
         document.querySelector(DOM.container).addEventListener('click', e => {
             console.log(e.target.parentNode.className);
-            if(e.target.parentNode.className === DOMstrings.deleteItemBtn.replace('.', '')) {
+            if(e.target.parentNode.className === DOM.deleteItemBtn.replace('.', '')) {
                 ctrlDeleteItem();
-            } else if (e.target.parentNode.className === DOMstrings.editItemBtn.replace('.', '')) {
+            } else if (e.target.parentNode.className === DOM.editItemBtn.replace('.', '')) {
                 ctrlEditItem();
             }
         });
         document.getElementById('edit_btn').addEventListener('click', submitEditItem);
-        document.querySelector(DOM.inputType).addEventListener('change', changeType)
+        document.querySelector(DOM.inputType).addEventListener('change', budgetView.changeType)
     };
 
     return {

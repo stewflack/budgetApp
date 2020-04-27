@@ -1,8 +1,8 @@
-import Expense from './Expense';
-import Income from './Income';
-import Savings from './Savings';
+const Expense = require('./Expense');
+const Income = require('./Income');
+const Savings = require('./Savings');
 
-export default class Budget {
+module.exports = class Budget {
     constructor() {
         this.allItems = {
             exp: localStorage.getItem('allItems-exp') != null ? this.getLocalStorage('allItems', 'exp', Expense) : [],
@@ -81,21 +81,26 @@ export default class Budget {
         /* New Object */
         const newDesc = data.description;
         const newValue = data.value;
+        console.log(data.value);
 
-        if (newDesc !== '') {
+        if (newDesc!=='' || newDesc.length === 0) {
             item.description = newDesc;
         }
 
-        if (newValue !== '') {
+        if (!isNaN(newValue)) {
             if (newValue > 0) {
                 item.value = newValue;
             } else {
                 // Error Handling
                 console.log('Enter a number which is higher than 0');
             }
+        } else {
+            console.log('Value empty');
         }
 
-         console.log('Edit data side complete')
+
+         console.log('Edit data side complete');
+        return [item.description, item.value];
     }
 
     calculateBudget() {
