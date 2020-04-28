@@ -1,7 +1,7 @@
 // import {DOMstrings, convertBudgetType} from "./base";
 const base = require('./base')
 // import Budget from '../../src/js/models/Budget';
-const Budget = require('./models/Budget')
+const Budget = require('../../src/js/models/Budget')
 // import * as budgetView from '../../src/js/views/budgetView';
 const budgetView = require('../js/views/budgetView')
 
@@ -50,7 +50,6 @@ const budgetController = () => {
             let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
             // notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
-            notification.testNotifcation();
 
             // call and calculate budget
             updateBudget();
@@ -148,10 +147,12 @@ const budgetController = () => {
         const id = parseInt(idStorage);
         let type = localStorage.getItem('type');
 
+
         const newData = {
             description: getInput().description,
             value: !isNaN(getInput().value) ? getInput().value : ''
         };
+
         const [desc, value] = state.budget.editItem(type, id, newData);
         localStorage.removeItem('itemId');
         localStorage.removeItem('type');

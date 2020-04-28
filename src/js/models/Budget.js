@@ -1,6 +1,7 @@
 const Expense = require('./Expense');
 const Income = require('./Income');
 const Savings = require('./Savings');
+var validator = require('validator');
 
 module.exports = class Budget {
     constructor() {
@@ -82,10 +83,11 @@ module.exports = class Budget {
         const newDesc = data.description;
         const newValue = data.value;
         console.log(data.value);
-
-        if (newDesc!=='' || newDesc.length === 0) {
-            item.description = newDesc;
+        console.log(newDesc);
+        if (validator.isEmpty(newDesc)) {
+            return console.log('Empty String please try again')
         }
+        item.description = newDesc;
 
         if (!isNaN(newValue)) {
             if (newValue > 0) {
