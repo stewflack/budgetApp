@@ -4,10 +4,8 @@ const base = require('./base')
 const Budget = require('./models/Budget')
 // import * as budgetView from '../../src/js/views/budgetView';
 const budgetView = require('../js/views/budgetView')
-// import {changeType} from "../../src/js/views/budgetView";
-// import {getInput} from "../../src/js/views/budgetView";
-// import * as notification from '../../src/js/views/Notifications';
-const notification = require('../js/views/Notifications')
+
+const notification = require('./views/Notifications')
 const {getInput} = require("./views/budgetView");
 const {convertBudgetType} = require("./base");
 
@@ -52,7 +50,7 @@ const budgetController = () => {
             let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
             // notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
-
+            notification.testNotifcation();
 
             // call and calculate budget
             updateBudget();

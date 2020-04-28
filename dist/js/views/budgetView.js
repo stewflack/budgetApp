@@ -1,4 +1,4 @@
-const base =  require("../base")
+const base = require("../base")
 function each(arr, percent) {
     arr.forEach((curr, i) => {
         if (percent[i] > 0) {

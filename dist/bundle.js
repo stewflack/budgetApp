@@ -44,10 +44,8 @@ const base = require('./base')
 const Budget = require('./models/Budget')
 // import * as budgetView from '../../src/js/views/budgetView';
 const budgetView = require('../js/views/budgetView')
-// import {changeType} from "../../src/js/views/budgetView";
-// import {getInput} from "../../src/js/views/budgetView";
-// import * as notification from '../../src/js/views/Notifications';
-const notification = require('../js/views/Notifications')
+
+const notification = require('./views/Notifications')
 const {getInput} = require("./views/budgetView");
 const {convertBudgetType} = require("./base");
 
@@ -92,7 +90,7 @@ const budgetController = () => {
             let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
             // notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
-
+            notification.testNotifcation();
 
             // call and calculate budget
             updateBudget();
@@ -282,7 +280,7 @@ budgetController().init();
 
 
 
-},{"../js/views/Notifications":7,"../js/views/budgetView":8,"./base":1,"./models/Budget":3,"./views/budgetView":8}],3:[function(require,module,exports){
+},{"../js/views/budgetView":8,"./base":1,"./models/Budget":3,"./views/Notifications":7,"./views/budgetView":8}],3:[function(require,module,exports){
 const Expense = require('./Expense');
 const Income = require('./Income');
 const Savings = require('./Savings');
@@ -513,21 +511,23 @@ module.exports = class Savings {
 }
 
 },{}],7:[function(require,module,exports){
-const AWN = require("awesome-notifications");
+const AWN = require('awesome-notifications');
 
-function createNotification(type, message, l, dur = 2000){
+const createNotification = (type, message, l, dur = 2000) =>{
     const options = {
         position: "top-right",
-        durations: {global: dur},
+        durations: {global:dur},
         enabled: true,
-        labels: {
+        labels:{
             info: l,
             tip: l,
             success: l,
             warning: l,
             alert: l
         }
-    }, awn = new AWN(options);
+    };
+
+    var awn = new AWN(options);
 
     switch (type) {
         case 'tip':
@@ -547,10 +547,18 @@ function createNotification(type, message, l, dur = 2000){
             break;
     }
 }
+const testNotifcation = () => {
+    var notifier = new AWN();
+    notifier.tip('Message here');
 
-module.exports = createNotification
+}
+
+module.exports = {
+    createNotification,
+    testNotifcation
+}
 },{"awesome-notifications":9}],8:[function(require,module,exports){
-const base =  require("../base")
+const base = require("../base")
 function each(arr, percent) {
     arr.forEach((curr, i) => {
         if (percent[i] > 0) {
