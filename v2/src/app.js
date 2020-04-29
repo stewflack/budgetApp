@@ -3,22 +3,36 @@ const validator = require('validator')
 const chalk = require('chalk')
 const database = require('./db/database')
 
+const Budget = require('./db/BudgetValidation')
+
 const port = process.env.PORT || 3000
 
 // INIT EXPRESS
 const app = express()
 app.use(express.json())
 
+
+
 /** Create Budget **/
 app.post('/budget',  (req, res) => {
     // This will need validation at somepoint, create node object and validate that way
     const body = req.body
-    database.query('INSERT INTO budget SET ?', body, (error, results, fields) => {
-        if (error) {
-            return res.status(500)
-        }
-        res.status(201).send({insertedID: results.insertId}) // Return inserted ID to then be used client side if needed
-    })
+    // Budget Validation
+    const budget = new Budget(body);
+    const data = budget.returnJSON()
+
+    console.log(data)
+    if (!data.error || data.error.length === 0) {
+        console.log('no errors with data!')
+        database.query('INSERT INTO budget SET ?', data, (error, results, fields) => {
+            if (error) {
+                return res.status(500)
+            }
+            res.status(201).send({insertedID: results.insertId}) // Return inserted ID to then be used client side if needed
+        })
+    } else {
+        res.status(400).send(data.error)
+    }
 })
 
 /** Read All Budgets **/
