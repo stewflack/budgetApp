@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const validator = require('validator')
 const chalk = require('chalk')
@@ -8,13 +9,29 @@ const Budget = require('./db/BudgetValidation')
 const port = process.env.PORT || 3000
 
 // INIT EXPRESS
+
 const app = express()
+
+// Define Paths for Express config
+const publicDirPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
+// Setup Handlebars engine and Views location
+app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+
 app.use(express.json())
+app.use(express.static(publicDirPath))
 
 
 const bodyVariableCheck = (body) => {
     // HERE TO CHECK IF type, description and value is present
 }
+app.get('', (req, res) => {
+    res.render('index', {
+        title: 'Budget App',
+        name: 'Stewart Flack'
+    })
+})
 /** Create Budget **/
 app.post('/budget',  (req, res) => {
     const body = req.body
