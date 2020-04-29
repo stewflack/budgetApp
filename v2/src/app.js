@@ -1,5 +1,7 @@
 const path = require('path')
+
 const express = require('express')
+const hbs = require('hbs')
 const validator = require('validator')
 const chalk = require('chalk')
 const database = require('./db/database')
@@ -15,9 +17,12 @@ const app = express()
 // Define Paths for Express config
 const publicDirPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials')
 // Setup Handlebars engine and Views location
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
+hbs.registerPartials(partialsPath)
+
 
 app.use(express.json())
 app.use(express.static(publicDirPath))

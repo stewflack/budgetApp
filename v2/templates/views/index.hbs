@@ -11,8 +11,14 @@
 
 <body>
 <div class="main-content">
-    <h1>{{title}}</h1>
+    {{>budgetSummary}}
+    <div class="bottom">
+        {{>budgetForm}}
+        {{>budgetOveralls}}
+    </div>
+    <div class="testOutput">
 
+    </div>
 </div>
 <script src="js/app.js"></script>
 
