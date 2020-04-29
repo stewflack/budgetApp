@@ -1,16 +1,24 @@
 const validator = require('validator')
 module.exports = class Budget {
-    constructor(body) {
-        this.type = body.type ? body.type : '';
-        this.description = body.description ? body.description : '';
-        this.value = body.value ? body.value : '';
-        this.error = [];
+    constructor(bodyArray) {
+        this.type = bodyArray.type ? bodyArray.type : '';
+        this.description = bodyArray.description ? bodyArray.description : '';
+        this.value = bodyArray.value ? bodyArray.value : '';
+        this.error = []
     }
 
     checkEmpty(p) {
         if (validator.isEmpty(p)) {
             return this.error.push({
                 error: 'A parameter should not be empty'
+            })
+        }
+    }
+
+    checkIfStringContainsNumbers() {
+        if (validator.isHexadecimal(this.type)) {
+            return this.error.push({
+                error:'Type should not contain a number'
             })
         }
     }
@@ -34,15 +42,12 @@ module.exports = class Budget {
     //         }
     //     }
     // }
-
-
-
-    returnJSON() {
+    returnInput() {
         this.checkEmpty(this.type)
         this.checkEmpty(this.description)
         this.checkEmpty(this.value.toString())
         this.checkString()
-
+        this.checkIfStringContainsNumbers()
         if(this.error.length === 0) {
             return {
                 budget_type: this.type.toString(),
@@ -57,6 +62,15 @@ module.exports = class Budget {
                 error: this.error
             }
         }
+    }
+
+
+
+    returnJSON() {
+
+
+
+
 
     }
 }
