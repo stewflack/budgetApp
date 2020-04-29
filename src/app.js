@@ -3,6 +3,7 @@ const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
 
+
 /**
  * Express Set Up
  * Ports
@@ -21,9 +22,12 @@ app.set('views', viewsPath)
 
 app.use(express.static(publicDirPath))
 
-app.get('', (req, res) => {
-    res.sendFile('../dist/index.html')
-})
+// app.get('', (req, res) => {
+//     res.sendFile('../dist/index.html')
+// })
+
+
+
 app.listen(port,() => {
     console.log(`Server has started... port: ${port}`)
 })
