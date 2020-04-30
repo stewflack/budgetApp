@@ -26,10 +26,8 @@ fetch('/budget').then((response) => {
     const res = response.json()
     res.then(data => {
         if (data.error) {
-
+            // show something like cannot load budgets
         } else {
-            const test = document.querySelector('.testOutput')
-
             data.forEach((el, i) => {
                 let markup, element;
                 // create a HTML string with placeholder text
@@ -62,7 +60,11 @@ fetch('/budget').then((response) => {
 
 fetch('/budget/totals').then(response => {
     const res = response.json()
+
     res.then(data => {
-        DOMstrings.budgetLabel.textContent = data.budgetTotal
+        document.querySelector(DOMstrings.budgetLabel).textContent = data.budgetTotal
+        document.querySelector(DOMstrings.incomeLabel).textContent = `+ ${data.incomeTotal}`
+        document.querySelector(DOMstrings.expenseLabel).textContent = `- ${data.expenseTotal}`
+        document.querySelector(DOMstrings.savingsLabel).textContent = `- ${data.savingsTotal}`
     })
 })

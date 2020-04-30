@@ -69,7 +69,7 @@ app.get('/budget', (req, res) => {
 
 app.get('/budget/totals', (req, res) => {
     // Return calculations of totals and prcentages
-    Budget.getBudgetCalculations(res)
+    Budget.getAllTotals(res)
 })
 /** Read Single Budget **/
 app.get('/budget/:id', (req, res) => {
