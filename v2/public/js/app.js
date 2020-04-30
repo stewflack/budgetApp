@@ -7,6 +7,7 @@ const budgetController = () => {
 
     const updateBudgetItems = () => {
         endpoint.getBudgets().then(res => {
+            console.log(res)
             res.forEach((el) => {
                 budgetView.addListItem(el, el.budget_type)
             })
@@ -19,8 +20,6 @@ const budgetController = () => {
             console.log(res)
         })
     }
-
-
 
     return {
         init: () =>{

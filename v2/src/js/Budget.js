@@ -12,6 +12,10 @@ module.exports = class Budget {
             sav: -1
         }
     }
+    // Calculate Percentage
+    calcPercentage(amount, total) {
+        return Math.round((amount/total) *100)
+    }
 
     getAllBudgetsJSON(response, query, callback) {
         database.query(query, (error, results, fields) => {
@@ -22,9 +26,17 @@ module.exports = class Budget {
         })
     }
 
+
     getAllBudgets(response) {
         this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE deleted_at is null', (results) => {
+            results.forEach(el => {
+                el.percent = this.calcPercentage(el.budget_value, this.incomeTotal)
+            })
             response.status(200).send(results)
+
+            // [{
+            //
+            // }]
         })
     }
 
@@ -56,7 +68,7 @@ module.exports = class Budget {
             })
             const sum = arr.reduce((a, b) => a + b, 0)
             this.savingsTotal = sum
-            this.percentages.sav = this.calcPercentage(sum)
+            this.percentages.sav = this.calcPercentage(sum,this.incomeTotal)
         })
     }
     // Calculate Total Expense
@@ -68,13 +80,10 @@ module.exports = class Budget {
             })
             const sum = arr.reduce((a, b) => a + b, 0)
             this.expenseTotal = sum
-            this.percentages.exp = this.calcPercentage(sum)
+            this.percentages.exp = this.calcPercentage(sum, this.incomeTotal)
         })
     }
-    // Calculate Percentage
-    calcPercentage(total) {
-        return Math.round((total/this.incomeTotal) *100)
-    }
+
 
     getAllTotals(response) {
         // this.getBudgetTotal(response)
