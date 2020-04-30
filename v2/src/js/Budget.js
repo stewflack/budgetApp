@@ -70,8 +70,7 @@ module.exports = class Budget {
         this.getIncomeTotal(response)
         this.getSavingsTotal(response)
         this.getExpenseTotal(response)
-
-        this.budgetTotal = this.incomeTotal - this.expenseTotal - this.savingsTotal
+        this.budgetTotal = this.incomeTotal - (this.expenseTotal + this.savingsTotal)
 
         response.status(200).send({
             budgetTotal : this.budgetTotal, // minus the other 2 not income

@@ -39,11 +39,11 @@ const nodeListForEach = (list, callback) => {
 };
 
 const getInput = () => {
-  return {
-      type: document.querySelector(base.DOMstrings.inputType).value, // Will be either inc or exp
-      description: document.querySelector(base.DOMstrings.inputDescription).value,
-      value: parseFloat(document.querySelector(base.DOMstrings.inputValue).value)
-  };
+    return {
+        type: document.querySelector(base.DOMstrings.inputType).value, // Will be either inc or exp
+        description: document.querySelector(base.DOMstrings.inputDescription).value,
+        value: parseFloat(document.querySelector(base.DOMstrings.inputValue).value)
+    };
 };
 
 const addListItem = (obj, type) => {
@@ -51,18 +51,18 @@ const addListItem = (obj, type) => {
     // create a HTML string with placeholder text
     if(type === 'inc') {
         element = base.DOMstrings.incomeContainer;
-        markup = `<div class="item clearfix" id="inc-${obj.id}"><div class="item__description">${obj.description}</div>\n<div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.value}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+        markup = `<div class="item clearfix" id="inc-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div>\n<div class="right clearfix" style="width: 80px; position: relative;">
+            <div class="item__value">${obj.budget_value}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'exp') {
         element = base.DOMstrings.expenseContainer;
-        markup = `<div class="item clearfix" id="exp-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.value}</div><div class="expenses__item__percentage">21%</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+        markup = `<div class="item clearfix" id="exp-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
+            <div class="item__value">${obj.budget_value}</div><div class="expenses__item__percentage">21%</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'sav') {
         element = base.DOMstrings.savingsContainer;
-        markup = `<div class="item clearfix" id="sav-${obj.id}"><div class="item__description">${obj.description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.value}</div><div class="savings__item__percentage">21%</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+        markup = `<div class="item clearfix" id="sav-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
+            <div class="item__value">${obj.budget_value}</div><div class="savings__item__percentage">21%</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     }
     // Insert the HTML into the DOM
@@ -93,22 +93,24 @@ const clearFields = () => {
 const displayBudget = obj => {
 
     let type;
-    obj.budget > 0 ? type = 'inc' : type = 'exp';
+    obj.budgetTotal > 0 ? type = 'inc' : type = 'exp';
     // Budget total 8
     const {expenseLabel, budgetLabel, incomeLabel, expensePercentLabel, savingsPercentLabel, savingsLabel} = base.DOMstrings;
-    document.querySelector(budgetLabel).textContent = formatNumber(obj.budget, type);
+    document.querySelector(budgetLabel).textContent = formatNumber(obj.budgetTotal, type);
 
-    document.querySelector(incomeLabel).textContent = formatNumber(obj.totalIncome, 'inc');
-    document.querySelector(savingsLabel).textContent = formatNumber(obj.totalSavings, 'sav');
-    document.querySelector(expenseLabel).textContent = formatNumber(obj.totalExpense, 'exp');
+    document.querySelector(incomeLabel).textContent = formatNumber(obj.incomeTotal, 'inc');
+    document.querySelector(savingsLabel).textContent = formatNumber(obj.savingsTotal, 'sav');
+    document.querySelector(expenseLabel).textContent = formatNumber(obj.expenseTotal, 'exp');
 
-    if (obj.percentageExpense > 0 || obj.percentageSavings > 0) {
-        document.querySelector(expensePercentLabel).textContent = obj.percentageExpense+'%';
-        document.querySelector(savingsPercentLabel).textContent = obj.percentageSavings+'%';
-    }  else {
-        document.querySelector(expensePercentLabel).textContent = '---';
-        document.querySelector(savingsPercentLabel).textContent = '---';
-    }
+
+    // TODO Percentage
+    // if (obj.percentageExpense > 0 || obj.percentageSavings > 0) {
+    //     document.querySelector(expensePercentLabel).textContent = obj.percentageExpense+'%';
+    //     document.querySelector(savingsPercentLabel).textContent = obj.percentageSavings+'%';
+    // }  else {
+    //     document.querySelector(expensePercentLabel).textContent = '---';
+    //     document.querySelector(savingsPercentLabel).textContent = '---';
+    // }
 
 };
 
