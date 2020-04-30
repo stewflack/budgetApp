@@ -1,5 +1,5 @@
 const validator = require('validator')
-module.exports = class Budget {
+module.exports = class BudgetValidation {
     constructor(bodyArray) {
         this.type = bodyArray.type ? bodyArray.type : '';
         this.description = bodyArray.description ? bodyArray.description : '';

@@ -5,14 +5,16 @@ const hbs = require('hbs')
 const validator = require('validator')
 const chalk = require('chalk')
 const database = require('./db/database')
-
-const Budget = require('./db/BudgetValidation')
+const budget = require('./js/Budget')
+const budgetValidation = require('./js/BudgetValidation')
 
 const port = process.env.PORT || 3000
 
 // INIT EXPRESS
 
 const app = express()
+const Budget = new budget();
+
 
 // Define Paths for Express config
 const publicDirPath = path.join(__dirname, '../public')
@@ -42,7 +44,7 @@ app.post('/budget',  (req, res) => {
     const body = req.body
 
     // Budget Validation
-    const budget = new Budget(body);
+    const budget = new budgetValidation(body);
     const data = budget.returnInput()
 
     if (!data.error || data.error.length === 0) {
@@ -61,13 +63,13 @@ app.post('/budget',  (req, res) => {
 
 /** Read All Budgets **/
 app.get('/budget', (req, res) => {
-    database.query('SELECT * FROM budget', (error, results, fields) => {
-        if (error) {
-            return res.status(500)
-        }
 
-        res.status(200).send(results)
-    })
+    Budget.getAllBudgets(res)
+})
+
+app.get('/budget/totals', (req, res) => {
+    // Return calculations of totals and prcentages
+    Budget.getBudgetCalculations(res)
 })
 /** Read Single Budget **/
 app.get('/budget/:id', (req, res) => {
