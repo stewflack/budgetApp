@@ -16,6 +16,17 @@ const getBudgetSummary = async () => {
     }
 }
 
+/***
+ * Calculate the Percentages
+ * Implement the EventListeners for editing, adding, deleting and reading data
+ * Small UI changes including
+ *          : Focus Fields
+ *          : Colour CHanges
+ *          ECT
+ *
+ * After this It SHOULD be at the same stage as before, next to implement user Authentication
+ */
+
 
 module.exports = {
     getBudgets,

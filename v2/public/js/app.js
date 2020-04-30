@@ -14,7 +14,10 @@ const budgetController = () => {
     }
 
     const updateBudgetSummary = () => {
-        endpoint.getBudgetSummary().then(res => budgetView.displayBudget(res))
+        endpoint.getBudgetSummary().then(res => {
+            budgetView.displayBudget(res)
+            console.log(res)
+        })
     }
 
 

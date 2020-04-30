@@ -6,7 +6,11 @@ module.exports = class Budget {
     constructor() {
         this.incomeTotal = this.getIncomeTotal();
         this.savingsTotal = this.getSavingsTotal();
-        this.expenseTotal = this.getExpenseTotal()
+        this.expenseTotal = this.getExpenseTotal();
+        this.percentages = {
+            exp: -1,
+            sav: -1
+        }
     }
 
     getAllBudgetsJSON(response, query, callback) {
@@ -50,7 +54,9 @@ module.exports = class Budget {
             let arr = results.map(el => {
                 return el.budget_value
             })
-            this.savingsTotal = arr.reduce((a, b) => a + b, 0)
+            const sum = arr.reduce((a, b) => a + b, 0)
+            this.savingsTotal = sum
+            this.percentages.sav = this.calcPercentage(sum)
         })
     }
     // Calculate Total Expense
@@ -60,24 +66,19 @@ module.exports = class Budget {
             let arr = results.map(el => {
                 return el.budget_value
             })
-            this.expenseTotal = arr.reduce((a, b) => a + b, 0)
+            const sum = arr.reduce((a, b) => a + b, 0)
+            this.expenseTotal = sum
+            this.percentages.exp = this.calcPercentage(sum)
         })
     }
-    // Calculate Percentage - later on
+    // Calculate Percentage
+    calcPercentage(total) {
+        return Math.round((total/this.incomeTotal) *100)
+    }
 
     getAllTotals(response) {
         // this.getBudgetTotal(response)
-        this.getIncomeTotal(response)
-        this.getSavingsTotal(response)
-        this.getExpenseTotal(response)
         this.budgetTotal = this.incomeTotal - (this.expenseTotal + this.savingsTotal)
-
-        response.status(200).send({
-            budgetTotal : this.budgetTotal, // minus the other 2 not income
-            incomeTotal: this.incomeTotal,
-            expenseTotal: this.expenseTotal,
-            savingsTotal: this.savingsTotal
-        })
     }
 
 

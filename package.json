@@ -8,7 +8,8 @@
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/app.js",
+    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & node v2/src/app.js"
   },
   "repository": {
     "type": "git",

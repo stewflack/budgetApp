@@ -102,15 +102,13 @@ const displayBudget = obj => {
     document.querySelector(savingsLabel).textContent = formatNumber(obj.savingsTotal, 'sav');
     document.querySelector(expenseLabel).textContent = formatNumber(obj.expenseTotal, 'exp');
 
-
-    // TODO Percentage
-    // if (obj.percentageExpense > 0 || obj.percentageSavings > 0) {
-    //     document.querySelector(expensePercentLabel).textContent = obj.percentageExpense+'%';
-    //     document.querySelector(savingsPercentLabel).textContent = obj.percentageSavings+'%';
-    // }  else {
-    //     document.querySelector(expensePercentLabel).textContent = '---';
-    //     document.querySelector(savingsPercentLabel).textContent = '---';
-    // }
+    if (obj.percentages.exp > 0 || obj.percentages.sav > 0) {
+        document.querySelector(expensePercentLabel).textContent = obj.percentages.exp+'%';
+        document.querySelector(savingsPercentLabel).textContent = obj.percentages.sav+'%';
+    }  else {
+        document.querySelector(expensePercentLabel).textContent = '---';
+        document.querySelector(savingsPercentLabel).textContent = '---';
+    }
 
 };
 
