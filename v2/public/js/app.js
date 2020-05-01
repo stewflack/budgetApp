@@ -33,18 +33,20 @@ const budgetController = () => {
                 budget_value: input.value
             }
             endpoint.postData('/budget', newItem).then(data => {
-                    console.log(data); // JSON data parsed by `response.json()` call
+                // 3 add the item to the user interface
+                // console.log(data); // JSON data parsed by `response.json()` call
+                budgetView.addListItem(data, input.type);
             }).catch(e => {
                 console.error(e)
             });
-            // 3 add the item to the user interface
-            budgetView.addListItem(newItem, input.type);
+
             // 4 Clear the fields
             budgetView.clearFields();
 
             let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
             // notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
+
             // Update Overalls
             updateBudgetSummary()
         } else {
