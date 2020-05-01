@@ -53,6 +53,7 @@ const budgetController = () => {
         } else {
             // Error Handling
             // notification.createNotification('alert', 'Please fill in the required input fields', '', 3000);
+
             budgetView.focusFields()
         }
     }
@@ -97,6 +98,46 @@ const budgetController = () => {
             console.log('Item ID not found')
         }
     };
+        // Show edit item
+    const ctrlEditItem = () => {
+        let itemID, splitID, type, id;
+        /*
+         Not the best way to complete as we have hardcoded the HTML to be this way, If we add in something else
+         then the chain will change
+         */
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        const item = document.getElementById(itemID);
+        const desc = item.children[0].textContent;
+        const value = item.children[1].children[0].textContent
+        // if the element has an ID then do something
+        if (itemID) {
+            // returns an array
+            splitID = itemID.split('-'); // split the string and store in an array
+            type = splitID[0]; // inc/exp/sav
+            id = parseInt(splitID[1]); // number
+
+            // Show Edit model
+            let editModal = document.querySelector('.edit_center')
+            editModal.style.display = 'block'
+            // Update Input and focus edit
+            document.getElementById('editType').value = type
+            document.getElementById('editDesc').value = desc
+            document.getElementById('editValue').value = value
+            document.getElementById('editDesc').focus();
+        }
+    }
+
+    const crtlSubmitEdit = () => {
+        // Get data from edit fields
+        const updateData = {
+            type: document.getElementById('editType').value,
+            description: document.getElementById('editDesc').value,
+            value: document.getElementById('editValue').value
+        }
+        // Submit to edit endpoint
+
+        // Update UI
+    }
 
 
 
@@ -126,7 +167,7 @@ const budgetController = () => {
             if(e.target.parentNode.className === DOM.deleteItemBtn.replace('.', '')) {
                 ctrlDeleteItem();
             } else if (e.target.parentNode.className === DOM.editItemBtn.replace('.', '')) {
-                // ctrlEditItem();
+                ctrlEditItem();
             }
         });
         // document.getElementById('edit_btn').addEventListener('click', submitEditItem);
