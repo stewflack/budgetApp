@@ -35,8 +35,23 @@ async function postData(url = '', data) {
     } catch (e) {
         console.error(e)
     }
+}
 
+const deleteData = async (url, id) => {
+    try {
 
+        const response = await fetch(`${url}/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        return response.json()
+
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 
@@ -56,5 +71,7 @@ async function postData(url = '', data) {
 module.exports = {
     getBudgets,
     getBudgetSummary,
-    postData
+    postData,
+    deleteData
+
 }

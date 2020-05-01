@@ -18,7 +18,7 @@ const budgetController = () => {
         endpoint.getBudgetSummary().then(res => {
             budgetView.displayBudget(res)
             console.log(res)
-        })
+        }).catch(e => console.error(e))
     }
 
     const addItem = () => {
@@ -36,6 +36,7 @@ const budgetController = () => {
                 // 3 add the item to the user interface
                 // console.log(data); // JSON data parsed by `response.json()` call
                 budgetView.addListItem(data, input.type);
+
             }).catch(e => {
                 console.error(e)
             });
@@ -46,7 +47,6 @@ const budgetController = () => {
             let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
             // notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
-
             // Update Overalls
             updateBudgetSummary()
         } else {
@@ -55,6 +55,47 @@ const budgetController = () => {
             budgetView.focusFields()
         }
     }
+
+    /** Delete Item **/
+    const ctrlDeleteItem = () => {
+        let itemID, splitID, type, id;
+        /*
+         Not the best way to complete as we have hardcoded the HTML to be this way, If we add in something else
+         then the chain will change
+         */
+        itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+        // if the element has an ID then do something
+        if (itemID) {
+            // returns an array
+            splitID = itemID.split('-'); // split the string and store in an array
+            type = splitID[0]; // inc/exp
+            console.log(type);
+            id = parseInt(splitID[1]); // number
+
+            // 1. Delete item from data structure endpoint
+            endpoint.deleteData('/budget', id).then(res=> {
+                console.log(res)
+            }).catch(e=>{
+                console.error(e)
+            })
+
+            // 2. delete item from UI
+            budgetView.deleteListItem(itemID);
+
+
+            /* Get the type and output full in notification  */
+            // type = convertBudgetType(type);
+            // notification.createNotification('info', `<strong>${type}</strong> has been deleted`,'');
+            // 3. Update and show the new budget
+            updateBudgetSummary()
+
+            // updatePercentages(); // what is this part
+            // Update Local Storage
+            // state.budget.storeLocalStorage();
+        } else {
+            console.log('Item ID not found')
+        }
+    };
 
 
 
@@ -82,7 +123,7 @@ const budgetController = () => {
         document.querySelector(DOM.container).addEventListener('click', e => {
             console.log(e.target.parentNode.className);
             if(e.target.parentNode.className === DOM.deleteItemBtn.replace('.', '')) {
-                // ctrlDeleteItem();
+                ctrlDeleteItem();
             } else if (e.target.parentNode.className === DOM.editItemBtn.replace('.', '')) {
                 // ctrlEditItem();
             }

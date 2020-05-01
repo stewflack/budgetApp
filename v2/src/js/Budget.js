@@ -29,8 +29,21 @@ module.exports = class Budget {
     getSingleItem(response, id) {
         this.getAllBudgetsJSON(response, `Select * From budget where budget_id = ${id}`, (results) => {
             results.forEach(el => {
+                switch (el.budget_type) {
+                    case 'inc':
+                        this.incomeTotal += el.budget_value
+                        break
+                    case 'exp':
+                        this.expenseTotal += el.budget_value
+                        break
+                    case 'sav':
+                        this.savingsTotal += el.budget_value
+                        break
+                }
                 if (el.budget_type !== 'inc') {
                     el.percent = this.calcPercentage(el.budget_value, this.incomeTotal)
+                    response.send(el)
+                } else {
                     response.send(el)
                 }
             })
@@ -48,7 +61,7 @@ module.exports = class Budget {
 
     // Calculate Total Income
     getIncomeTotal(response) {
-        this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE budget_type = "inc"', (results) => {
+        this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE budget_type = "inc" && deleted_at is null', (results) => {
             // this.incomeTotal = this.calculateTotals(results)
             let arr = results.map(el => {
                 return el.budget_value
@@ -58,7 +71,7 @@ module.exports = class Budget {
     }
     // Calculate Total Savings
     getSavingsTotal(response) {
-        this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE budget_type = "sav"', (results) => {
+        this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE budget_type = "sav" && deleted_at is null', (results) => {
             // this.incomeTotal = this.calculateTotals(results)
             let arr = results.map(el => {
                 return el.budget_value
@@ -70,7 +83,7 @@ module.exports = class Budget {
     }
     // Calculate Total Expense
     getExpenseTotal(response) {
-        this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE budget_type = "exp"', (results) => {
+        this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE budget_type = "exp" && deleted_at is null', (results) => {
             // this.incomeTotal = this.calculateTotals(results)
             let arr = results.map(el => {
                 return el.budget_value

@@ -43,7 +43,6 @@ app.get('', (req, res) => {
 app.post('/budget',  (req, res) => {
     // Budget Validation
     const data = new budgetValidation(req.body) // returns object
-    // console.log(data)
 
     if (!data.error || data.error.length === 0) {
 
@@ -53,7 +52,7 @@ app.post('/budget',  (req, res) => {
             }
             console.log('Data Has been inputted')
             // Pass through the Budget Constuctor to get the unit percentage
-            Budget.getSingleItem(res, results.insertId) // Send back JSON with all parameters set
+            Budget.getSingleItem(res, results.insertId ) // Send back JSON with all parameters set
 
 
         })
@@ -71,8 +70,17 @@ app.get('/budget', (req, res) => {
 
 app.get('/budget/totals', (req, res) => {
     // Return calculations of totals and prcentages
-    Budget.getAllTotals(res)
-    res.status(200).send(Budget)
+    Budget.getAllTotals()
+    res.status(200).send({
+        budgetTotal:Budget.budgetTotal,
+        incomeTotal: Budget.incomeTotal,
+        expenseTotal: Budget.expenseTotal,
+        savingsTotal: Budget.savingsTotal,
+        percentages: {
+            sav: Budget.percentages.sav,
+            exp: Budget.percentages.exp,
+        }
+    })
 })
 /** Read Single Budget **/
 app.get('/budget/:id', (req, res) => {
@@ -134,7 +142,7 @@ app.patch('/budget/:id', (req, res) => {
 /** Delete Budget **/
 app.delete('/budget/:id', (req, res) => {
     const id = req.params.id
-    database.query("UPDATE budget SET deleted_at = NOW() WHERE budget_id = ?", id, (error, results) => {
+    database.query("UPDATE budget SET deleted_at = NOW() WHERE budget_id = ?", id, (error, results, fields) => {
         if (error) {
             return res.status(500).send(error)
         }
