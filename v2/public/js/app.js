@@ -45,10 +45,6 @@ const budgetController = () => {
             let type = base.convertBudgetType(input.type);
             let prefix = input.type !== 'sav' ? 'An' : 'A';
             // notification.createNotification('success', `${prefix} <strong>${type}</strong> has been created`, '');
-
-            // Update Budget Items
-            updateBudgetItems()
-
             // Update Overalls
             updateBudgetSummary()
         } else {
