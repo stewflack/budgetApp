@@ -26,7 +26,7 @@ module.exports = class Budget {
         })
     }
 
-    getSingleItem(response, id) {
+    addSingleItem(response, id) {
         this.getAllBudgetsJSON(response, `Select * From budget where budget_id = ${id}`, (results) => {
             results.forEach(el => {
                 switch (el.budget_type) {
@@ -45,6 +45,27 @@ module.exports = class Budget {
                     response.send(el)
                 } else {
                     response.send(el)
+                }
+            })
+        })
+    }
+
+    removeSingleItem(response, id) {
+        this.getAllBudgetsJSON(response, `Select * From budget where budget_id = ${id}`, (results) => {
+            results.forEach(el => {
+                switch (el.budget_type) {
+                    case 'inc':
+                        this.incomeTotal -= el.budget_value
+                        // console.log(this.incomeTotal)
+                        break
+                    case 'exp':
+                        this.expenseTotal -= el.budget_value
+                        // console.log(this.expenseTotal)
+                        break
+                    case 'sav':
+                        this.savingsTotal -= el.budget_value
+                        // console.log(this.savingsTotal)
+                        break
                 }
             })
         })

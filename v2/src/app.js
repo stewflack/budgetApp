@@ -52,8 +52,7 @@ app.post('/budget',  (req, res) => {
             }
             console.log('Data Has been inputted')
             // Pass through the Budget Constuctor to get the unit percentage
-            Budget.getSingleItem(res, results.insertId ) // Send back JSON with all parameters set
-
+            Budget.addSingleItem(res, results.insertId ) // Send back JSON with all parameters set
 
         })
 
@@ -152,6 +151,7 @@ app.delete('/budget/:id', (req, res) => {
                 error: 'ID not found'
             })
         }
+        Budget.removeSingleItem(res, id)
 
         res.status(200).send({
             message: `${id} has been deleted`
