@@ -16,6 +16,31 @@ const getBudgetSummary = async () => {
     }
 }
 
+// Example POST method implementation:
+async function postData(url = '', data) {
+    // console.log(data)
+    // Default options are marked with *
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify(data)
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    } catch (e) {
+        console.error(e)
+    }
+
+
+}
+
+
+
 /***
  * Calculate the Percentages
  * Implement the EventListeners for editing, adding, deleting and reading data
@@ -30,5 +55,6 @@ const getBudgetSummary = async () => {
 
 module.exports = {
     getBudgets,
-    getBudgetSummary
+    getBudgetSummary,
+    postData
 }

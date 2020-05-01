@@ -42,10 +42,10 @@ app.get('', (req, res) => {
 /** Create Budget **/
 app.post('/budget',  (req, res) => {
     const body = req.body
-
+    console.log(body)
     // Budget Validation
-    const budget = new budgetValidation(body);
-    const data = budget.returnInput()
+    const data = new budgetValidation(body)
+    console.log(data)
 
     if (!data.error || data.error.length === 0) {
 
@@ -53,6 +53,7 @@ app.post('/budget',  (req, res) => {
             if (error) {
                 return res.status(500)
             }
+            console.log('Data Has been inputted')
             res.status(201).send({insertedID: results.insertId}) // Return inserted ID to then be used client side if needed
         })
 

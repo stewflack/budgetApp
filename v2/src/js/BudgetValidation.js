@@ -1,13 +1,14 @@
 const validator = require('validator')
 module.exports = class BudgetValidation {
     constructor(bodyArray) {
-        this.type = bodyArray.type ? bodyArray.type : '';
-        this.description = bodyArray.description ? bodyArray.description : '';
-        this.value = bodyArray.value ? bodyArray.value : '';
-        this.error = []
+        this.budget_type = bodyArray.budget_type ? bodyArray.budget_type : '';
+        this.budget_description = bodyArray.budget_description ? bodyArray.budget_description : '';
+        this.budget_value = bodyArray.budget_value ? bodyArray.budget_value : '';
     }
 
     checkEmpty(p) {
+        console.log(p)
+        console.log(!validator.isEmpty(p))
         if (validator.isEmpty(p)) {
             return this.error.push({
                 error: 'A parameter should not be empty'
@@ -29,48 +30,12 @@ module.exports = class BudgetValidation {
         }
     }
 
-    // checkType() {
-    //     const typesArray = ["inc", "exp", "sav"]
-    //
-    //     for (let el of typesArray) {
-    //         console.log(el)
-    //         if (!el.includes(this.type)) {
-    //             return this.error.push({
-    //                 error: 'type must be inc, exp, sav'
-    //             })
-    //
-    //         }
-    //     }
-    // }
     returnInput() {
         this.checkEmpty(this.type)
         this.checkEmpty(this.description)
         this.checkEmpty(this.value.toString())
         this.checkString()
         this.checkIfStringContainsNumbers()
-        if(this.error.length === 0) {
-            return {
-                budget_type: this.type.toString(),
-                budget_description: this.description.toString(),
-                budget_value: this.value
-            }
-        } else {
-            return {
-                budget_type: this.type.toString(),
-                budget_description: this.description.toString(),
-                budget_value: this.value,
-                error: this.error
-            }
-        }
     }
 
-
-
-    returnJSON() {
-
-
-
-
-
-    }
 }
