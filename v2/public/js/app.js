@@ -35,6 +35,7 @@ const budgetController = () => {
             endpoint.postData('/budget', newItem).then(data => {
                 // 3 add the item to the user interface
                 // console.log(data); // JSON data parsed by `response.json()` call
+                console.log(data)
                 budgetView.addListItem(data, input.type);
 
             }).catch(e => {
