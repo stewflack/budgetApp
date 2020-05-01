@@ -41,11 +41,9 @@ app.get('', (req, res) => {
 })
 /** Create Budget **/
 app.post('/budget',  (req, res) => {
-    const body = req.body
-    console.log(body)
     // Budget Validation
-    const data = new budgetValidation(body)
-    console.log(data)
+    const data = new budgetValidation(req.body) // returns object
+    // console.log(data)
 
     if (!data.error || data.error.length === 0) {
 
@@ -54,7 +52,10 @@ app.post('/budget',  (req, res) => {
                 return res.status(500)
             }
             console.log('Data Has been inputted')
-            res.status(201).send({insertedID: results.insertId}) // Return inserted ID to then be used client side if needed
+            // Pass through the Budget Constuctor to get the unit percentage
+            Budget.getSingleItem(res, results.insertId) // Send back JSON with all parameters set
+
+
         })
 
     } else {

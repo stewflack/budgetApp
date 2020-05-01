@@ -26,6 +26,16 @@ module.exports = class Budget {
         })
     }
 
+    getSingleItem(response, id) {
+        this.getAllBudgetsJSON(response, `Select * From budget where budget_id = ${id}`, (results) => {
+            results.forEach(el => {
+                if (el.budget_type !== 'inc') {
+                    el.percent = this.calcPercentage(el.budget_value, this.incomeTotal)
+                    response.send(el)
+                }
+            })
+        })
+    }
 
     getAllBudgets(response) {
         this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE deleted_at is null', (results) => {
@@ -33,22 +43,9 @@ module.exports = class Budget {
                 el.percent = this.calcPercentage(el.budget_value, this.incomeTotal)
             })
             response.status(200).send(results)
-
-            // [{
-            //
-            // }]
         })
     }
 
-    // Calculate Total Budget
-    // getBudgetTotal(response) {
-    //     this.getAllBudgetsJSON(response,'SELECT * FROM budget', (results) => {
-    //         let arr = results.map(el => {
-    //             return el.budget_value
-    //         })
-    //         this.budgetTotal = arr.reduce((a, b) => a + b, 0)
-    //     })
-    // }
     // Calculate Total Income
     getIncomeTotal(response) {
         this.getAllBudgetsJSON(response, 'SELECT * FROM budget WHERE budget_type = "inc"', (results) => {
