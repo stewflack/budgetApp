@@ -32,7 +32,7 @@ const budgetController = () => {
                 budget_description: input.description,
                 budget_value: input.value
             }
-            endpoint.postData('/budget', newItem).then(data => {
+            endpoint.postData('/budget','POST', newItem).then(data => {
                 // 3 add the item to the user interface
                 // console.log(data); // JSON data parsed by `response.json()` call
                 console.log(data)
@@ -84,10 +84,6 @@ const budgetController = () => {
             // 2. delete item from UI
             budgetView.deleteListItem(itemID);
 
-
-            /* Get the type and output full in notification  */
-            // type = convertBudgetType(type);
-            // notification.createNotification('info', `<strong>${type}</strong> has been deleted`,'');
             // 3. Update and show the new budget
             updateBudgetSummary()
 
@@ -98,9 +94,11 @@ const budgetController = () => {
             console.log('Item ID not found')
         }
     };
+
+    let itemID
         // Show edit item
     const ctrlEditItem = () => {
-        let itemID, splitID, type, id;
+        let splitID, type, id;
         /*
          Not the best way to complete as we have hardcoded the HTML to be this way, If we add in something else
          then the chain will change
@@ -128,15 +126,36 @@ const budgetController = () => {
     }
 
     const crtlSubmitEdit = () => {
+        console.log('submit')
         // Get data from edit fields
+        //TODO put these into the DOMStrings
         const updateData = {
-            type: document.getElementById('editType').value,
-            description: document.getElementById('editDesc').value,
-            value: document.getElementById('editValue').value
+            budget_type: document.getElementById('editType').value,
+            budget_description: document.getElementById('editDesc').value,
+            budget_value: document.getElementById('editValue').value
         }
+        let splitID = itemID.split('-'); // split the string and store in an array
+        let type = splitID[0]; // inc/exp/sav
+        let id = splitID[1]
         // Submit to edit endpoint
+        endpoint.postData(`/budget/${id}`,'PATCH', updateData).then(data => {
+            // 3 add the item to the user interface
+            // console.log(data); // JSON data parsed by `response.json()` call
+            // console.log(data[0])
 
-        // Update UI
+            // Update UI
+            budgetView.updateItem(type, id, data[0].budget_description, data[0].budget_value)
+            // Show Edit model
+            let editModal = document.querySelector('.edit_center')
+            editModal.style.display = 'none'
+
+            // 3. Update and show the new budget
+            updateBudgetSummary()
+        }).catch(e => {
+            console.error(e)
+        });
+
+
     }
 
 
@@ -170,7 +189,7 @@ const budgetController = () => {
                 ctrlEditItem();
             }
         });
-        // document.getElementById('edit_btn').addEventListener('click', submitEditItem);
+        document.getElementById('edit_btn').addEventListener('click', crtlSubmitEdit);
         document.querySelector(DOM.inputType).addEventListener('change', budgetView.changeType)
     };
 

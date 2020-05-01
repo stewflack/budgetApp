@@ -17,12 +17,12 @@ const getBudgetSummary = async () => {
 }
 
 // Example POST method implementation:
-async function postData(url = '', data) {
+async function postData(url = '',type, data) {
     // console.log(data)
     // Default options are marked with *
     try {
         const response = await fetch(url, {
-            method: 'POST',
+            method: type,
             headers: {
                 'Content-Type': 'application/json'
                 // 'Content-Type': 'application/x-www-form-urlencoded',

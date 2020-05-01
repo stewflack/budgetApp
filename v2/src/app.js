@@ -113,9 +113,8 @@ app.get('/budget/:id', (req, res) => {
 app.patch('/budget/:id', (req, res) => {
     const id = req.params.id
     const body = req.body
-
-    const budget = new Budget(body);
-    const data = budget.returnInput()
+    console.log(body)
+    const data = new budgetValidation(req.body) // returns object
 
     console.log(data)
 
@@ -131,9 +130,11 @@ app.patch('/budget/:id', (req, res) => {
                 })
             }
 
-            res.status(200).send({
-                message: results.rowsAffected
+            Budget.getAllBudgetsJSON(res, `Select * from budget where budget_id = ${id}`, (results) => {
+                res.status(200).send(results)
             })
+
+
         })
     }
 })

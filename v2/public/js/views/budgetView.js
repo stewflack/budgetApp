@@ -214,9 +214,9 @@ const updateItem = (type, id, d, v) => {
     const desc = combinedID.childNodes[0];
     let value;
     if (type === 'inc') {
-        value = combinedID.childNodes[2].childNodes[1];
+        value = combinedID.children[1].children[0];
     } else {
-        value = combinedID.childNodes[1].childNodes[1];
+        value = combinedID.children[1].children[1];
     }
     desc.textContent = d;
     value.textContent = v;
