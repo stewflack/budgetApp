@@ -165,7 +165,7 @@ const budgetController = () => {
         // notification.createNotification('info', `<strong>${type}</strong> has been updated`, '');
 
         updateBudget();
-
+        updateBudgetItems();
         updatePercentages();
         // Update Local Storage
         state.budget.storeLocalStorage();

@@ -1,5 +1,3 @@
-const validator = require('validator')
-const chalk = require('chalk')
 const database = require('../db/database')
 
 module.exports = class Budget {
@@ -31,7 +29,12 @@ module.exports = class Budget {
         this.getAllBudgetsJSON(response, `Select * From budget where budget_id = ${id}`, (results) => {
             results.forEach(el => {// Removed the switch bit from here. not sure what is happening now with the budget
                 if (el.budget_type !== 'inc') {
-                    el.percent = this.calcPercentage(el.budget_value, this.incomeTotal)
+                    if( this.incomeTotal > 0) {
+                        // total % of income spent
+                        el.percent = this.calcPercentage(el.budget_value, this.incomeTotal)
+                    } else {
+                        el.percent = -1
+                    }
                     response.send(el)
                 } else {
                     response.send(el)
@@ -128,13 +131,6 @@ module.exports = class Budget {
                             this.savingsTotal = 0
                         }
 
-                        console.log(
-                            // `Budget Total: ${this.budgetTotal}
-                        `Income Total: ${this.incomeTotal}
-                        Expense Total: ${this.expenseTotal}
-                        Savings Total: ${this.savingsTotal}`
-                        )
-
                         if( this.incomeTotal > 0) {
                             // total % of income spent
                             this.percentages.sav = this.calcPercentage(this.savingsTotal, this.incomeTotal)
@@ -143,7 +139,7 @@ module.exports = class Budget {
                             this.percentages.exp = -1;
                             this.percentages.sav = -1;
                         }
-                        }
+                    }
 
 
                     this.budgetTotal = this.incomeTotal - (this.expenseTotal + this.savingsTotal)
@@ -167,74 +163,4 @@ module.exports = class Budget {
                 })
             })
     }
-
-    getIncTotal() {
-        this.testCalcSummary('SELECT SUM(budget_value) as total from budget where budget_type = "inc" and deleted_at is null').then(res => {
-            if (res.total === null) {
-                this.incomeTotal = 0
-                // console.log(
-                //     `Budget Total: ${this.budgetTotal}
-                //         Income Total: ${this.incomeTotal}
-                //         Expense Total: ${this.expenseTotal}
-                //         Savings Total: ${this.savingsTotal}`
-                // )
-            } else {
-                this.incomeTotal = res.total
-
-            }
-        }).catch(e => {
-            console.log(e)
-        })
-    }
-
-    getExpTotal() {
-        this.testCalcSummary(`SELECT SUM(budget_value) as total from budget where budget_type = 'exp' and deleted_at is null`).then(res => {
-            if (res.total === null) {
-                this.expenseTotal = 0
-
-            } else {
-                this.expenseTotal = res.total
-
-            }
-        }).catch(e => console.log(e))
-    }
-
-    getSavTotal() {
-        this.testCalcSummary(`SELECT SUM(budget_value) as total from budget where budget_type = 'sav' and deleted_at is null`).then(res => {
-
-                if (res.total === null) {
-                    this.savingsTotal = 0
-                } else {
-                    this.savingsTotal = res.total;
-                }
-        }).catch(e => console.log(e))
-    }
-
-    getTotals() {
-        return new Promise((resolve, reject) => {
-            this.getIncTotal()
-            this.getExpTotal()
-            this.getSavTotal()
-
-            const budgetTotal = this.incomeTotal - (this.expenseTotal = this.savingsTotal)
-            this.percentages.sav = this.savingsTotal !== 0 ? this.calcPercentage( this.savingsTotal,this.incomeTotal) : -1
-            this.percentages.exp = this.expenseTotal !== 0 ? this.calcPercentage( this.expenseTotal,this.incomeTotal) : -1
-
-            resolve ({
-                budgetTotal,
-                incomeTotal: this.incomeTotal,
-                expenseTotal: this.expenseTotal,
-                savingsTotal: this.savingsTotal,
-                percentages: {
-                    exp: this.percentages.exp,
-                    sav: this.percentages.sav
-                }
-            })
-        })
-
-
-    }
-
-
-
 }

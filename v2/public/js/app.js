@@ -85,7 +85,6 @@ const budgetController = () => {
 
             // 3. Update and show the new budget
             updateBudgetSummary()
-
             // updatePercentages(); // what is this part
             // Update Local Storage
             // state.budget.storeLocalStorage();
@@ -150,6 +149,7 @@ const budgetController = () => {
 
             // 3. Update and show the new budget
             updateBudgetSummary()
+
         }).catch(e => {
             console.error(e)
         });

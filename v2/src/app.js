@@ -64,10 +64,6 @@ app.get('/test', async (req, res) => {
     Budget.calculateBudgetSummary().then(res => {
         console.log(res)
     }).catch(e=> console.log(e))
-    // const sav = Budget.getSavTotal()
-    // console.log(sav)
-    // Budget.getExpTotal()
-    // Budget.getIncTotal()
 
 })
 /** Read All Budgets **/
