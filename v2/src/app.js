@@ -60,26 +60,26 @@ app.post('/budget',  (req, res) => {
         res.status(400).send(data.error)
     }
 })
+app.get('/test', async (req, res) => {
+    Budget.calculateBudgetSummary().then(res => {
+        console.log(res)
+    }).catch(e=> console.log(e))
+    // const sav = Budget.getSavTotal()
+    // console.log(sav)
+    // Budget.getExpTotal()
+    // Budget.getIncTotal()
 
+})
 /** Read All Budgets **/
 app.get('/budget', (req, res) => {
-
     Budget.getAllBudgets(res)
 })
 
 app.get('/budget/totals', (req, res) => {
     // Return calculations of totals and prcentages
-    Budget.getAllTotals()
-    res.status(200).send({
-        budgetTotal:Budget.budgetTotal,
-        incomeTotal: Budget.incomeTotal,
-        expenseTotal: Budget.expenseTotal,
-        savingsTotal: Budget.savingsTotal,
-        percentages: {
-            sav: Budget.percentages.sav,
-            exp: Budget.percentages.exp,
-        }
-    })
+    Budget.calculateBudgetSummary().then(result => {
+        res.send(result)
+    }).catch(e => console.log(e))
 })
 /** Read Single Budget **/
 app.get('/budget/:id', (req, res) => {

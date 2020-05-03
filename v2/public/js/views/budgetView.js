@@ -220,8 +220,6 @@ const updateItem = (type, id, d, v) => {
     }
     desc.textContent = d;
     value.textContent = v;
-
-    toggleDisable(document.querySelector(base.DOMstrings.inputType));
 };
 /***
  * Toggle button to be complete edit and add new item

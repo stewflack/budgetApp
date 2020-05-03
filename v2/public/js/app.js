@@ -17,7 +17,6 @@ const budgetController = () => {
     const updateBudgetSummary = () => {
         endpoint.getBudgetSummary().then(res => {
             budgetView.displayBudget(res)
-            console.log(res)
         }).catch(e => console.error(e))
     }
 
@@ -175,8 +174,6 @@ const budgetController = () => {
                 /* Check which button is shown to the user */
                 if (add.classList.contains('btnDisplay')) {
                     addItem();
-                } else if (edit.classList.contains('btnDisplay')) {
-                    // ctrlEditItem();
                 }
             }
         });
@@ -208,7 +205,6 @@ const budgetController = () => {
         }
     }
 }
-
 
 
 budgetController().init()
