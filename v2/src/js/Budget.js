@@ -97,7 +97,7 @@ module.exports = class Budget {
                         reject(error)
                     }
                     if (result.length !== 1) {
-                        console.log(result)
+                        // console.log(result)
                         if (result[0]) {
                             if (result[0].total === null) {
                                 this.incomeTotal = 0
@@ -134,9 +134,16 @@ module.exports = class Budget {
                         Expense Total: ${this.expenseTotal}
                         Savings Total: ${this.savingsTotal}`
                         )
-                        this.percentages.sav = this.savingsTotal !== 0 ? this.calcPercentage(this.savingsTotal,this.incomeTotal) : -1
-                        this.percentages.exp = this.expenseTotal !== 0 ? this.calcPercentage(this.expenseTotal ,this.incomeTotal) : -1
-                    }
+
+                        if( this.incomeTotal > 0) {
+                            // total % of income spent
+                            this.percentages.sav = this.calcPercentage(this.savingsTotal, this.incomeTotal)
+                            this.percentages.exp = this.calcPercentage(this.expenseTotal ,this.incomeTotal)
+                        } else {
+                            this.percentages.exp = -1;
+                            this.percentages.sav = -1;
+                        }
+                        }
 
 
                     this.budgetTotal = this.incomeTotal - (this.expenseTotal + this.savingsTotal)
