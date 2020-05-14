@@ -45,7 +45,11 @@ const getInput = () => {
         value: parseFloat(document.querySelector(base.DOMstrings.inputValue).value)
     };
 };
-
+const clearBudgetView = () => {
+    base.DOMstrings.incomeContainer.innerHTML = ''
+    base.DOMstrings.expenseContainer.innerHTML = ''
+    base.DOMstrings.savingsContainer.innerHTML = ''
+}
 const addListItem = (obj, type) => {
     let markup, element;
     // create a HTML string with placeholder text
@@ -145,7 +149,7 @@ const inputFocusColour = (arr, style) => {
     });
 };
 
-
+/**CHANGING BORDER COLOURS **/
 const changeType = () => {
     /*Select Type Input*/
     const type = base.DOMstrings.inputType;
@@ -225,30 +229,7 @@ const updateItem = (type, id, d, v) => {
     desc.textContent = d;
     value.textContent = v;
 };
-/***
- * Toggle button to be complete edit and add new item
- */
-// console.log(DOMstrings.inputBtn);
 
-const toggleBtn = () => {
-    const add = document.getElementById('add_btn');
-    const edit = document.getElementById('edit_btn');
-    if (add.classList.contains('btnDisplay')) {
-        add.classList.remove('btnDisplay');
-        edit.classList.add('btnDisplay');
-        // Disable the delete Button
-        document.querySelector(base.DOMstrings.deleteItemBtn).disabled = true;
-        document.querySelector(base.DOMstrings.deleteItemBtn).parentNode.style.cursor = 'no-drop';
-        document.querySelector(base.DOMstrings.deleteItemBtn).style.pointerEvents = 'none';
-    } else if (edit.classList.contains('btnDisplay')) {
-        edit.classList.remove('btnDisplay');
-        add.classList.add('btnDisplay');
-
-        document.querySelector(base.DOMstrings.deleteItemBtn).disabled = false;
-        document.querySelector(base.DOMstrings.deleteItemBtn).parentNode.style.cursor = 'auto';
-        document.querySelector(base.DOMstrings.deleteItemBtn).style.pointerEvents = 'auto';
-    }
-};
 module.exports = {
     getInput,
     addListItem,
@@ -262,7 +243,7 @@ module.exports = {
     focusFields,
     updateInputs,
     updateItem,
-    toggleBtn
+    clearBudgetView
 }
 
 

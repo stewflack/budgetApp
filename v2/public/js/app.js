@@ -80,6 +80,8 @@ const budgetController = () => {
                 budgetView.deleteListItem(itemID);
                 // 3. Update and show the new budget
                 await updateBudgetSummary()
+                budgetView.clearBudgetView()
+                updateBudgetItems()
             } catch (e) {
                 console.log(e)
             }
