@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & node v2/src/app.js"
+    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon v2/src/app.js -e js, hbs"
   },
   "repository": {
     "type": "git",

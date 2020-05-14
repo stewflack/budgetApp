@@ -216,18 +216,21 @@ const updateInputs = (desc, value) => {
 /*
 TODO - this will need to be improved but a good way for now while the items are not changing
  */
-const updateItem = (type, id, d, v) => {
+const updateItem = (type, id, d, v, p = undefined) => {
     const combinedID = document.getElementById(`${type}-${id}`);
 
     const desc = combinedID.childNodes[0];
-    let value;
+    let value, percent;
     if (type === 'inc') {
         value = combinedID.children[1].children[0];
     } else {
-        value = combinedID.children[1].children[1];
+        value = combinedID.children[1].children[0];
+        percent = combinedID.children[1].children[1]
+        percent.textContent = p + '%'
     }
     desc.textContent = d;
     value.textContent = v;
+
 };
 
 module.exports = {

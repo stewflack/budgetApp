@@ -105,7 +105,7 @@ app.get('/budget/:id', async (req, res) => {
 app.patch('/budget/:id', async (req, res) => {
     const id = req.params.id
     const data = new budgetValidation(req.body) // returns object
-    
+
     if (!data.error || data.error.length === 0) {
         try {
             const update = await Budget.queryUpdate(`UPDATE budget SET ? WHERE budget_id = ?`, [data, id])
@@ -114,8 +114,9 @@ app.patch('/budget/:id', async (req, res) => {
                     error: 'ID not found'
                 })
             }
+            const updatedBudget = await Budget.getUpdatedBudgetObject(`Select * from budget where budget_id = ${id}`)
 
-            res.status(200).send(await Budget.queryPromise(`Select * from budget where budget_id = ${id}`))
+            res.status(200).send(updatedBudget)
         } catch (e) {
             res.status(500).send(e)
         }

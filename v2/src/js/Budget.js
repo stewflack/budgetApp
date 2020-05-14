@@ -165,6 +165,22 @@ module.exports = class Budget {
                 })
             })
     }
+    async getUpdatedBudgetObject(query) {
+        try {
+            const budgets = await this.queryPromise(query)
+            const totals = await this.calculateBudgetSummary()
+            for (const budget of budgets) {
+                console.log(`Budget Value ${budget.budget_value} and income total: ${totals.incomeTotal}`)
+
+                budget.percent = await this.calcPercentage(budget.budget_value, this.incomeTotal)
+            }
+            return budgets
+        } catch (e) {
+            throw new Error(e)
+        }
+
+
+    }
 
 
 

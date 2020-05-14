@@ -139,7 +139,8 @@ const budgetController = () => {
         // Submit to edit endpoint
         try {
             const data = await endpoint.postData(`/budget/${id}`,'PATCH', updateData)
-            budgetView.updateItem(type, id, data[0].budget_description, data[0].budget_value)
+            console.log(data)
+            budgetView.updateItem(type, id, data[0].budget_description, data[0].budget_value, data[0].percent)
             // Show Edit model
             let editModal = document.querySelector('.edit_center')
             editModal.style.display = 'none'
