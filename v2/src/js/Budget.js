@@ -25,18 +25,22 @@ module.exports = class Budget {
             })
         })
     }
-    getAllBudgetsJSON(response, query, callback) {
-        database.query(query, (error, results, fields) => {
-            if (error) {
-                return response.status(500).send(error)
-            }
-            callback(results)
+
+    queryUpdate(query, updates) {
+        return new Promise((resolve, reject) => {
+            database.query(query, updates,(error, result) => {
+                if (error) {
+                    reject(error)
+                }
+                resolve(result)
+            })
         })
     }
 
-    addSingleItem(response, id) {
-        this.getAllBudgetsJSON(response, `Select * From budget where budget_id = ${id}`, (results) => {
-            results.forEach(el => {// Removed the switch bit from here. not sure what is happening now with the budget
+    async addSingleItemToBudget(response, id) {
+        try {
+            const add = await this.queryPromise(`Select * From budget where budget_id = ${id}`)
+            add.forEach(el => {// Removed the switch bit from here. not sure what is happening now with the budget
                 if (el.budget_type !== 'inc') {
                     if( this.incomeTotal > 0) {
                         // total % of income spent
@@ -49,12 +53,16 @@ module.exports = class Budget {
                     response.send(el)
                 }
             })
-        })
+        } catch (e) {
+            response.status(500).send(e)
+        }
+
     }
 
-    removeSingleItem(response, id) {
-        this.getAllBudgetsJSON(response, `Select * From budget where budget_id = ${id}`, (results) => {
-            results.forEach(el => {
+    async removeSingleItemFromBudget(response, id) {
+        try {
+            const remove = await this.queryPromise(`Select * From budget where budget_id = ${id}`)
+            remove.forEach(el => {
                 switch (el.budget_type) {
                     case 'inc':
                         this.incomeTotal -= el.budget_value
@@ -70,7 +78,10 @@ module.exports = class Budget {
                         break
                 }
             })
-        })
+        } catch (e) {
+            response.status(500).send(e)
+        }
+
     }
     // On startup this is called
     async getAllBudgets(response) {
@@ -81,12 +92,12 @@ module.exports = class Budget {
             }
             response.send(budgets)
         } catch (e) {
-            console.log(e)
+            response.status(500).send(e)
         }
     }
     // Create function which can be reused to query the db. then return a promise straight away
 
-    calculateBudgetSummary() {
+    async calculateBudgetSummary() {
         const Sql = `SELECT SUM(budget_value) as total from budget where budget_type = 'inc' and deleted_at is null
                         UNION
                         SELECT SUM(budget_value) as total from budget where budget_type = 'exp' and deleted_at is null
@@ -139,14 +150,7 @@ module.exports = class Budget {
                         }
                     }
 
-
                     this.budgetTotal = this.incomeTotal - (this.expenseTotal + this.savingsTotal)
-                    console.log(
-                        `Budget Total: ${this.budgetTotal}
-                        Income Total: ${this.incomeTotal}
-                        Expense Total: ${this.expenseTotal}
-                        Savings Total: ${this.savingsTotal}`
-                    )
 
                     resolve({
                         budgetTotal: this.budgetTotal,
@@ -161,4 +165,7 @@ module.exports = class Budget {
                 })
             })
     }
+
+
+
 }

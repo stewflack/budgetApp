@@ -40,22 +40,18 @@ app.get('', (req, res) => {
     })
 })
 /** Create Budget **/
-app.post('/budget',  (req, res) => {
+app.post('/budget',  async (req, res) => {
     // Budget Validation
     const data = new budgetValidation(req.body) // returns object
 
     if (!data.error || data.error.length === 0) {
-
-        database.query('INSERT INTO budget SET ?', data, (error, results, fields) => {
-            if (error) {
-                return res.status(500)
-            }
-            console.log('Data Has been inputted')
-            // Pass through the Budget Constuctor to get the unit percentage
-            Budget.addSingleItem(res, results.insertId ) // Send back JSON with all parameters set
-
-        })
-
+        try {
+            const newBudget = await Budget.queryUpdate('INSERT INTO budget SET ?', data)
+            await Budget.addSingleItemToBudget(res, newBudget.insertId)
+            res.status(201).send()
+        } catch (e) {
+            res.status(500).send()
+        }
     } else {
         res.status(400).send(data.error)
     }
@@ -106,55 +102,43 @@ app.get('/budget/:id', async (req, res) => {
 })
 
 /** Update Budget **/
-app.patch('/budget/:id', (req, res) => {
+app.patch('/budget/:id', async (req, res) => {
     const id = req.params.id
-    const body = req.body
-    console.log(body)
     const data = new budgetValidation(req.body) // returns object
-
-    console.log(data)
-
+    
     if (!data.error || data.error.length === 0) {
-        database.query("UPDATE budget SET ? WHERE budget_id = ?", [data, id], (error, results) => {
-            if (error) {
-                return res.status(500).send(error)
-            }
-
-            if (results.affectedRows === 0) {
-                return res.status(400).send({
+        try {
+            const update = await Budget.queryUpdate(`UPDATE budget SET ? WHERE budget_id = ?`, [data, id])
+            if (update.affectedRows === 0) {
+                return res.status(500).send({
                     error: 'ID not found'
                 })
             }
 
-            Budget.getAllBudgetsJSON(res, `Select * from budget where budget_id = ${id}`, (results) => {
-                res.status(200).send(results)
-            })
-
-
-        })
+            res.status(200).send(await Budget.queryPromise(`Select * from budget where budget_id = ${id}`))
+        } catch (e) {
+            res.status(500).send(e)
+        }
     }
 })
 
 /** Delete Budget **/
-app.delete('/budget/:id', (req, res) => {
+app.delete('/budget/:id', async (req, res) => {
     const id = req.params.id
-    database.query("UPDATE budget SET deleted_at = NOW() WHERE budget_id = ?", id, (error, results, fields) => {
-        if (error) {
-            return res.status(500).send(error)
-        }
-
-        if (results.affectedRows === 0) {
-            return res.status(400).send({
+    try {
+        const budget = await Budget.queryUpdate('UPDATE budget SET deleted_at = NOW() WHERE budget_id = ?', id)
+        if (budget.affectedRows === 0) {
+            return res.status(500).send({
                 error: 'ID not found'
             })
         }
-        Budget.removeSingleItem(res, id)
-
+        await Budget.removeSingleItemFromBudget(res, id)
         res.status(200).send({
             message: `${id} has been deleted`
         })
-    })
-
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
 
 app.listen(port, ()=> {
