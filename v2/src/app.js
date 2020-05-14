@@ -67,41 +67,41 @@ app.get('/test', async (req, res) => {
 
 })
 /** Read All Budgets **/
-app.get('/budget', (req, res) => {
-    Budget.getAllBudgets(res)
+app.get('/budget', async (req, res) => {
+    await Budget.getAllBudgets(res)
 })
 
-app.get('/budget/totals', (req, res) => {
+app.get('/budget/totals', async (req, res) => {
     // Return calculations of totals and prcentages
-    Budget.calculateBudgetSummary().then(result => {
-        res.send(result)
-    }).catch(e => console.log(e))
+
+    try {
+        const budgetTotals = await Budget.calculateBudgetSummary()
+        res.send(budgetTotals)
+    } catch (e) {
+        throw new Error(e)
+    }
+
 })
 /** Read Single Budget **/
-app.get('/budget/:id', (req, res) => {
+app.get('/budget/:id', async (req, res) => {
     const id = req.params.id
     console.log(id)
-
-    database.query('SELECT * FROM budget WHERE budget_id = ?',id ,(error, results, fields) => {
-
-        console.log(error + 'error')
-        console.log(results)
-        if (error) {
-            return res.status(500).send(error)
-        }
-        if (results.length === 0) {
+    try {
+        const budgetItem = await Budget.queryPromise(`SELECT * FROM budget WHERE budget_id = ${id}`)
+        if (budgetItem.length === 0) {
             return res.status(400).send({
                 error: 'ID not found in the Database'
             })
         }
-
-        if (results.affectedRows === 0) {
+        if (budgetItem.affectedRows === 0) {
             return res.status(400).send({
                 error: 'ID not found'
             })
         }
-        res.status(200).send(results)
-    })
+        res.status(200).send(budgetItem)
+    } catch (e) {
+        return res.status(500).send(e)
+    }
 
 })
 

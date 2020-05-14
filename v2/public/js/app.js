@@ -4,7 +4,6 @@ const budgetView = require('./views/budgetView')
 
 /**** BUDGET CONTROLLER *****/
 const budgetController = () => {
-
     const updateBudgetItems = () => {
         endpoint.getBudgets().then(res => {
             // console.log(res)
@@ -196,12 +195,12 @@ const budgetController = () => {
             setupEventListeners();
             // Display Months
             budgetView.displayMonth()
-
+// Update Overalls
+            updateBudgetSummary()
             // Update Budget Items
             updateBudgetItems()
 
-            // Update Overalls
-            updateBudgetSummary()
+
         }
     }
 }

@@ -1,7 +1,10 @@
 const getBudgets = async () => {
     try {
         const resp = await fetch('/budget')
-        return resp.json()
+
+        let data = resp.json()
+        console.log(data)
+        return data
     } catch (err) {
         console.log(err)
     }
