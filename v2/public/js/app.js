@@ -80,8 +80,7 @@ const budgetController = () => {
                 budgetView.deleteListItem(itemID);
                 // 3. Update and show the new budget
                 await updateBudgetSummary()
-                budgetView.clearBudgetView()
-                updateBudgetItems()
+
             } catch (e) {
                 console.log(e)
             }
@@ -140,7 +139,7 @@ const budgetController = () => {
         try {
             const data = await endpoint.postData(`/budget/${id}`,'PATCH', updateData)
             console.log(data)
-            budgetView.updateItem(type, id, data[0].budget_description, data[0].budget_value, data[0].percent)
+            budgetView.updateItem(type, updateData.budget_type, id, data[0].budget_description, data[0].budget_value, data[0].percent)
             // Show Edit model
             let editModal = document.querySelector('.edit_center')
             editModal.style.display = 'none'

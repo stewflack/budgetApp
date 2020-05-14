@@ -216,20 +216,32 @@ const updateInputs = (desc, value) => {
 /*
 TODO - this will need to be improved but a good way for now while the items are not changing
  */
-const updateItem = (type, id, d, v, p = undefined) => {
+const updateItem = (type, newType,id, d, v, p = null) => {
     const combinedID = document.getElementById(`${type}-${id}`);
-
-    const desc = combinedID.childNodes[0];
-    let value, percent;
-    if (type === 'inc') {
-        value = combinedID.children[1].children[0];
-    } else {
-        value = combinedID.children[1].children[0];
-        percent = combinedID.children[1].children[1]
-        percent.textContent = p + '%'
+    // Remove old item
+    combinedID.parentNode.removeChild(combinedID)
+    // Create object usable for addListItem()
+    const obj = {
+        budget_id: id,
+        budget_description: d,
+        budget_value: v,
+        percent: p
     }
-    desc.textContent = d;
-    value.textContent = v;
+    // Add
+    console.log(obj, newType)
+    addListItem(obj, newType)
+
+    // const desc = combinedID.childNodes[0];
+    // let value, percent;
+    // if (type === 'inc') {
+    //     value = combinedID.children[1].children[0];
+    // } else {
+    //     value = combinedID.children[1].children[0];
+    //     percent = combinedID.children[1].children[1]
+    //     percent.textContent = p + '%'
+    // }
+    // desc.textContent = d;
+    // value.textContent = v;
 
 };
 

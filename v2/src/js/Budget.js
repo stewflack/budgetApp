@@ -151,7 +151,12 @@ module.exports = class Budget {
                     }
 
                     this.budgetTotal = this.incomeTotal - (this.expenseTotal + this.savingsTotal)
-
+                    console.log(
+                        `Budget Total: ${this.budgetTotal}
+                        Income Total: ${this.incomeTotal}
+                        Expense Total: ${this.expenseTotal}
+                        Savings Total: ${this.savingsTotal}`
+                    )
                     resolve({
                         budgetTotal: this.budgetTotal,
                         incomeTotal: this.incomeTotal,
