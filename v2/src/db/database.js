@@ -52,7 +52,22 @@ const createTableSQL = `CREATE TABLE IF NOT EXISTS budget(
                     deleted_at DATETIME
                 );`
 
-connection  .query(createTableSQL, (error) => {
+const createUsersTable = `create TABLE if not exists users(
+                            id int primary key auto_increment, 
+                            user_name VARCHAR(30) not null, 
+                            user_email VARCHAR(50) not null, 
+                            user_password VARCHAR(50) not null,
+                            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                            deleted_at DATETIME )`
+
+connection.query(createTableSQL, (error) => {
+    if (error) {
+        throw new Error(error)
+    }
+})
+
+connection.query(createUsersTable, (error) => {
     if (error) {
         throw new Error(error)
     }
