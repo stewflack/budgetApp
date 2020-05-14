@@ -2,7 +2,7 @@ const express = require('express')
 
 const budget = require('../js/Budget')
 const budgetValidation = require('../js/BudgetValidation')
-
+const {queryPromise, queryUpdate} = require('../db/databaseMethods')
 const router = new express.Router()
 
 const Budget = new budget();
@@ -15,7 +15,7 @@ router.post('/budget',  async (req, res) => {
 
     if (!data.error || data.error.length === 0) {
         try {
-            const newBudget = await Budget.queryUpdate('INSERT INTO budget SET ?', data)
+            const newBudget = await queryUpdate('INSERT INTO budget SET ?', data)
             await Budget.addSingleItemToBudget(res, newBudget.insertId)
             res.status(201).send()
         } catch (e) {
@@ -53,7 +53,7 @@ router.get('/budget/:id', async (req, res) => {
     const id = req.params.id
     console.log(id)
     try {
-        const budgetItem = await Budget.queryPromise(`SELECT * FROM budget WHERE budget_id = ${id}`)
+        const budgetItem = await queryPromise(`SELECT * FROM budget WHERE budget_id = ${id}`)
         if (budgetItem.length === 0) {
             return res.status(400).send({
                 error: 'ID not found in the Database'
@@ -78,7 +78,7 @@ router.patch('/budget/:id', async (req, res) => {
 
     if (!data.error || data.error.length === 0) {
         try {
-            const update = await Budget.queryUpdate(`UPDATE budget SET ? WHERE budget_id = ?`, [data, id])
+            const update = await queryUpdate(`UPDATE budget SET ? WHERE budget_id = ?`, [data, id])
             if (update.affectedRows === 0) {
                 return res.status(500).send({
                     error: 'ID not found'
@@ -97,7 +97,7 @@ router.patch('/budget/:id', async (req, res) => {
 router.delete('/budget/:id', async (req, res) => {
     const id = req.params.id
     try {
-        const budget = await Budget.queryUpdate('UPDATE budget SET deleted_at = NOW() WHERE budget_id = ?', id)
+        const budget = await queryUpdate('UPDATE budget SET deleted_at = NOW() WHERE budget_id = ?', id)
         if (budget.affectedRows === 0) {
             return res.status(500).send({
                 error: 'ID not found'

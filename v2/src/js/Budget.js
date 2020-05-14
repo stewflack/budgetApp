@@ -1,5 +1,5 @@
 const database = require('../db/database')
-
+const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 module.exports = class Budget {
     constructor() {
         this.budgetTotal = 0;
@@ -15,31 +15,11 @@ module.exports = class Budget {
     calcPercentage(amount, total) {
         return Math.round((amount/total) *100)
     }
-    queryPromise(query) {
-        return new Promise((resolve, reject) => {
-            database.query(query, (error, result) => {
-                if (error) {
-                    reject(error)
-                }
-                resolve(result)
-            })
-        })
-    }
 
-    queryUpdate(query, updates) {
-        return new Promise((resolve, reject) => {
-            database.query(query, updates,(error, result) => {
-                if (error) {
-                    reject(error)
-                }
-                resolve(result)
-            })
-        })
-    }
 
     async addSingleItemToBudget(response, id) {
         try {
-            const add = await this.queryPromise(`Select * From budget where budget_id = ${id}`)
+            const add = await queryPromise(`Select * From budget where budget_id = ${id}`)
             add.forEach(el => {// Removed the switch bit from here. not sure what is happening now with the budget
                 if (el.budget_type !== 'inc') {
                     if( this.incomeTotal > 0) {
@@ -61,7 +41,7 @@ module.exports = class Budget {
 
     async removeSingleItemFromBudget(response, id) {
         try {
-            const remove = await this.queryPromise(`Select * From budget where budget_id = ${id}`)
+            const remove = await queryPromise(`Select * From budget where budget_id = ${id}`)
             remove.forEach(el => {
                 switch (el.budget_type) {
                     case 'inc':
@@ -86,7 +66,7 @@ module.exports = class Budget {
     // On startup this is called
     async getAllBudgets(response) {
         try {
-            const budgets = await this.queryPromise('SELECT * FROM budget WHERE deleted_at is null')
+            const budgets = await queryPromise('SELECT * FROM budget WHERE deleted_at is null')
             for (const budget of budgets) {
                 budget.percent = await this.calcPercentage(budget.budget_value, this.incomeTotal)
             }
@@ -172,7 +152,7 @@ module.exports = class Budget {
     }
     async getUpdatedBudgetObject(query) {
         try {
-            const budgets = await this.queryPromise(query)
+            const budgets = await queryPromise(query)
             const totals = await this.calculateBudgetSummary()
             for (const budget of budgets) {
                 console.log(`Budget Value ${budget.budget_value} and income total: ${totals.incomeTotal}`)

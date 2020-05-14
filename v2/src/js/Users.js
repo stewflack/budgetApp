@@ -25,9 +25,9 @@ const formatUser = async (name, email, password) => {
     const nameCapitalized = capitalize(name)
     const hashedPassword = await bcrypt.hash(password, 8)
     return {
-        name: nameCapitalized,
-        email,
-        password: hashedPassword
+        user_name: nameCapitalized,
+        user_email:email,
+        user_password: hashedPassword
     }
 }
 
