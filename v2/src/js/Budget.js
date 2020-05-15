@@ -63,9 +63,9 @@ module.exports = class Budget {
 
     }
     // On startup this is called
-    async getAllBudgets(response) {
+    async getAllBudgets(response, id) {
         try {
-            const budgets = await queryPromise('SELECT * FROM budget WHERE deleted_at is null')
+            const budgets = await queryPromise(`SELECT * FROM budget WHERE deleted_at is null and user_id = ${id}`)
             for (const budget of budgets) {
                 budget.percent = await this.calcPercentage(budget.budget_value, this.incomeTotal)
             }
@@ -76,12 +76,12 @@ module.exports = class Budget {
     }
     // Create function which can be reused to query the db. then return a promise straight away
 
-    async calculateBudgetSummary() {
-        const Sql = `SELECT SUM(budget_value) as total from budget where budget_type = 'inc' and deleted_at is null
+    async calculateBudgetSummary(id) {
+        const Sql = `SELECT SUM(budget_value) as total from budget where budget_type = 'inc' and deleted_at is null and user_id = ${id}
                         UNION
-                        SELECT SUM(budget_value) as total from budget where budget_type = 'exp' and deleted_at is null
+                        SELECT SUM(budget_value) as total from budget where budget_type = 'exp' and deleted_at is null and user_id = ${id}
                         UNION
-                        SELECT SUM(budget_value) as total from budget where budget_type = 'sav' and deleted_at is null`;
+                        SELECT SUM(budget_value) as total from budget where budget_type = 'sav' and deleted_at is null and user_id = ${id}`;
         return new Promise((resolve, reject) => {
                 database.query(Sql, (error, result, fields) => {
                     if (error) {
@@ -149,10 +149,10 @@ module.exports = class Budget {
                 })
             })
     }
-    async getUpdatedBudgetObject(query) {
+    async getUpdatedBudgetObject(query, id) {
         try {
             const budgets = await queryPromise(query)
-            const totals = await this.calculateBudgetSummary()
+            const totals = await this.calculateBudgetSummary(id)
             for (const budget of budgets) {
                 console.log(`Budget Value ${budget.budget_value} and income total: ${totals.incomeTotal}`)
 

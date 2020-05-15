@@ -46,10 +46,12 @@ const createTableSQL = `CREATE TABLE IF NOT EXISTS budget(
                     budget_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
                     budget_type ENUM('inc', 'exp', 'sav') NOT NULL,
                     budget_description VARCHAR(30) NOT NULL, 
-                    budget_value INT NOT NULL, 
+                    budget_value INT NOT NULL,
+                    user_id int not null,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    deleted_at DATETIME
+                    deleted_at DATETIME,
+                    FOREIGN KEY (user_id) REFERENCES users(id)
                 );`
 
 const createUsersTable = `create TABLE if not exists users(
