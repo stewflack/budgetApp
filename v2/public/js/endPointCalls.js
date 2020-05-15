@@ -1,6 +1,14 @@
 const getBudgets = async () => {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODk1NTY2ODIsImlkIjoxNiwiaWF0IjoxNTg5NTUzMDgyfQ.OLXAoSK8bY3Km6AK24Bq2ru-_wK9AS1wzrw6_R1G8EY');
+
+    const myRequest = new Request('/budget', {
+        method: 'GET',
+        headers: myHeaders
+    });
+
     try {
-        const resp = await fetch('/budget')
+        const resp = await fetch(myRequest)
 
         let data = resp.json()
         console.log(data)
@@ -11,8 +19,15 @@ const getBudgets = async () => {
 }
 
 const getBudgetSummary = async () => {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODk1NTY2ODIsImlkIjoxNiwiaWF0IjoxNTg5NTUzMDgyfQ.OLXAoSK8bY3Km6AK24Bq2ru-_wK9AS1wzrw6_R1G8EY');
+
+    const myRequest = new Request('/budget/totals', {
+        method: 'GET',
+        headers: myHeaders
+    });
     try {
-        const resp = await fetch('/budget/totals')
+        const resp = await fetch(myRequest)
         console.log('Getting totals')
         return resp.json()
     } catch (e) {
