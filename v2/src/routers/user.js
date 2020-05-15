@@ -26,6 +26,11 @@ router.post('/users', async (req, res) => {
 
         res.send(user)
     } catch (e) {
+        if (e.code === 'ER_DUP_ENTRY') {
+            return res.status(400).send({
+                error: 'Email address already in use.'
+            })
+        }
         res.status(500).send(e)
     }
 

@@ -5,6 +5,7 @@ const capitalize = (s) => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
 const ValidateUser = async (obj) => {
     const { name, email, password } = obj
     if (validator.isEmpty(name) || validator.isEmpty(password) || !validator.isEmail(email)) {
@@ -31,6 +32,11 @@ const formatUser = async (name, email, password) => {
     }
 }
 
+const generateAuthToken = async (id) => {
+
+
+
+}
 
 
 

@@ -61,6 +61,12 @@ const createUsersTable = `create TABLE if not exists users(
                             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                             deleted_at DATETIME )`
 
+const createTokensTable = `create TABLE if not exists tokens(
+                            token_id int primary key auto_increment not null,
+                            user_id int not null,
+                            token varchar(500) not null,
+                            FOREIGN KEY (user_id) REFERENCES users(id))`
+
 connection.query(createTableSQL, (error) => {
     if (error) {
         throw new Error(error)
@@ -68,6 +74,12 @@ connection.query(createTableSQL, (error) => {
 })
 
 connection.query(createUsersTable, (error) => {
+    if (error) {
+        throw new Error(error)
+    }
+})
+
+connection.query(createTokensTable, (error) => {
     if (error) {
         throw new Error(error)
     }
