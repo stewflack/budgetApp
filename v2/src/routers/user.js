@@ -1,6 +1,6 @@
 const express = require('express')
-
-const { ValidateUser } = require('../js/Users')
+const auth = require('../middleware/auth')
+const { ValidateUser, generateAuthToken } = require('../js/Users')
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 const router = new express.Router()
 
@@ -22,9 +22,13 @@ router.post('/users', async (req, res) => {
                 error
             })
         }
-        await queryUpdate('INSERT INTO users SET ?', user)
+        const id = await queryUpdate('INSERT INTO users SET ?', user)
+        /*** User Authentication Token Generated ***/
 
-        res.send(user)
+        const token = await generateAuthToken(id.insertId)
+        // request.headers.authorization = token;
+        res.status(201).send({user, token})
+
     } catch (e) {
         if (e.code === 'ER_DUP_ENTRY') {
             return res.status(400).send({
@@ -36,11 +40,19 @@ router.post('/users', async (req, res) => {
 
 })
 
-/** GET USER **/
-router.get('/users/:id', async (req, res) => {
+router.get('/users/test', auth, async (req, res) => {
     try {
-        const id = req.params.id
+        console.log(req.user)
+    } catch (e) {
+        res.send(e)
+    }
+})
 
+/** GET USER **/
+router.get('/users/profile', auth, async (req, res) => {
+    try {
+        const id = req.user
+        console.log(id)
         const user = await queryPromise(`Select * from users where id = ${id} and deleted_at is null`)
 
         res.send(user)
@@ -50,8 +62,8 @@ router.get('/users/:id', async (req, res) => {
 })
 
 /** UPDATE USER **/
-router.patch('/users/:id', async (req, res) => {
-    const id = req.params.id
+router.patch('/users/profile', auth, async (req, res) => {
+    const id = req.user
     /** Ensures that only the name email and password are allowed to be entered **/
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password']
@@ -73,13 +85,18 @@ router.patch('/users/:id', async (req, res) => {
         res.send(user)
 
     } catch (e) {
+        if (e.code === 'ER_DUP_ENTRY') {
+            return res.status(400).send({
+                error: 'Email address already in use.'
+            })
+        }
         res.status(500).send(e)
     }
 })
 
 /** DELETE USER **/
-router.delete('/users/:id', async (req, res) => {
-    const id = req.params.id
+router.delete('/users/profile', auth, async (req, res) => {
+    const id = req.user
     try {
         await queryUpdate(`DELETE FROM users WHERE id = ?`, id)
 

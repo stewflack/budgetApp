@@ -1,5 +1,9 @@
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
+const jwt = require('jsonwebtoken')
+
+
+const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 // import validator from "validator/es";
 const capitalize = (s) => {
     if (typeof s !== 'string') return ''
@@ -34,8 +38,21 @@ const formatUser = async (name, email, password) => {
 
 const generateAuthToken = async (id) => {
 
+    const token = jwt.sign({
+        exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour expirery
+        id
+    }, 'ChangeToEnv')
 
-
+    const objToSend = {
+        user_id: id,
+        token
+    }
+    try {
+        await queryUpdate(`Insert into tokens set ?`, objToSend)
+        return token
+    } catch (e) {
+        throw new Error('Unable to generate Auth' + e)
+    }
 }
 
 
@@ -44,5 +61,6 @@ const generateAuthToken = async (id) => {
 
 
 module.exports = {
-    ValidateUser
+    ValidateUser,
+    generateAuthToken
 }
