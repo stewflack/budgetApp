@@ -16,7 +16,6 @@ module.exports = class Budget {
         return Math.round((amount/total) *100)
     }
 
-
     async addSingleItemToBudget(response, id) {
         try {
             const add = await queryPromise(`Select * From budget where budget_id = ${id}`)

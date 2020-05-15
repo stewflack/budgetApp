@@ -7,10 +7,18 @@ const router = new express.Router()
 
 /** CREATE USER **/
 router.post('/users', async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['name', 'email', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    if (!isValidOperation) {
+        return res.status(400).send({
+            error: 'Please provide only the name, email and password.'
+        })
+    }
     try {
         const [error, user] = await ValidateUser(req.body) // returns error if any and object
         if (error) {
-            res.status(400).send({
+            return res.status(400).send({
                 error
             })
         }
@@ -37,12 +45,46 @@ router.get('/users/:id', async (req, res) => {
 })
 
 /** UPDATE USER **/
-router.patch('/users/:id', (req, res) => {
+router.patch('/users/:id', async (req, res) => {
+    const id = req.params.id
+    /** Ensures that only the name email and password are allowed to be entered **/
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['name', 'email', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
+    if (!isValidOperation) return res.status(400).send({ error: 'Please provide only the name, email and password.' })
+
+    try {
+
+        const [error, user] = await ValidateUser(req.body)
+        if (error) {
+            return res.status(400).send({
+                error
+            })
+        }
+
+        await queryUpdate(`Update users set ? where id = ${id}`, user)
+
+        res.send(user)
+
+    } catch (e) {
+        res.status(500).send(e)
+    }
 })
 
 /** DELETE USER **/
-router.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', async (req, res) => {
+    const id = req.params.id
+    try {
+        await queryUpdate(`DELETE FROM users WHERE id = ?`, id)
+
+        res.send({
+            message: `User ${id} has been deleted.`
+        })
+    } catch (e) {
+        res.status(500).send(e)
+
+    }
 
 })
 
