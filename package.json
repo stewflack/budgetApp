@@ -9,7 +9,8 @@
   },
   "scripts": {
     "start": "node src/app.js",
-    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon v2/src/index.js -e js, hbs"
+    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon v2/src/index.js -e js, hbs",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
   },
   "homepage": "https://github.com/crazystew/budgetApp#readme",
   "devDependencies": {
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
