@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node -r dotenv/config src/app.js dotenv_config_path=.env",
     "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon v2/src/index.js -e js, hbs",
-    "test": "jest -r dotenv/config dotenv_config_path=.env_test"
+    "test": "jest --setupFiles dotenv/config"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/crazystew/budgetApp#readme",
   "devDependencies": {
+    "jest": "^26.0.1",
     "nodemon": "^2.0.3",
     "supertest": "^4.0.2"
   },

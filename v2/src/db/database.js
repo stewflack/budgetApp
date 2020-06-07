@@ -1,16 +1,10 @@
-const mysql = require('mysql')
 const chalk = require('chalk')
-
+const connection = require('./connection')
 
 /**
  * CONNECTION
  */
-const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'amber1995',
-    database: 'projectv2'
-})
+
 connection.connect(error => {
     if (error) {
         throw new Error('Error connecting to the database', error.stack)

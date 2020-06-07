@@ -1,16 +1,10 @@
-const mysql = require('mysql')
 const chalk = require('chalk')
-
+const connection = require('../../src/db/connection')
 
 /**
  * CONNECTION
  */
-const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'amber1995',
-    database: 'projectv2-test'
-})
+
 
 /***
  * TABLE CREATION IF NOT COMPLETED
@@ -51,16 +45,17 @@ const setUpDatabase = async () => {
             throw new Error(error)
         }
     })
-    connection.query(`DELETE FROM users`, (error) => {
-        if (error) {
-            throw new Error(error)
-        }
-    })
     connection.query(`DELETE FROM tokens`, (error) => {
         if (error) {
             throw new Error(error)
         }
     })
+    connection.query(`DELETE FROM users`, (error) => {
+        if (error) {
+            throw new Error(error)
+        }
+    })
+
 
     connection.query(createTableSQL, (error) => {
         if (error) {

@@ -1,4 +1,4 @@
-const database = require('./database')
+const database = require('./connection')
 const queryPromise = (query) => {
     return new Promise((resolve, reject) => {
         database.query(query, (error, result) => {
