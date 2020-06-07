@@ -1,4 +1,4 @@
 node_modules/
+/coverages
 .env
 .env_test
-/coverage

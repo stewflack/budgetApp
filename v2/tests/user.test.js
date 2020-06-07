@@ -50,3 +50,34 @@ test('Cannot create user with invalid email', async done => {
     // check inserted into the database
     done()
 })
+
+test('Cannot create account with password less than 7(i think)', () => {
+    request.post('/users').send({
+
+    }).expect(400)
+})
+
+test('Cannot create user with empty name, email or password', () => {
+    request.post('/users').send({
+
+    }).expect(400)
+})
+
+test('Can edit user email & password', () => {
+    request.put('/users').send({
+
+    }).expect(200)
+})
+
+test('Can delete user account', () => {
+    request.delete('/users').send({
+
+    }).expect(200)
+})
+
+test('Can get user profile', () => {
+    request.get('/users').send({
+
+    }).expect(200)
+})
+

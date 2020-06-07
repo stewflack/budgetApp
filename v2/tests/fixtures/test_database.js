@@ -56,7 +56,6 @@ const setUpDatabase = async () => {
         }
     })
 
-
     connection.query(createTableSQL, (error) => {
         if (error) {
             throw new Error(error)
