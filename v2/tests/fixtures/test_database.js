@@ -1,6 +1,7 @@
 const chalk = require('chalk')
 const connection = require('../../src/db/connection')
-
+const {queryPromise ,queryUpdate} = require('../../../v2/src/db/databaseMethods')
+const {generateAuthToken} = require('../../../v2/src/js/Users')
 /**
  * CONNECTION
  */
@@ -37,50 +38,49 @@ const createTokensTable = `create TABLE if not exists tokens(
                             token varchar(500) not null,
                             FOREIGN KEY (user_id) REFERENCES users(id))`
 
+const userobj = {
+    user_name:"Stewart",
+    user_email:"test@user.com",
+    user_password:"password1234"
+}
+
+
 
 const setUpDatabase = async () => {
     // Not in try and catch, if the tables are not there I dont want this to fail
-    connection.query(`DELETE FROM budget`, (error) => {
-        if (error) {
-            throw new Error(error)
-        }
-    })
-    connection.query(`DELETE FROM tokens`, (error) => {
-        if (error) {
-            throw new Error(error)
-        }
-    })
-    connection.query(`DELETE FROM users`, (error) => {
-        if (error) {
-            throw new Error(error)
-        }
-    })
+    try {
+        await queryPromise(createTableSQL)
+        await queryPromise(createUsersTable)
+        await queryPromise(createTokensTable)
 
-    connection.query(createTableSQL, (error) => {
-        if (error) {
-            throw new Error(error)
-        }
-    })
-    connection.query(createUsersTable, (error) => {
-        if (error) {
-            throw new Error(error)
-        }
-    })
-    connection.query(createTokensTable, (error) => {
-        if (error) {
-            throw new Error(error)
-        }
-    })
+        const id = await queryUpdate('INSERT INTO users SET ?', userobj)
+        // Generate an auth token from this, put into the env file and then on each insert put that one in,
+        // that way we already know what the token will be
+        // 1. generate auth token from jwt
+        // 2. put into the env file
+        // 3. remove code that generated the token
+        // 4. insert user into the database
+        // 5. insert the token created in env into the database
+        // 6. do the profile user test, attaching Bearer process.env.TEST_TOKEN
+        await generateAuthToken(id.insertId)
+    } catch (e) {
+        throw new Error(e)
+    }
+}
 
+const clearDatabase = async () => {
+    await queryPromise(`DELETE FROM budget`)
+    await queryPromise(`DELETE FROM tokens`)
+    await queryPromise(`DELETE FROM users`)
 }
 
 const closeConnection = () => {
     connection.end()
 }
 
-
 module.exports = {
     setUpDatabase,
-    closeConnection
+    closeConnection,
+    clearDatabase
 }
 

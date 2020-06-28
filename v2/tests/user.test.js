@@ -2,14 +2,15 @@ const supertest = require('supertest')
 const app = require('../src/app')
 const User = require('../src/js/Users')
 
-const {setUpDatabase, closeConnection} = require('./fixtures/test_database')
-
+const {setUpDatabase, closeConnection, clearDatabase} = require('./fixtures/test_database')
+const {queryPromise, queryUpdate} = require('../../v2/src/db/databaseMethods')
 
 const request = supertest(app)
 /***
  * Can create user
  * Cannot create User
  * Empty Email/Password/Name
+ * Existing email (will need a user already present) TODO
  * Invalid Email
  * Edit User
  * Invalid Edit
@@ -25,59 +26,94 @@ beforeAll(async done => {
     done()
 })
 
-afterAll(() => {
+afterAll(async () => {
+    await clearDatabase()
     closeConnection()
 })
 
-test('Can create User', async done => {
+test('Can create User', async () => {
+    const userobj = {
+        name:"Stewart",
+        email:"swflack@gmail.com",
+        password:"amber1995"
+    }
+    const response = await request.post('/users').send(userobj).expect(201)
+    // check inserted into the database
+    expect(response.body.user.user_password).not.toEqual(userobj.password)
+    // console.log(response.body)
+})
+
+/**
+ * TODO Need to re think how errors are send back to the router. Not sure the current format and to just send an object
+ */
+test('Cannot create user with invalid email', async () => {
+    const response = await request.post('/users').send(
+        {
+        name:"Stewart",
+        email:"swflackgmail.com",
+        password:"password1245"
+    }
+    ).expect(400)
+
+    expect(response.body.error).toEqual('Email not recognised.')
+
+})
+
+test('Cannot create account with password less than 7', async () => {
     const response = await request.post('/users').send({
         name:"Stewart",
-        email:"swflack11244321@gmail.com",
-        password:"amber1995"
-    }).expect(201)
-    // check inserted into the database
+        email:"swflack@gmail.com",
+        password:"pass"
+    }).expect(400)
 
-    console.log(response.body)
-    done()
+    expect(response.body.error).toEqual('Password must be between 7 and 20 characters.')
+
 })
 
-test('Cannot create user with invalid email', async done => {
-    await request.post('/users').send({
-        name:"Stewart",
-        email:"swflack124gmail.com",
-        password:"amber1995"
+test('Cannot create user with empty name, email or password', async () => {
+    const response = await request.post('/users').send({
+        name:"",
+        email:"",
+        password:""
     }).expect(400)
-    // check inserted into the database
-    done()
-})
-
-test('Cannot create account with password less than 7(i think)', () => {
-    request.post('/users').send({
-
-    }).expect(400)
-})
-
-test('Cannot create user with empty name, email or password', () => {
-    request.post('/users').send({
-
-    }).expect(400)
+    expect(response.body.error).toBe('Please fill in your name, email and password.')
 })
 
 test('Can edit user email & password', () => {
-    request.put('/users').send({
+    // How to set a header using super request
+    request.put('/users/profile').set('Authorization', 'Bearer').send({
 
     }).expect(200)
 })
 
 test('Can delete user account', () => {
-    request.delete('/users').send({
+    request.delete('/users/profile').send({
 
     }).expect(200)
 })
 
 test('Can get user profile', () => {
-    request.get('/users').send({
+    request.get('/users/profile').send({
 
     }).expect(200)
 })
+
+/**
+ * Not working
+ * Account is in the database, for some reason it is not returning
+ * email in use even though it does on live
+ */
+test('Cannot create an account with an exiting email', async () => {
+    const userobj = {
+        name:"Stewart",
+        email:"swflack@gmail.com",
+        password:"amber1995"
+    }
+    const result = await queryPromise('Select * from users')
+    console.log(result)
+    const response = await request.post('/users').send(userobj).expect(400)
+    console.log(response.body)
+})
+
+
 

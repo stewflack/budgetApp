@@ -244,6 +244,7 @@ module.exports = {
 },{}],3:[function(require,module,exports){
 const getBudgets = async () => {
     const myHeaders = new Headers();
+    // Here is where it needs to be set
     myHeaders.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODk1NTY2ODIsImlkIjoxNiwiaWF0IjoxNTg5NTUzMDgyfQ.OLXAoSK8bY3Km6AK24Bq2ru-_wK9AS1wzrw6_R1G8EY');
 
     const myRequest = new Request('/budget', {

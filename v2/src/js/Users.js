@@ -12,11 +12,14 @@ const capitalize = (s) => {
 
 const ValidateUser = async (obj) => {
     const { name, email, password } = obj
-    if (validator.isEmpty(name) || validator.isEmpty(password) || !validator.isEmail(email)) {
+    if (validator.isEmpty(name) || validator.isEmpty(password) || validator.isEmpty(email)) {
         // Validate user and hash password
         // throw new Error('Please fill in your name, email and password.')
         return ['Please fill in your name, email and password.', undefined]
     } else {
+        if (!validator.isEmail(email)) {
+            return ['Email not recognised.', undefined]
+        }
         if (!validator.isLength(password, {min:7, max: 20})) {
             return ['Password must be between 7 and 20 characters.', undefined]
         }

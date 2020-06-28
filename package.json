@@ -2,14 +2,14 @@
   "name": "budgetapp",
   "version": "2.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "v2/src/index.js",
   "engines": {
     "node": "12.16.x",
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node -r dotenv/config src/app.js dotenv_config_path=.env",
-    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon v2/src/index.js -e js, hbs",
+    "start": "node -r dotenv/config v2/src/app.js dotenv_config_path=.env",
+    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon -r dotenv/config v2/src/index.js -e js, hbs",
     "test": "jest --setupFiles dotenv/config"
   },
   "repository": {
