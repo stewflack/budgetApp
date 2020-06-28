@@ -52,17 +52,22 @@ const setUpDatabase = async () => {
         await queryPromise(createTableSQL)
         await queryPromise(createUsersTable)
         await queryPromise(createTokensTable)
-
+        userobj.id = 1
         const id = await queryUpdate('INSERT INTO users SET ?', userobj)
         // Generate an auth token from this, put into the env file and then on each insert put that one in,
         // that way we already know what the token will be
-        // 1. generate auth token from jwt
+        // 1. generate auth token from jwt - eyJhbGciOiJIUzI1NiJ9.MQ.3UAnh0RRao5j-p-rtvmXpJA71Ps7Wh93hNLUl9BT2dg
         // 2. put into the env file
         // 3. remove code that generated the token
         // 4. insert user into the database
         // 5. insert the token created in env into the database
-        // 6. do the profile user test, attaching Bearer process.env.TEST_TOKEN
-        await generateAuthToken(id.insertId)
+        // 6. do the profile user test, attaching Bearer process.env.TEST_USER_TOKEN
+        // await generateAuthToken(id.insertId)
+        const objToSend = {
+            user_id: userobj.id,
+            token: process.env.TEST_USER_TOKEN
+        }
+        await queryUpdate(`Insert into tokens set ?`, objToSend)
     } catch (e) {
         throw new Error(e)
     }

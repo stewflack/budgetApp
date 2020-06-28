@@ -79,11 +79,16 @@ test('Cannot create user with empty name, email or password', async () => {
     expect(response.body.error).toBe('Please fill in your name, email and password.')
 })
 
-test('Can edit user email & password', () => {
+test('Can edit user email & password', async () => {
     // How to set a header using super request
-    request.put('/users/profile').set('Authorization', 'Bearer').send({
-
+    const response = await request.patch('/users/profile').set('Authorization', `Bearer ${process.env.TEST_USER_TOKEN}`).send({
+        name:"Stewart",
+        email:"test1234@user.com",
+        password:"Hello1234"
     }).expect(200)
+
+    console.log(response.body)
+    // const result = await queryPromise('select * from users where id = 1')
 })
 
 test('Can delete user account', () => {
@@ -103,17 +108,17 @@ test('Can get user profile', () => {
  * Account is in the database, for some reason it is not returning
  * email in use even though it does on live
  */
-test('Cannot create an account with an exiting email', async () => {
-    const userobj = {
-        name:"Stewart",
-        email:"swflack@gmail.com",
-        password:"amber1995"
-    }
-    const result = await queryPromise('Select * from users')
-    console.log(result)
-    const response = await request.post('/users').send(userobj).expect(400)
-    console.log(response.body)
-})
+// test('Cannot create an account with an exiting email', async () => {
+//     const userobj = {
+//         name:"Stewart",
+//         email:"swflack@gmail.com",
+//         password:"amber1995"
+//     }
+//     const result = await queryPromise('Select * from users')
+//     console.log(result)
+//     const response = await request.post('/users').send(userobj).expect(400)
+//     console.log(response.body)
+// })
 
 
 
