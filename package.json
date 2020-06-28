@@ -10,7 +10,8 @@
   "scripts": {
     "start": "node -r dotenv/config v2/src/app.js dotenv_config_path=.env",
     "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon -r dotenv/config v2/src/index.js -e js, hbs",
-    "test": "jest --setupFiles dotenv/config"
+    "test": "jest --setupFiles dotenv/config",
+    "test-coverage" : "jest --coverage --setupFiles dotenv/config"
   },
   "repository": {
     "type": "git",

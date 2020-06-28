@@ -104,7 +104,8 @@ router.delete('/users/profile', auth, async (req, res) => {
             message: `User ${id} has been deleted.`
         })
     } catch (e) {
-        res.status(500).send(e)
+        res.status(500).send({e,
+        id})
 
     }
 

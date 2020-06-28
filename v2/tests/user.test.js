@@ -43,9 +43,6 @@ test('Can create User', async () => {
     // console.log(response.body)
 })
 
-/**
- * TODO Need to re think how errors are send back to the router. Not sure the current format and to just send an object
- */
 test('Cannot create user with invalid email', async () => {
     const response = await request.post('/users').send(
         {
@@ -79,6 +76,14 @@ test('Cannot create user with empty name, email or password', async () => {
     expect(response.body.error).toBe('Please fill in your name, email and password.')
 })
 
+test('Can get user profile', async () => {
+    await request.get('/users/profile')
+        .set('Authorization', `Bearer ${process.env.TEST_USER_TOKEN}`)
+        .send().expect(200)
+    // console.log(response.body)
+    // expect(response.body.user_name).toBe('test@user.com')
+})
+
 test('Can edit user email & password', async () => {
     const updateUser = {
         name:"Stewart",
@@ -95,17 +100,16 @@ test('Can edit user email & password', async () => {
     expect(response.body.user_password).not.toEqual(process.env.TEST_USER_PASSWORD)
 })
 
-test('Can delete user account', () => {
-    request.delete('/users/profile').send({
 
-    }).expect(200)
+
+test('Can delete user account', async () => {
+    // const query = await queryPromise(`select * from users where user_name = ${process.env.TEST_USER_NAME}`)
+    // console.log(query)
+    const r = await request.delete('/users/profile').set('Authorization', `Bearer ${process.env.TEST_USER_TOKEN}`).send().expect(200)
+    console.log(r)
 })
 
-test('Can get user profile', () => {
-    request.get('/users/profile').send({
 
-    }).expect(200)
-})
 
 /**
  * Not working
