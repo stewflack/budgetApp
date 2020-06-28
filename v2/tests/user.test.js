@@ -80,15 +80,19 @@ test('Cannot create user with empty name, email or password', async () => {
 })
 
 test('Can edit user email & password', async () => {
-    // How to set a header using super request
-    const response = await request.patch('/users/profile').set('Authorization', `Bearer ${process.env.TEST_USER_TOKEN}`).send({
+    const updateUser = {
         name:"Stewart",
         email:"test1234@user.com",
         password:"Hello1234"
-    }).expect(200)
+    }
+    // How to set a header using super request
+    const response = await request.patch('/users/profile')
+        .set('Authorization', `Bearer ${process.env.TEST_USER_TOKEN}`)
+        .send(updateUser)
+        .expect(200)
 
-    console.log(response.body)
-    // const result = await queryPromise('select * from users where id = 1')
+    expect(updateUser.email).not.toEqual(process.env.TEST_USER_EMAIL)
+    expect(response.body.user_password).not.toEqual(process.env.TEST_USER_PASSWORD)
 })
 
 test('Can delete user account', () => {

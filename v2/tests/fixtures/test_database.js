@@ -1,4 +1,6 @@
 const chalk = require('chalk')
+const bcrypt = require('bcryptjs')
+
 const connection = require('../../src/db/connection')
 const {queryPromise ,queryUpdate} = require('../../../v2/src/db/databaseMethods')
 const {generateAuthToken} = require('../../../v2/src/js/Users')
@@ -39,9 +41,9 @@ const createTokensTable = `create TABLE if not exists tokens(
                             FOREIGN KEY (user_id) REFERENCES users(id))`
 
 const userobj = {
-    user_name:"Stewart",
-    user_email:"test@user.com",
-    user_password:"password1234"
+    user_name:process.env.TEST_USER_NAME,
+    user_email:process.env.TEST_USER_EMAIL,
+    user_password:bcrypt.hash(process.env.TEST_USER_PASSWORD, 8)
 }
 
 
