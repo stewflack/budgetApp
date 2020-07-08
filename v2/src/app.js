@@ -23,11 +23,15 @@ app.use(express.static(publicDirPath))
 app.use(budgetRouter)
 app.use(userRouter)
 
-app.get('', (req, res) => {
+app.get('/my-budget', (req, res) => {
     res.render('index', {
         title: 'Budget App',
         name: 'Stewart Flack'
     })
+})
+
+app.get('/auth', (req, res) => {
+    res.render('authentication')
 })
 
 module.exports = app
