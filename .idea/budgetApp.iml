@@ -8,5 +8,8 @@
     <orderEntry type="library" name="@types/express" level="application" />
     <orderEntry type="library" name="f3c7b02494" level="application" />
     <orderEntry type="library" name="ionicons" level="application" />
+    <orderEntry type="library" name="materialize" level="application" />
+    <orderEntry type="library" name="f3c7b02494" level="application" />
+    <orderEntry type="library" name="ionicons" level="application" />
   </component>
 </module>

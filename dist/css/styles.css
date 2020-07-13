@@ -210,6 +210,11 @@ body {
     margin: 60px auto;
 }
 
+.a-container {
+    border: 1px black solid;
+}
+
+
 .income {
     float: left;
     width: 300px;
