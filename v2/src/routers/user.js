@@ -1,6 +1,8 @@
+const mysql = require('mysql');
+const bcrypt = require('bcryptjs')
 const express = require('express')
 const auth = require('../middleware/auth')
-const { ValidateUser, generateAuthToken } = require('../js/Users')
+const { ValidateUser, generateAuthToken, comparePassword } = require('../js/Users')
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 const router = new express.Router()
 
@@ -112,7 +114,37 @@ router.delete('/users/profile', auth, async (req, res) => {
 })
 
 /** LOGIN USER **/
-router.post('/users/login', (req, res) => {
+router.post('/users/login', async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['email', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    if (!isValidOperation) {
+        return res.status(400).send({
+            error: 'Please provide your email and password.'
+        })
+    }
+    try {
+        const userSearch = await queryUpdate(`select * from users where user_email = ?`, req.body.email)
+        // compare password entered to one in the database
+        const user = userSearch[0]
+        const match = await comparePassword(req.body.password, user.user_password)
+        if (!match) {
+            return res.status(400).send({
+                error: 'Password wrong.'
+            })
+        }
+
+        const token = await generateAuthToken(user.id)
+        res.status(200).send({
+            userName: user.user_name,
+            userEmail: user.user_email,
+            token
+        })
+    } catch (e) {
+        res.status(400).send({
+            error: e
+        })
+    }
 
 })
 

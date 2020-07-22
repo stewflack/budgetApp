@@ -31,7 +31,7 @@ const ValidateUser = async (obj) => {
 const formatUser = async (name, email, password) => {
 
     const nameCapitalized = capitalize(name)
-    const hashedPassword = await bcrypt.hash(password, 8)
+    const hashedPassword = await hashPassword(password)
     return {
         user_name: nameCapitalized,
         user_email:email,
@@ -58,12 +58,17 @@ const generateAuthToken = async (id) => {
     }
 }
 
+const hashPassword = async (password) => {
+    return await bcrypt.hash(password, 8)
+}
 
-
-
-
+const comparePassword = async (enteredPassword, hashedPassword) => {
+    // 1st is the password trying
+    // 2nd is the passwrod returned in DB
+    return await bcrypt.compare(enteredPassword, hashedPassword)
+}
 
 module.exports = {
     ValidateUser,
-    generateAuthToken
+    generateAuthToken, comparePassword
 }
