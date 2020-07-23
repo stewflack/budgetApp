@@ -7,7 +7,12 @@ const router = new express.Router()
 
 const Budget = new budget();
 
-
+router.get('/my-budget', auth, (req, res) => {
+    res.render('index', {
+        title: 'Budget App',
+        name: 'Stewart Flack'
+    })
+})
 /** Create Budget **/
 router.post('/budget', auth ,async (req, res) => {
     // Budget Validation

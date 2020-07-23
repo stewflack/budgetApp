@@ -9,8 +9,13 @@ const authStrings = {
     registerPassword: document.getElementById('registerPassword'),
     registerSubmit: document.getElementById('registerSubmit')
 }
-
-
+const loadUserAccount = async (token) => {
+    const response = await fetch('/my-budget', {
+        method: 'GET',
+        headers: {'Authorization': `Bearer ${token}`}
+    })
+    // const load = response.text()
+}
 const logInUser = async (event) => {
     event.preventDefault();
 
@@ -23,7 +28,7 @@ const logInUser = async (event) => {
         })
     })
     const data = await response.json()
-    console.log(data);
+    await loadUserAccount(data.token);
 }
 
 authStrings.loginButton.addEventListener('click', logInUser);
