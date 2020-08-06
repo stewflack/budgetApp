@@ -140,12 +140,17 @@ router.post('/users/login', async (req, res) => {
             userEmail: user.user_email,
             token
         })
+        // res.header('Authorization', `Bearer ${token}`)
+        // res.redirect('/my-budget')
     } catch (e) {
         res.status(400).send({
             error: e
         })
     }
+})
 
+router.get('/users/login', async (req, res) => {
+    res.redirect('/my-budget')
 })
 
 module.exports = router

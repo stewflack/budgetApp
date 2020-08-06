@@ -9,6 +9,14 @@ const authStrings = {
     registerPassword: document.getElementById('registerPassword'),
     registerSubmit: document.getElementById('registerSubmit')
 }
+
+const request = async (url, method, headers, body) => {
+    return await fetch(url, {
+        method,
+        headers,
+        body
+    })
+}
 const loadUserAccount = async (token) => {
     const response = await fetch('/my-budget', {
         method: 'GET',
@@ -18,17 +26,16 @@ const loadUserAccount = async (token) => {
 }
 const logInUser = async (event) => {
     event.preventDefault();
-
-    const response = await fetch('/users/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            email: authStrings.loginEmail.value,
-            password: authStrings.loginPassword.value
-        })
+    const body = JSON.stringify({
+        email: authStrings.loginEmail.value,
+        password: authStrings.loginPassword.value
     })
-    const data = await response.json()
-    await loadUserAccount(data.token);
+    const response = await request('/users/login', 'POST', {'Content-Type': 'application/json'}, body)
+    const data = await response.json();
+    console.log(data.token);
+
+    const r = await request('/users/login', 'GET', {'Authorization': `Bearer ${data.token}`})
+    console.log(await r.json(()))
 }
 
 authStrings.loginButton.addEventListener('click', logInUser);
