@@ -44,4 +44,4 @@ const logInUser = async (event) => {
 
 }
 
-authStrings.loginButton.addEventListener('click', logInUser);
+// authStrings.loginButton.addEventListener('click', logInUser);

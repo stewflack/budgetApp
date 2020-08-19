@@ -61,8 +61,7 @@ router.get('/users/profile', auth, async (req, res) => {
         res.send(user)
         res.end();
     } catch (e) {
-        res.status(500).send(e)
-        res.end();
+        return res.status(500).send(e)
     }
 })
 
@@ -131,6 +130,7 @@ router.post('/users/login', async (req, res) => {
         })
     }
     try {
+        // Find user in the database 
         const userSearch = await queryUpdate(`select * from users where user_email = ?`, req.body.email)
         // compare password entered to one in the database
         const user = userSearch[0]
@@ -140,8 +140,13 @@ router.post('/users/login', async (req, res) => {
                 error: 'Password wrong.'
             })
         }
-
+        // Generate auth token
         const token = await generateAuthToken(user.id)
+        // set user session as token 
+
+        // redirect to /my-budget 
+        // TODO - for this to work I need to re do the auth middleware to check the session token = something within the database 
+
         res.status(200).send({
             userName: user.user_name,
             userEmail: user.user_email,
@@ -156,11 +161,8 @@ router.post('/users/login', async (req, res) => {
     }
 })
 
-router.get('/users/login',  (req, res) => {
+router.get('/users/login',  (req, res) => { 
 
-    if (req.header('Authorization') !== null) {
-        res.redirect('http://localhost:3000/my-budget')
-    }
 })
 
 module.exports = router
