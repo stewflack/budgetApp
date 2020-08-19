@@ -15,7 +15,7 @@ router.post('/users', async (req, res) => {
     if (!isValidOperation) {
         return res.status(400).send({
             error: 'Please provide only the name, email and password.'
-        })
+        });
     }
     try {
         const [error, user] = await ValidateUser(req.body) // returns error if any and object
@@ -38,8 +38,9 @@ router.post('/users', async (req, res) => {
             })
         }
         res.status(500).send(e)
+        res.end();
     }
-
+    res.end();
 })
 
 router.get('/users/test', auth, async (req, res) => {
@@ -58,8 +59,10 @@ router.get('/users/profile', auth, async (req, res) => {
         const user = await queryPromise(`Select * from users where id = ${id} and deleted_at is null`)
 
         res.send(user)
+        res.end();
     } catch (e) {
         res.status(500).send(e)
+        res.end();
     }
 })
 
@@ -85,7 +88,7 @@ router.patch('/users/profile', auth, async (req, res) => {
         await queryUpdate(`Update users set ? where id = ${id}`, user)
 
         res.send(user)
-
+        res.end();
     } catch (e) {
         if (e.code === 'ER_DUP_ENTRY') {
             return res.status(400).send({
@@ -93,6 +96,7 @@ router.patch('/users/profile', auth, async (req, res) => {
             })
         }
         res.status(500).send(e)
+        res.end();
     }
 })
 
@@ -105,10 +109,13 @@ router.delete('/users/profile', auth, async (req, res) => {
         res.send({
             message: `User ${id} has been deleted.`
         })
+        res.end();
     } catch (e) {
-        res.status(500).send({e,
-        id})
-
+        res.status(500).send({
+            e,
+            id
+        })
+        res.end();
     }
 
 })
@@ -140,17 +147,20 @@ router.post('/users/login', async (req, res) => {
             userEmail: user.user_email,
             token
         })
-        // res.header('Authorization', `Bearer ${token}`)
-        // res.redirect('/my-budget')
+        res.end();
     } catch (e) {
         res.status(400).send({
             error: e
         })
+        res.end();
     }
 })
 
-router.get('/users/login', async (req, res) => {
-    res.redirect('/my-budget')
+router.get('/users/login',  (req, res) => {
+
+    if (req.header('Authorization') !== null) {
+        res.redirect('http://localhost:3000/my-budget')
+    }
 })
 
 module.exports = router

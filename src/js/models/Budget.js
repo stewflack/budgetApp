@@ -16,7 +16,7 @@ module.exports = class Budget {
             sav: localStorage.getItem('totals-sav') != null ? parseInt(localStorage.getItem('totals-sav')) : 0
         };
         this.budget = localStorage.getItem('budget') != null ? parseInt(localStorage.getItem('budget')) : 0;
-        this.percentage = {
+        this.percentages = {
             exp: localStorage.getItem('percentage-exp') != null ? parseInt(localStorage.getItem('percentage-exp')) : -1,
             sav: localStorage.getItem('percentage-sav') != null ? parseInt(localStorage.getItem('percentage-sav')) : -1
         };
