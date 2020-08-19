@@ -16,12 +16,13 @@ const auth = async (req, res, next) => {
 
         req.token = token
         req.user = result[0].user_id
+        res.end();
         } catch (e) {
             res.status(400).send({
                 error: 'Unable to sign in please try again.',
                 message: e
             })
-
+            res.end();
         }
 
         next()
