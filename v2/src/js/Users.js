@@ -69,18 +69,18 @@ const comparePassword = async (enteredPassword, hashedPassword) => {
     // 2nd is the passwrod returned in DB
     return await bcrypt.compare(enteredPassword, hashedPassword)
 }
-
+// set the user session 
 const setUserSession = (request, userEmail, token) => {
     // setting the userEmail and token, and whether the user is logged in or not 
     request.session.email = userEmail;
     request.session.token = token;
     request.session.loggedIn = true;
 }
-
+// removes the user sessions
 const removeUserSessions = (request) => {
     request.session.email = null;
     request.session.token = null;
-    request.session.email = false;
+    request.session.loggedIn = false;
 }
 
 module.exports = {
