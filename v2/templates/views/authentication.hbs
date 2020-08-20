@@ -19,9 +19,9 @@
     <div class="container a-container">
         <div class="log-in left">
             <h1>Log In</h1>
-            <form method="post" action="/users/login">
-                <input type="email" class="" id="loginEmail"  placeholder="Enter your email... " value="swflack@gmail.com">
-                <input type="password" class="" id="loginPassword" placeholder="Enter your password...." value="amber1995">
+            <form method="POST" action="users/login">
+                <input name="email" type="email" class="" id="loginEmail"  placeholder="Enter your email... " required>
+                <input name="password" type="password" class="" id="loginPassword" placeholder="Enter your password...." required>
                 <button type="submit" id="loginSubmit">Log In</button>
             </form>
         </div>

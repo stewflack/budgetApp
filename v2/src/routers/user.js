@@ -122,6 +122,7 @@ router.delete('/users/profile', auth, async (req, res) => {
 
 /** LOGIN USER **/
 router.post('/users/login', async (req, res) => {
+    console.log(req.body);
     const updates = Object.keys(req.body)
     const allowedUpdates = ['email', 'password']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -134,26 +135,43 @@ router.post('/users/login', async (req, res) => {
         // Find user in the database 
         const userSearch = await queryUpdate(`select * from users where user_email = ?`, req.body.email)
         // compare password entered to one in the database
-        const user = userSearch[0]
-        const match = await comparePassword(req.body.password, user.user_password)
-        if (!match) {
-            return res.status(400).send({
-                error: 'Password wrong.'
+        if(userSearch.length > 0) {
+            const user = userSearch[0]
+            console.log(user);
+            const match = await comparePassword(req.body.password, user.user_password)
+            if (!match) {
+                return res.status(400).send({
+                    error: 'Password wrong.'
+                })
+            }
+            // Generate auth token
+            const token = await generateAuthToken(user.id)
+            // set user session as token 
+            setUserSession(req, user, token);
+            // redirect to /my-budget 
+            // res.redirect('/my-budget');
+            res.send({
+                success: 'success'
+            })
+        } else {
+            res.status(400).send({
+                error: 'Incorrect email or password.',
             })
         }
-        // Generate auth token
-        const token = await generateAuthToken(user.id)
-        // set user session as token 
-        setUserSession(req, user, token);
-        // redirect to /my-budget 
-        res.redirect('my-budget');
-        res.end();
     } catch (e) {
         res.status(400).send({
-            error: e
+            error: e,
+            message: 'e'
         })
-        res.end();
     }
 })
+router.get('/home', function(request, response) {
+	if (request.session.loggedin) {
+		response.send('Welcome back, ' + request.session.username + '!');
+	} else {
+		response.send('Please login to view this page!');
+	}
+	response.end();
+});
 
 module.exports = router

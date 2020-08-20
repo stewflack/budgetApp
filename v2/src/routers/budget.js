@@ -12,7 +12,6 @@ router.get('/my-budget', auth, (req, res) => {
         title: 'Budget App',
         name: 'Stewart Flack'
     })
-    res.end();
 })
 /** Create Budget **/
 router.post('/budget', auth ,async (req, res) => {

@@ -30,18 +30,13 @@ const logInUser = async (event) => {
         email: authStrings.loginEmail.value,
         password: authStrings.loginPassword.value
     })
+
     const response = await request('/users/login', 'POST', {'Content-Type': 'application/json'}, body)
     const data = await response.json();
-    console.log(data.token);
+    console.log(data.success);
 
-    const page = fetch('/my-budget', {
-        method: 'GET',
-        headers: {'Authorization': `Bearer ${data.token}`}
-    }).then((response) => {
-        window.location.href = '/my-budget';
-    })
-    document.querySelector(".main-content").innerHTML= page;
+    if(data.success) window.location.href = '/my-budget';
 
 }
 
-// authStrings.loginButton.addEventListener('click', logInUser);
+authStrings.loginButton.addEventListener('click', logInUser);

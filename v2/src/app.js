@@ -1,4 +1,5 @@
 const path = require('path')
+const bodyParser = require('body-parser');
 
 const express = require('express')
 var session = require('express-session');
@@ -25,7 +26,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
-
+app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.json())
 app.use(express.static(publicDirPath))
 app.use(budgetRouter)
