@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
+const session = require('express-session');
+
 
 
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
@@ -38,7 +40,7 @@ const formatUser = async (name, email, password) => {
         user_password: hashedPassword
     }
 }
-
+// generate a token and store within database - eventaully this could be removed no need to store 
 const generateAuthToken = async (id) => {
 
     const token = jwt.sign({
@@ -68,7 +70,22 @@ const comparePassword = async (enteredPassword, hashedPassword) => {
     return await bcrypt.compare(enteredPassword, hashedPassword)
 }
 
+const setUserSession = (request, userEmail, token) => {
+    // setting the userEmail and token, and whether the user is logged in or not 
+    request.session.email = userEmail;
+    request.session.token = token;
+    request.session.loggedIn = true;
+}
+
+const removeUserSessions = (request) => {
+    request.session.email = null;
+    request.session.token = null;
+    request.session.email = false;
+}
+
 module.exports = {
     ValidateUser,
-    generateAuthToken, comparePassword
+    generateAuthToken, 
+    comparePassword, 
+    setUserSession
 }

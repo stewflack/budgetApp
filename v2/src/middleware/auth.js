@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const session = require('express-session');
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 const auth = async (req, res, next) => {
     try {

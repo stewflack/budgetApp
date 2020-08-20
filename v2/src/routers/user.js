@@ -1,8 +1,9 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs')
 const express = require('express')
+
 const auth = require('../middleware/auth')
-const { ValidateUser, generateAuthToken, comparePassword } = require('../js/Users')
+const { ValidateUser, generateAuthToken, comparePassword, setUserSession} = require('../js/Users')
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 const router = new express.Router()
 
@@ -143,15 +144,9 @@ router.post('/users/login', async (req, res) => {
         // Generate auth token
         const token = await generateAuthToken(user.id)
         // set user session as token 
-
+        setUserSession(req, user, token);
         // redirect to /my-budget 
-        // TODO - for this to work I need to re do the auth middleware to check the session token = something within the database 
-
-        res.status(200).send({
-            userName: user.user_name,
-            userEmail: user.user_email,
-            token
-        })
+        res.redirect('my-budget');
         res.end();
     } catch (e) {
         res.status(400).send({
@@ -159,10 +154,6 @@ router.post('/users/login', async (req, res) => {
         })
         res.end();
     }
-})
-
-router.get('/users/login',  (req, res) => { 
-
 })
 
 module.exports = router
