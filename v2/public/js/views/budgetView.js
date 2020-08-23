@@ -60,17 +60,17 @@ const addListItem = (obj, type) => {
     if(type === 'inc') {
         element = base.DOMstrings.incomeContainer;
         markup = `<div class="item clearfix" id="inc-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div>\n<div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'exp') {
         element = base.DOMstrings.expenseContainer;
         markup = `<div class="item clearfix" id="exp-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="expenses__item__percentage">${percent}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="expenses__item__percentage">${percent}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'sav') {
         element = base.DOMstrings.savingsContainer;
         markup = `<div class="item clearfix" id="sav-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="savings__item__percentage">${percent}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="savings__item__percentage">${percent}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     }
     // Insert the HTML into the DOM

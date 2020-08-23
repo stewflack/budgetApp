@@ -118,7 +118,6 @@ router.delete('/users/profile', auth, async (req, res) => {
 
 /** LOGIN USER **/
 router.post('/users/login', async (req, res) => {
-    console.log(req.body);
     const updates = Object.keys(req.body)
     const allowedUpdates = ['email', 'password']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))

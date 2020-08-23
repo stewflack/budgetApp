@@ -1,13 +1,6 @@
-const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTY3NDA2OTksImlkIjozLCJpYXQiOjE1OTY3MzcwOTl9.jOxQI2_TYQrXImFriwSRZw0vUwdBcydbaTDpUlqkpCc';
-const myHeaders = new Headers();
-// Here is where it needs to be set
-myHeaders.append('Authorization', token);
-
-
 const getBudgets = async () => {
     const myRequest = new Request('/budget', {
-        method: 'GET',
-        headers: myHeaders
+        method: 'GET'
     });
 
     try {
@@ -23,8 +16,7 @@ const getBudgets = async () => {
 
 const getBudgetSummary = async () => {
     const myRequest = new Request('/budget/totals', {
-        method: 'GET',
-        headers: myHeaders
+        method: 'GET'
     });
     try {
         const resp = await fetch(myRequest)
@@ -43,8 +35,7 @@ async function postData(url = '',type, data) {
         const response = await fetch(url, {
             method: type,
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
+                'Content-Type': 'application/json'
             },
             mode: 'cors',
             cache: 'default',
@@ -62,8 +53,7 @@ const deleteData = async (url, id) => {
         const response = await fetch(`${url}/${id}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
+                'Content-Type': 'application/json'
             }
         })
         return response.json()

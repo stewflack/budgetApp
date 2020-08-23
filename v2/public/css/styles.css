@@ -188,6 +188,7 @@ body {
 
 .edit_center {
     display: none;
+    position:absolute;
     padding: 26px;
     height: 150px;
     width: 800px;

@@ -17,6 +17,7 @@ const auth = async (req, res, next) => {
             }
     
             req.session.userID = result[0].user_id;
+            req.user = result[0].user_id;
             } catch (e) {
                 res.status(400).send({
                     error: 'Unable to sign in please try again.',

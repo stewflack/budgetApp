@@ -41,14 +41,9 @@ router.post('/budget', auth ,async (req, res) => {
     }
 })
 
-router.get('/budget/test', auth,async (req, res) => {
-    Budget.calculateBudgetSummary(req.user).then(res => {
-        console.log(res)
-    }).catch(e=> console.log(e))
-
-})
 /** Read All Budgets **/
-router.get('/budget', auth,async (req, res) => {
+router.get('/budget', auth, async (req, res) => {
+    console.log(req.user)
     await Budget.getAllBudgets(res, req.user)
     res.end();
 })

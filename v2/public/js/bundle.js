@@ -235,21 +235,19 @@ const convertBudgetType = type => {
     }
 };
 
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+
 module.exports = {
     DOMstrings,
     convertBudgetType
 }
 },{}],3:[function(require,module,exports){
-const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTY3NDA2OTksImlkIjozLCJpYXQiOjE1OTY3MzcwOTl9.jOxQI2_TYQrXImFriwSRZw0vUwdBcydbaTDpUlqkpCc';
-const myHeaders = new Headers();
-// Here is where it needs to be set
-myHeaders.append('Authorization', token);
-
-
 const getBudgets = async () => {
     const myRequest = new Request('/budget', {
-        method: 'GET',
-        headers: myHeaders
+        method: 'GET'
     });
 
     try {
@@ -265,8 +263,7 @@ const getBudgets = async () => {
 
 const getBudgetSummary = async () => {
     const myRequest = new Request('/budget/totals', {
-        method: 'GET',
-        headers: myHeaders
+        method: 'GET'
     });
     try {
         const resp = await fetch(myRequest)
@@ -285,8 +282,7 @@ async function postData(url = '',type, data) {
         const response = await fetch(url, {
             method: type,
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
+                'Content-Type': 'application/json'
             },
             mode: 'cors',
             cache: 'default',
@@ -304,8 +300,7 @@ const deleteData = async (url, id) => {
         const response = await fetch(`${url}/${id}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
+                'Content-Type': 'application/json'
             }
         })
         return response.json()
@@ -399,17 +394,17 @@ const addListItem = (obj, type) => {
     if(type === 'inc') {
         element = base.DOMstrings.incomeContainer;
         markup = `<div class="item clearfix" id="inc-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div>\n<div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'exp') {
         element = base.DOMstrings.expenseContainer;
         markup = `<div class="item clearfix" id="exp-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="expenses__item__percentage">${percent}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="expenses__item__percentage">${percent}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'sav') {
         element = base.DOMstrings.savingsContainer;
         markup = `<div class="item clearfix" id="sav-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="savings__item__percentage">${percent}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="savings__item__percentage">${percent}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     }
     // Insert the HTML into the DOM
