@@ -19,7 +19,8 @@ const DOMstrings = {
     container: '.container',
     expensesPercentageLabel: '.expenses__item__percentage',
     savingsPercentageLabel: '.savings__item__percentage',
-    dateLabel: '.budget__title--month'
+    dateLabel: '.budget__title--month',
+    closeEditModal: '.modal-close'
 };
 const convertBudgetType = type => {
     switch (type) {
@@ -32,10 +33,6 @@ const convertBudgetType = type => {
     }
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems);
-  });
 
 module.exports = {
     DOMstrings,

@@ -186,6 +186,14 @@ body {
     margin-bottom: -50px;
 }
 
+.modal-close {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-size: 20px;
+    color: #e0e0e0;
+}
+
 .edit_center {
     display: none;
     position:absolute;
@@ -193,8 +201,8 @@ body {
     height: 150px;
     width: 800px;
     background: white;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
 }
 
 .edit__container {

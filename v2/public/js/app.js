@@ -179,6 +179,8 @@ const budgetController = () => {
         });
         document.getElementById('edit_btn').addEventListener('click', crtlSubmitEdit);
         document.querySelector(DOM.inputType).addEventListener('change', budgetView.changeType)
+   
+        document.querySelector(DOM.closeEditModal).addEventListener('click', budgetView.closeEditModal);
     };
 
     return {

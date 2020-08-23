@@ -180,6 +180,8 @@ const budgetController = () => {
         });
         document.getElementById('edit_btn').addEventListener('click', crtlSubmitEdit);
         document.querySelector(DOM.inputType).addEventListener('change', budgetView.changeType)
+   
+        document.querySelector(DOM.closeEditModal).addEventListener('click', budgetView.closeEditModal);
     };
 
     return {
@@ -222,7 +224,8 @@ const DOMstrings = {
     container: '.container',
     expensesPercentageLabel: '.expenses__item__percentage',
     savingsPercentageLabel: '.savings__item__percentage',
-    dateLabel: '.budget__title--month'
+    dateLabel: '.budget__title--month',
+    closeEditModal: '.modal-close'
 };
 const convertBudgetType = type => {
     switch (type) {
@@ -235,10 +238,6 @@ const convertBudgetType = type => {
     }
 };
 
-document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elems);
-  });
 
 module.exports = {
     DOMstrings,
@@ -394,23 +393,22 @@ const addListItem = (obj, type) => {
     if(type === 'inc') {
         element = base.DOMstrings.incomeContainer;
         markup = `<div class="item clearfix" id="inc-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div>\n<div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'exp') {
         element = base.DOMstrings.expenseContainer;
         markup = `<div class="item clearfix" id="exp-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="expenses__item__percentage">${percent}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="expenses__item__percentage">${percent}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     } else if (type === 'sav') {
         element = base.DOMstrings.savingsContainer;
         markup = `<div class="item clearfix" id="sav-${obj.budget_id}"><div class="item__description">${obj.budget_description}</div><div class="right clearfix" style="width: 80px; position: relative;">
-            <div class="item__value">${obj.budget_value}</div><div class="savings__item__percentage">${percent}</div><div class="item__delete"><button data-target="modal1" class="item__edit--btn modal-trigger"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
+            <div class="item__value">${obj.budget_value}</div><div class="savings__item__percentage">${percent}</div><div class="item__delete"><button class="item__edit--btn"><i class="far fa-edit"></i></button><button class="item__delete--btn"><i class="far fa-trash-alt"></i></button>
             </div></div></div>`;
     }
     // Insert the HTML into the DOM
     document.querySelector(element).insertAdjacentHTML('beforeend', markup);
 };
-
 
 const deleteListItem = selectorID => {
     const el = document.getElementById(selectorID);
@@ -579,6 +577,15 @@ const updateItem = (type, newType,id, d, v, p = null) => {
 
 };
 
+const closeEditModal = () => {
+    let editModal = document.querySelector('.edit_center');
+    editModal.style.display = 'none';
+    // Update Input and focus edit
+    document.getElementById('editType').value = '';
+    document.getElementById('editDesc').value = '';
+    document.getElementById('editValue').value = '';
+}
+
 module.exports = {
     getInput,
     addListItem,
@@ -592,7 +599,8 @@ module.exports = {
     focusFields,
     updateInputs,
     updateItem,
-    clearBudgetView
+    clearBudgetView,
+    closeEditModal
 }
 
 
