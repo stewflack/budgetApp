@@ -15,6 +15,12 @@ router.get('/my-budget', auth, (req, res) => {
 })
 /** Create Budget **/
 router.post('/budget', auth ,async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['budget_type', 'budget_description', 'budget_value']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    
+    if (!isValidOperation) return res.status(400).send({ error: 'Please provide the type, description and value of a budget.' })
+
     // Budget Validation
     const data = new budgetValidation(req.body) // returns object
     data.user_id = req.user
