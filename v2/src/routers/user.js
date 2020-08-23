@@ -29,8 +29,12 @@ router.post('/users', async (req, res) => {
         /*** User Authentication Token Generated ***/
 
         const token = await generateAuthToken(id.insertId)
-        // request.headers.authorization = token;
-        res.status(201).send({user, token})
+
+        setUserSession(req, user, token);
+        // tell client successful and to log user in
+        res.send({
+            success: 'success'
+        }).end()
 
     } catch (e) {
         if (e.code === 'ER_DUP_ENTRY') {
@@ -42,14 +46,6 @@ router.post('/users', async (req, res) => {
         res.end();
     }
     res.end();
-})
-
-router.get('/users/test', auth, async (req, res) => {
-    try {
-        console.log(req.user)
-    } catch (e) {
-        res.send(e)
-    }
 })
 
 /** GET USER **/
@@ -126,7 +122,7 @@ router.post('/users/login', async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['email', 'password']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-    if (!isValidOperation) {
+    if (!isValidOperation || req.body.email === "" || req.body.password === "") {
         return res.status(400).send({
             error: 'Please provide your email and password.'
         })
@@ -137,7 +133,7 @@ router.post('/users/login', async (req, res) => {
         // compare password entered to one in the database
         if(userSearch.length > 0) {
             const user = userSearch[0]
-            console.log(user);
+            
             const match = await comparePassword(req.body.password, user.user_password)
             if (!match) {
                 return res.status(400).send({
@@ -148,18 +144,17 @@ router.post('/users/login', async (req, res) => {
             const token = await generateAuthToken(user.id)
             // set user session as token 
             setUserSession(req, user, token);
-            // redirect to /my-budget 
-            // res.redirect('/my-budget');
+            // tell client successful and to log user in
             res.send({
                 success: 'success'
-            })
+            }).end()
         } else {
-            res.status(400).send({
+            return res.status(400).send({
                 error: 'Incorrect email or password.',
             })
         }
     } catch (e) {
-        res.status(400).send({
+        return res.status(400).send({
             error: e,
             message: 'e'
         })

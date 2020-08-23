@@ -1,0 +1,10 @@
+body {
+
+}
+
+.error-messaging {
+    display: block;
+    height: 30px;
+    width: auto;
+    color: #c62828;
+}
