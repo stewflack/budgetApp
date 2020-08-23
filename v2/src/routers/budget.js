@@ -7,9 +7,20 @@ const router = new express.Router()
 
 const Budget = new budget();
 
-
+router.get('/my-budget', auth, (req, res) => {
+    res.render('index', {
+        title: 'Budget App',
+        name: 'Stewart Flack'
+    })
+})
 /** Create Budget **/
 router.post('/budget', auth ,async (req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['budget_type', 'budget_description', 'budget_value']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    
+    if (!isValidOperation) return res.status(400).send({ error: 'Please provide the type, description and value of a budget.' })
+
     // Budget Validation
     const data = new budgetValidation(req.body) // returns object
     data.user_id = req.user
@@ -19,11 +30,14 @@ router.post('/budget', auth ,async (req, res) => {
             const newBudget = await queryUpdate('INSERT INTO budget SET ?', data)
             await Budget.addSingleItemToBudget(res, newBudget.insertId)
             res.status(201).send()
+            res.end();
         } catch (e) {
             res.status(500).send()
+            res.end();
         }
     } else {
         res.status(400).send(data.error)
+        res.end();
     }
 })
 
@@ -36,6 +50,7 @@ router.get('/budget/test', auth,async (req, res) => {
 /** Read All Budgets **/
 router.get('/budget', auth,async (req, res) => {
     await Budget.getAllBudgets(res, req.user)
+    res.end();
 })
 
 router.get('/budget/totals', auth ,async (req, res) => {
@@ -44,8 +59,10 @@ router.get('/budget/totals', auth ,async (req, res) => {
     try {
         const budgetTotals = await Budget.calculateBudgetSummary(req.user)
         res.send(budgetTotals)
+        res.end();
     } catch (e) {
         throw new Error(e)
+        res.end();
     }
 
 })
@@ -66,6 +83,7 @@ router.get('/budget/:id', auth,async (req, res) => {
             })
         }
         res.status(200).send(budgetItem)
+        res.end();
     } catch (e) {
         return res.status(500).send(e)
     }
@@ -88,8 +106,9 @@ router.patch('/budget/:id', auth ,async (req, res) => {
             const updatedBudget = await Budget.getUpdatedBudgetObject(`Select * from budget where budget_id = ${id} and user_id = ${req.user}`, req.user)
 
             res.status(200).send(updatedBudget)
+            res.end();
         } catch (e) {
-            res.status(500).send(e)
+            return res.status(500).send(e)
         }
     }
 })
@@ -108,8 +127,9 @@ router.delete('/budget/:id', auth, async (req, res) => {
         res.status(200).send({
             message: `${id} has been deleted`
         })
+        res.end();
     } catch (e) {
-        res.status(500).send(e)
+        return res.status(500).send(e)
     }
 })
 

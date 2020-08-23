@@ -156,9 +156,7 @@ const budgetController = () => {
 
     const setupEventListeners = () =>{
         const DOM = base.DOMstrings;
-
         document.querySelector(DOM.inputBtn).addEventListener('click', addItem);
-
         /***
          * TODO: Edit is not working off a enter at the moment
          */
@@ -242,11 +240,13 @@ module.exports = {
     convertBudgetType
 }
 },{}],3:[function(require,module,exports){
-const getBudgets = async () => {
-    const myHeaders = new Headers();
-    // Here is where it needs to be set
-    myHeaders.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODk1NTY2ODIsImlkIjoxNiwiaWF0IjoxNTg5NTUzMDgyfQ.OLXAoSK8bY3Km6AK24Bq2ru-_wK9AS1wzrw6_R1G8EY');
+const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTY3NDA2OTksImlkIjozLCJpYXQiOjE1OTY3MzcwOTl9.jOxQI2_TYQrXImFriwSRZw0vUwdBcydbaTDpUlqkpCc';
+const myHeaders = new Headers();
+// Here is where it needs to be set
+myHeaders.append('Authorization', token);
 
+
+const getBudgets = async () => {
     const myRequest = new Request('/budget', {
         method: 'GET',
         headers: myHeaders
@@ -264,9 +264,6 @@ const getBudgets = async () => {
 }
 
 const getBudgetSummary = async () => {
-    const myHeaders = new Headers();
-    myHeaders.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODk1NTY2ODIsImlkIjoxNiwiaWF0IjoxNTg5NTUzMDgyfQ.OLXAoSK8bY3Km6AK24Bq2ru-_wK9AS1wzrw6_R1G8EY');
-
     const myRequest = new Request('/budget/totals', {
         method: 'GET',
         headers: myHeaders
@@ -288,8 +285,8 @@ async function postData(url = '',type, data) {
         const response = await fetch(url, {
             method: type,
             headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
+                'Authorization': token
             },
             mode: 'cors',
             cache: 'default',
@@ -307,8 +304,8 @@ const deleteData = async (url, id) => {
         const response = await fetch(`${url}/${id}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
+                'Authorization': token
             }
         })
         return response.json()

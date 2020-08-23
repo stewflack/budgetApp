@@ -1,6 +1,9 @@
+const mysql = require('mysql');
+const bcrypt = require('bcryptjs')
 const express = require('express')
+
 const auth = require('../middleware/auth')
-const { ValidateUser, generateAuthToken } = require('../js/Users')
+const { ValidateUser, generateAuthToken, comparePassword, setUserSession} = require('../js/Users')
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 const router = new express.Router()
 
@@ -13,7 +16,7 @@ router.post('/users', async (req, res) => {
     if (!isValidOperation) {
         return res.status(400).send({
             error: 'Please provide only the name, email and password.'
-        })
+        });
     }
     try {
         const [error, user] = await ValidateUser(req.body) // returns error if any and object
@@ -26,8 +29,12 @@ router.post('/users', async (req, res) => {
         /*** User Authentication Token Generated ***/
 
         const token = await generateAuthToken(id.insertId)
-        // request.headers.authorization = token;
-        res.status(201).send({user, token})
+
+        setUserSession(req, user, token);
+        // tell client successful and to log user in
+        res.send({
+            success: 'success'
+        }).end()
 
     } catch (e) {
         if (e.code === 'ER_DUP_ENTRY') {
@@ -36,16 +43,9 @@ router.post('/users', async (req, res) => {
             })
         }
         res.status(500).send(e)
+        res.end();
     }
-
-})
-
-router.get('/users/test', auth, async (req, res) => {
-    try {
-        console.log(req.user)
-    } catch (e) {
-        res.send(e)
-    }
+    res.end();
 })
 
 /** GET USER **/
@@ -56,8 +56,9 @@ router.get('/users/profile', auth, async (req, res) => {
         const user = await queryPromise(`Select * from users where id = ${id} and deleted_at is null`)
 
         res.send(user)
+        res.end();
     } catch (e) {
-        res.status(500).send(e)
+        return res.status(500).send(e)
     }
 })
 
@@ -83,7 +84,7 @@ router.patch('/users/profile', auth, async (req, res) => {
         await queryUpdate(`Update users set ? where id = ${id}`, user)
 
         res.send(user)
-
+        res.end();
     } catch (e) {
         if (e.code === 'ER_DUP_ENTRY') {
             return res.status(400).send({
@@ -91,6 +92,7 @@ router.patch('/users/profile', auth, async (req, res) => {
             })
         }
         res.status(500).send(e)
+        res.end();
     }
 })
 
@@ -103,17 +105,60 @@ router.delete('/users/profile', auth, async (req, res) => {
         res.send({
             message: `User ${id} has been deleted.`
         })
+        res.end();
     } catch (e) {
-        res.status(500).send({e,
-        id})
-
+        res.status(500).send({
+            e,
+            id
+        })
+        res.end();
     }
 
 })
 
 /** LOGIN USER **/
-router.post('/users/login', (req, res) => {
-
+router.post('/users/login', async (req, res) => {
+    console.log(req.body);
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['email', 'password']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
+    if (!isValidOperation || req.body.email === "" || req.body.password === "") {
+        return res.status(400).send({
+            error: 'Please provide your email and password.'
+        })
+    }
+    try {
+        // Find user in the database 
+        const userSearch = await queryUpdate(`select * from users where user_email = ?`, req.body.email)
+        // compare password entered to one in the database
+        if(userSearch.length > 0) {
+            const user = userSearch[0]
+            
+            const match = await comparePassword(req.body.password, user.user_password)
+            if (!match) {
+                return res.status(400).send({
+                    error: 'Password wrong.'
+                })
+            }
+            // Generate auth token
+            const token = await generateAuthToken(user.id)
+            // set user session as token 
+            setUserSession(req, user, token);
+            // tell client successful and to log user in
+            res.send({
+                success: 'success'
+            }).end()
+        } else {
+            return res.status(400).send({
+                error: 'Incorrect email or password.',
+            })
+        }
+    } catch (e) {
+        return res.status(400).send({
+            error: e,
+            message: 'e'
+        })
+    }
 })
 
 module.exports = router

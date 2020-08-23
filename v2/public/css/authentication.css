@@ -1,0 +1,55 @@
+.main-content {
+    height: 100vh;
+    background: #448aff;
+}
+
+.error-messaging {
+    display: block;
+    height: 30px;
+    width: auto;
+    color: #c62828;
+}
+
+.a-container {
+    width: 1200px;
+    margin: 0px auto;
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bubble {
+    position: relative;
+    background: white;
+    height: 375px;
+    width: 1000px;
+    padding: 10px 40px;
+    border-radius: 5px;
+}
+.seperator{
+    position: absolute;
+    width: 1px;
+    height: 310px;
+    background: #e0e0e0;
+    left: 42%;
+    top: 32.5px;
+}
+.log-in {
+    
+}
+#loginEmail {
+    margin-top: 7.5%;
+}
+
+#loginSubmit {
+    margin-left: 35%;
+}
+
+.register {
+    
+}
+
+#registerSubmit {
+    margin-left: 35%;
+}
+

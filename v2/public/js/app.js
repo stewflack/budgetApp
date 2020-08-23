@@ -155,9 +155,7 @@ const budgetController = () => {
 
     const setupEventListeners = () =>{
         const DOM = base.DOMstrings;
-
         document.querySelector(DOM.inputBtn).addEventListener('click', addItem);
-
         /***
          * TODO: Edit is not working off a enter at the moment
          */

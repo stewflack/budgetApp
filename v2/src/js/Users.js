@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
+const session = require('express-session');
+
 
 
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
@@ -31,14 +33,14 @@ const ValidateUser = async (obj) => {
 const formatUser = async (name, email, password) => {
 
     const nameCapitalized = capitalize(name)
-    const hashedPassword = await bcrypt.hash(password, 8)
+    const hashedPassword = await hashPassword(password)
     return {
         user_name: nameCapitalized,
         user_email:email,
         user_password: hashedPassword
     }
 }
-
+// generate a token and store within database - eventaully this could be removed no need to store 
 const generateAuthToken = async (id) => {
 
     const token = jwt.sign({
@@ -58,12 +60,32 @@ const generateAuthToken = async (id) => {
     }
 }
 
+const hashPassword = async (password) => {
+    return await bcrypt.hash(password, 8)
+}
 
-
-
-
+const comparePassword = async (enteredPassword, hashedPassword) => {
+    // 1st is the password trying
+    // 2nd is the passwrod returned in DB
+    return await bcrypt.compare(enteredPassword, hashedPassword)
+}
+// set the user session 
+const setUserSession = (request, userEmail, token) => {
+    // setting the userEmail and token, and whether the user is logged in or not 
+    request.session.email = userEmail;
+    request.session.token = token;
+    request.session.loggedIn = true;
+}
+// removes the user sessions
+const removeUserSessions = (request) => {
+    request.session.email = null;
+    request.session.token = null;
+    request.session.loggedIn = false;
+}
 
 module.exports = {
     ValidateUser,
-    generateAuthToken
+    generateAuthToken, 
+    comparePassword, 
+    setUserSession
 }

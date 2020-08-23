@@ -1,6 +1,9 @@
 const path = require('path')
+const bodyParser = require('body-parser');
 
 const express = require('express')
+var session = require('express-session');
+
 const budgetRouter = require('./routers/budget')
 const userRouter = require('./routers/user')
 const hbs = require('hbs')
@@ -18,16 +21,19 @@ app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 hbs.registerPartials(partialsPath)
 
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
+app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.json())
 app.use(express.static(publicDirPath))
 app.use(budgetRouter)
 app.use(userRouter)
 
-app.get('', (req, res) => {
-    res.render('index', {
-        title: 'Budget App',
-        name: 'Stewart Flack'
-    })
+app.get('/auth', (req, res) => {
+    res.render('authentication')
 })
 
 module.exports = app
