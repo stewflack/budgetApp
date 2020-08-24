@@ -41,7 +41,7 @@ async function postData(url = '',type, data) {
             cache: 'default',
             body: JSON.stringify(data)
         });
-        return response.json(); // parses JSON response into native JavaScript objects
+        return response; // parses JSON response into native JavaScript objects
     } catch (e) {
         console.error(e)
     }

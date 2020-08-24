@@ -10,7 +10,7 @@ module.exports = class BudgetValidation {
         console.log(p)
         console.log(!validator.isEmpty(p))
         if (validator.isEmpty(p)) {
-            return this.error.push({
+            return this.error({
                 error: 'A parameter should not be empty'
             })
         }
@@ -18,7 +18,7 @@ module.exports = class BudgetValidation {
 
     checkIfStringContainsNumbers() {
         if (validator.isHexadecimal(this.type)) {
-            return this.error.push({
+            return this.error({
                 error:'Type should not contain a number'
             })
         }

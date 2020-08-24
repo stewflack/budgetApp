@@ -20,11 +20,15 @@ router.post('/budget', auth ,async (req, res) => {
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
     
     if (!isValidOperation) return res.status(400).send({ error: 'Please provide the type, description and value of a budget.' })
-
+    if(req.body.budget_type || req.body.budget_description || req.body.budget_value) {
+        return res.status(400).send({
+            error: 'Empty description or value'
+        })
+    }
     // Budget Validation
     const data = new budgetValidation(req.body) // returns object
     data.user_id = req.user
-
+    
     if (!data.error || data.error.length === 0) {
         try {
             const newBudget = await queryUpdate('INSERT INTO budget SET ?', data)

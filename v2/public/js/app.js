@@ -51,7 +51,6 @@ const budgetController = () => {
             await updateBudgetSummary()
         } else {
             // Error Handling
-            // notification.createNotification('alert', 'Please fill in the required input fields', '', 3000);
 
             budgetView.focusFields()
         }
