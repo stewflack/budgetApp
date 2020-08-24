@@ -4,23 +4,22 @@ module.exports = class BudgetValidation {
         this.budget_type = bodyArray.budget_type ? bodyArray.budget_type : '';
         this.budget_description = bodyArray.budget_description ? bodyArray.budget_description : '';
         this.budget_value = bodyArray.budget_value ? bodyArray.budget_value : '';
+        
     }
 
-    checkEmpty(p) {
-        console.log(p)
-        console.log(!validator.isEmpty(p))
-        if (validator.isEmpty(p)) {
-            return this.error({
+    checkEmpty() {
+        if (validator.isEmpty(this.budget_description) || validator.isEmpty(this.budget_value)) {
+            return this.error ={
                 error: 'A parameter should not be empty'
-            })
+            }
         }
     }
 
     checkIfStringContainsNumbers() {
         if (validator.isHexadecimal(this.type)) {
-            return this.error({
+            return this.error = {
                 error:'Type should not contain a number'
-            })
+            }
         }
     }
 
@@ -29,13 +28,4 @@ module.exports = class BudgetValidation {
             this.value = parseInt(this.value)
         }
     }
-
-    returnInput() {
-        this.checkEmpty(this.type)
-        this.checkEmpty(this.description)
-        this.checkEmpty(this.value.toString())
-        this.checkString()
-        this.checkIfStringContainsNumbers()
-    }
-
 }

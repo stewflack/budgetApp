@@ -92,8 +92,8 @@ router.get('/budget/:id', auth,async (req, res) => {
 /** Update Budget **/
 router.patch('/budget/:id', auth ,async (req, res) => {
     const id = req.params.id
-    const data = new budgetValidation(req.body) // returns object
-
+    const data = new budgetValidation(req.body);// returns object
+    data.checkEmpty();
     if (!data.error || data.error.length === 0) {
         try {
             const update = await queryUpdate(`UPDATE budget SET ? WHERE budget_id = ? and user_id = ?`, [data, id, req.user])
@@ -109,6 +109,10 @@ router.patch('/budget/:id', auth ,async (req, res) => {
         } catch (e) {
             return res.status(500).send(e)
         }
+    } else {
+        return res.status(400).send({
+            error:data.error
+        })
     }
 })
 

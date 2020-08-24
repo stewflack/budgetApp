@@ -20,7 +20,10 @@ const DOMstrings = {
     expensesPercentageLabel: '.expenses__item__percentage',
     savingsPercentageLabel: '.savings__item__percentage',
     dateLabel: '.budget__title--month',
-    closeEditModal: '.modal-close'
+    closeEditModal: '.modal-close',
+    editTypeInput: 'editType',
+    editDescInput: 'editDesc',
+    editValueInput: 'editValue'
 };
 const convertBudgetType = type => {
     switch (type) {

@@ -37,8 +37,7 @@ const budgetController = () => {
             }
             try {
                 const data = await endpoint.postData('/budget','POST', newItem)
-                const response = await data.json();
-                console.log(response)
+                console.log(data)
                 budgetView.addListItem(data, input.type);
             }catch (e) {
                 console.error(e)
@@ -53,7 +52,6 @@ const budgetController = () => {
             await updateBudgetSummary()
         } else {
             // Error Handling
-            // notification.createNotification('alert', 'Please fill in the required input fields', '', 3000);
 
             budgetView.focusFields()
         }
@@ -117,21 +115,20 @@ const budgetController = () => {
             let editModal = document.querySelector('.edit_center')
             editModal.style.display = 'block'
             // Update Input and focus edit
-            document.getElementById('editType').value = type
-            document.getElementById('editDesc').value = desc
-            document.getElementById('editValue').value = value
-            document.getElementById('editDesc').focus();
+            document.getElementById(base.DOMstrings.editTypeInput).value = type
+            document.getElementById(base.DOMstrings.editDescInput).value = desc
+            document.getElementById(base.DOMstrings.editValueInput).value = value
+            document.getElementById(base.DOMstrings.editDescInput).focus();
         }
     }
 
     const crtlSubmitEdit = async () => {
-        console.log('submit')
         // Get data from edit fields
-        //TODO put these into the DOMStrings
+        
         const updateData = {
-            budget_type: document.getElementById('editType').value,
-            budget_description: document.getElementById('editDesc').value,
-            budget_value: document.getElementById('editValue').value
+            budget_type: document.getElementById(base.DOMstrings.editTypeInput).value,
+            budget_description: document.getElementById(base.DOMstrings.editDescInput).value,
+            budget_value: document.getElementById(base.DOMstrings.editValueInput).value
         }
         let splitID = itemID.split('-'); // split the string and store in an array
         let type = splitID[0]; // inc/exp/sav
@@ -139,7 +136,8 @@ const budgetController = () => {
 
         // Submit to edit endpoint
         try {
-            const data = await endpoint.postData(`/budget/${id}`,'PATCH', updateData)
+            const response = await endpoint.postData(`/budget/${id}`,'PATCH', updateData)
+            const data = await response.json();
             console.log(data)
             budgetView.updateItem(type, updateData.budget_type, id, data[0].budget_description, data[0].budget_value, data[0].percent)
             // Show Edit model
@@ -226,7 +224,10 @@ const DOMstrings = {
     expensesPercentageLabel: '.expenses__item__percentage',
     savingsPercentageLabel: '.savings__item__percentage',
     dateLabel: '.budget__title--month',
-    closeEditModal: '.modal-close'
+    closeEditModal: '.modal-close',
+    editTypeInput: 'editType',
+    editDescInput: 'editDesc',
+    editValueInput: 'editValue'
 };
 const convertBudgetType = type => {
     switch (type) {
