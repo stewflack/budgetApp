@@ -1,18 +1,21 @@
-const AWN = require("awesome-notifications");
+// const AWN = require('awesome-notifications');
 
-function createNotification(type, message, l, dur = 2000){
+
+const createNotification = (type, message, l, dur = 2000) =>{
     const options = {
         position: "top-right",
-        durations: {global: dur},
+        durations: {global:dur},
         enabled: true,
-        labels: {
+        labels:{
             info: l,
             tip: l,
             success: l,
             warning: l,
             alert: l
         }
-    }, awn = new AWN(options);
+    };
+
+    var awn = new AWN(options);
 
     switch (type) {
         case 'tip':
@@ -32,5 +35,12 @@ function createNotification(type, message, l, dur = 2000){
             break;
     }
 }
+const testNotifcation = () => {
+    var notifier = new AWN();
+    notifier.tip('Message here');
 
-module.exports = createNotification
+}
+
+module.exports = {
+    createNotification
+}

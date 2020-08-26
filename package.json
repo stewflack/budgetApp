@@ -2,13 +2,16 @@
   "name": "budgetapp",
   "version": "2.0.0",
   "description": "",
-  "main": "src/app.js",
+  "main": "v2/src/index.js",
   "engines": {
     "node": "12.16.x",
     "npm": "6.x"
   },
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node -r dotenv/config v2/src/app.js dotenv_config_path=.env",
+    "dev": "browserify v2/public/js/app.js -o v2/public/js/bundle.js & nodemon -r dotenv/config v2/src/index.js -e js, hbs",
+    "test": "jest --setupFiles dotenv/config",
+    "test-coverage": "jest --coverage --setupFiles dotenv/config"
   },
   "repository": {
     "type": "git",
@@ -20,13 +23,26 @@
     "url": "https://github.com/crazystew/budgetApp/issues"
   },
   "homepage": "https://github.com/crazystew/budgetApp#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.3",
+    "supertest": "^4.0.2"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
     "awesome-notifications": "^3.1.0",
+    "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
+    "browserify": "^16.5.1",
+    "chalk": "^4.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "handlebars": "^4.7.6",
     "hbs": "^4.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "materialize-css": "^1.0.0-rc.2",
+    "mysql": "^2.18.1",
     "validator": "^13.0.0"
   }
 }

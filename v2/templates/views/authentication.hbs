@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>BUDGET APP</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://kit.fontawesome.com/f3c7b02494.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/authentication.css">
+
+
+</head>
+
+<body>
+<div class="main-content">
+    <div class="a-container">
+        <div class="bubble z-depth-3">
+        <div class="log-in left">
+            <h2>Log In</h2>
+            <form method="POST" action="users/login">
+                <input name="email" type="email" class="" id="loginEmail"  placeholder="Enter your email... " required>
+                <input name="password" type="password" class="" id="loginPassword" placeholder="Enter your password...." required>
+                <div class="error-messaging" id="login-error"></div>
+                <button class="btn waves-effect waves-light orange lighten-2" type="submit" id="loginSubmit" name="loginSubmit">
+                    Log In
+                    <i class="fas fa-sign-in-alt right"></i>
+                </button>
+            </form>
+        </div>
+        <div class="seperator"></div>
+        <div class="register right">
+            <h2>Register</h2>
+            <form method="post" action="/users">
+                <input type="text" class="" id="registerFirstName" placeholder="First Name...." required>
+                <input type="email" class="" id="registerEmail" placeholder="Email..." required>
+                <input type="password" class="" id="registerPassword" placeholder="Password" required>
+                <div class="error-messaging" id="register-error"></div>
+                <button class="btn waves-effect waves-light orange lighten-2" type="submit" id="registerSubmit" name="registerSubmit">
+                    Register
+                    <i class="fas fa-user-plus right"></i>
+                </button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+
+    </div>
+    <div class="testOutput">
+
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+<script src="js/authentication.js"></script>
+
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-const base =  require("../base")
+const base = require("../base")
 function each(arr, percent) {
     arr.forEach((curr, i) => {
         if (percent[i] > 0) {
@@ -94,7 +94,7 @@ const displayBudget = obj => {
 
     let type;
     obj.budget > 0 ? type = 'inc' : type = 'exp';
-    // Budget total label
+    // Budget total 8
     const {expenseLabel, budgetLabel, incomeLabel, expensePercentLabel, savingsPercentLabel, savingsLabel} = base.DOMstrings;
     document.querySelector(budgetLabel).textContent = formatNumber(obj.budget, type);
 
