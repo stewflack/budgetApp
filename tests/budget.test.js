@@ -3,7 +3,7 @@ const app = require('../src/app')
 const Budget = require('../src/js/Budget')
 
 const {setUpDatabase, closeConnection, clearDatabase} = require('./fixtures/test_database')
-const {queryPromise, queryUpdate} = require('../../v2/src/db/databaseMethods')
+const {queryPromise, queryUpdate} = require('../src/db/databaseMethods')
 
 const request = supertest(app)
 

@@ -2,8 +2,8 @@ const chalk = require('chalk')
 const bcrypt = require('bcryptjs')
 
 const connection = require('../../src/db/connection')
-const {queryPromise ,queryUpdate} = require('../../../v2/src/db/databaseMethods')
-const {generateAuthToken} = require('../../../v2/src/js/Users')
+const {queryPromise ,queryUpdate} = require('../../src/db/databaseMethods')
+const {generateAuthToken} = require('../../src/js/Users')
 /**
  * CONNECTION
  */

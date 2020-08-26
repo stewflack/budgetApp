@@ -3,7 +3,7 @@ const base = require('./base')
 // import Budget from '../../src/js/models/Budget';
 const Budget = require('../../src/js/models/Budget')
 // import * as budgetView from '../../src/js/views/budgetView';
-const budgetView = require('../js/views/budgetView')
+const budgetView = require('./views/budgetView')
 
 const notification = require('./views/Notifications')
 const {getInput} = require("./views/budgetView");

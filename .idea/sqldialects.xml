@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/v2/src/db/database.js" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/v2/tests/fixtures/test_database.js" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/db/database.js" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/tests/fixtures/test_database.js" dialect="MySQL" />
   </component>
 </project>

@@ -1,35 +1,40 @@
 const path = require('path')
+const bodyParser = require('body-parser');
 
 const express = require('express')
+var session = require('express-session');
+
+const budgetRouter = require('./routers/budget')
+const userRouter = require('./routers/user')
 const hbs = require('hbs')
 
+// INIT EXPRESS
 
-/**
- * Express Set Up
- * Ports
- */
 const app = express()
-const port = process.env.PORT || 3000
 
-// Paths for express config
-const publicDirPath = path.join(__dirname, '../dist')
-const viewsPath = path.join(__dirname, '../templates')
+// Define Paths for Express config
+const publicDirPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
 // Setup Handlebars engine and Views location
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 hbs.registerPartials(partialsPath)
 
-// hbs.registerPartials(partialsPath)
-
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}))
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(express.json())
 app.use(express.static(publicDirPath))
+app.use(budgetRouter)
+app.use(userRouter)
 
-// app.get('', (req, res) => {
-//     res.sendFile('../dist/index.html')
-// })
-
-
-
-app.listen(port,() => {
-    console.log(`Server has started... port: ${port}`)
+app.get('/auth', (req, res) => {
+    res.render('authentication')
 })
+
+module.exports = app
+
