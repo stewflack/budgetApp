@@ -6,6 +6,7 @@ var session = require('express-session');
 
 const budgetRouter = require('./routers/budget')
 const userRouter = require('./routers/user')
+const settingRouter = require('./routers/settings')
 const hbs = require('hbs')
 
 // INIT EXPRESS
@@ -29,8 +30,10 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(express.json())
 app.use(express.static(publicDirPath))
+app.use(settingRouter)
 app.use(budgetRouter)
 app.use(userRouter)
+
 
 app.get('/auth', (req, res) => {
     res.render('authentication')
