@@ -387,5 +387,14 @@ Navigation
     height: 30px;
     width: 100%;
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 15px; 
+}
+
+/****************************
+SETTINGS
+****************************/
+
+.b-container {
+    width: 800px;
+    margin: 0 auto;
 }

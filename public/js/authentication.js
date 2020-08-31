@@ -1,5 +1,3 @@
-console.log('Hello Auth');
-
 const authStrings = {
     loginEmail: document.getElementById('loginEmail'),
     loginPassword: document.getElementById('loginPassword'),
