@@ -17,7 +17,7 @@
                 <div class="collapsible-body">
                     <p>Enter your new account details here.</p>
                     <div class="row">
-                        <form class="col s12">
+                        <form class="col s12" method="PATCH" action="/users/profile">
                             <div class="row">
                                 <div class="input-field col s6">
                                     <input id="settings-name" type="text" class="validate">
@@ -46,7 +46,12 @@
             <li>
                 <div class="collapsible-header"><i class="fas fa-money-check"></i>Budget Types</div>
                 <div class="collapsible-body">
-                    {{!-- Table of budgets, with icon next to to edit/remove, bottom will have a (+) button to add more --}}
+                    {{!-- Table of budgets, with icon next to to edit/remove, bottom will have a (+) button to add more 
+                        - JS to output the table and populate it from the endpoints 
+                    --}}
+                    <div class="">
+
+                    </div>
                 </div>
             </li>
             {{!-- <li>
