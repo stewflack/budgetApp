@@ -34,7 +34,7 @@
                                     <label class="active" for="settings-email">Password</label>
                                 </div>
                                 <div class="input-field col s6">
-                                    <input id="settings-password" type="password" class="validate">
+                                    <input id="settings-password-re" type="password" class="validate">
                                     <label class="active" for="settings-email">Re-type password</label>
                                 </div>
                             </div>
@@ -49,9 +49,37 @@
                     {{!-- Table of budgets, with icon next to to edit/remove, bottom will have a (+) button to add more 
                         - JS to output the table and populate it from the endpoints 
                     --}}
-                    <div class="">
-
-                    </div>
+                    <table style="table-layout: auto; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Colour</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="name-field">Expense</td>
+                                <td class="colour-cell">
+                                    <div class="type-colour red"></div>
+                                </td>
+                                <td class="icon-cell">
+                                    <a class="waves-effect waves-light btn-small btn-flat"><i class="small fas fa-edit"></i></a>
+                                    <a class="waves-effect waves-light btn-small btn-flat"><i class="small fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="name-field">Savings</td>
+                                <td class="colour-cell">
+                                    <div class="type-colour green"></div>
+                                </td>                                
+                                <td class="icon-cell">
+                                    <a class="waves-effect waves-light btn-small btn-flat"><i class="small fas fa-edit"></i></a>
+                                    <a class="waves-effect waves-light btn-small btn-flat"><i class="small fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </li>
             {{!-- <li>
