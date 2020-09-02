@@ -91,9 +91,9 @@ router.patch('/types/:id', async (req, res) => {
     }
 });
 
-router.delete('/types/:id', async (req, res) => {
-    const type_id = req.params.id;
-
+router.delete('/types', async (req, res) => {
+    // const type_id = req.params.id;
+    const type_id = req.body.id
     const deleteSQL = await queryUpdate('DELETE FROM budget_types WHERE id = ?', type_id);
     if(deleteSQL.affectedRows === 1) {
         res.status(200).send({

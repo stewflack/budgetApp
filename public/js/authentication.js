@@ -10,14 +10,6 @@ const authStrings = {
     registerError: document.getElementById('register-error')
 }
 
-const request = async (url, method, headers, body) => {
-    return await fetch(url, {
-        method,
-        headers,
-        body
-    })
-}
-
 const logInUser = async (event) => {
     event.preventDefault();
     const body = JSON.stringify({
@@ -25,7 +17,7 @@ const logInUser = async (event) => {
         password: authStrings.loginPassword.value
     })
 
-    const response = await request('/users/login', 'POST', {'Content-Type': 'application/json'}, body)
+    const response = await request('/users/login', 'POST', {'Content-Type': 'application/json'}, body);
     const data = await response.json();
     if(data.error) {
         authStrings.loginError.innerText = data.error;
