@@ -430,3 +430,8 @@ SETTINGS
     background: #f57c00;
     color: white;
 }
+
+.btn-settings-add:hover {
+    background: #43a047;
+    color: white;
+}
