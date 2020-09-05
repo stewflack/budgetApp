@@ -165,7 +165,7 @@ const settingController = () => {
 
             const data = await postData('/types','POST', obj);
             const r = await data.json()
-            console.log(r);
+            
             if (r.error) {
                 // output error
                 strings.saveTypeInput.classList.add('invalid');
@@ -175,6 +175,10 @@ const settingController = () => {
             // add to ui 
             strings.tableBody.insertAdjacentHTML('beforeend', outputSingleType(r));
             strings.saveTypeInput.value = '';
+        });
+
+        strings.editBtn.addEventListener('click', () => {
+
         });
 
     }
