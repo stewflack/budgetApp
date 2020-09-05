@@ -9,6 +9,7 @@ const strings = {
 }
 
 const settingController = () => {
+    /** Multiple rows returned function */
     const outputTypesTable = (obj) => {
         /**
          * id, type_name, colour
@@ -26,6 +27,27 @@ const settingController = () => {
                       </td>
                   </tr>`;
                 });
+        return html;
+    };
+
+    /**
+     * Single row function 
+     */
+    const outputSingleType = (obj) => {
+        /**
+         * id, type_name, colour
+         */   
+        let html = `<tr>
+                      <td class="name-field">${obj.type_name}</td>
+                      <td class="colour-cell">
+                          <div class="type-colour" style="background: ${obj.colour}"></div>
+                      </td>
+                      <td class="icon-cell">
+                          <a class="waves-effect waves-light btn-small btn-flat btn-settings-edit" data-id="${obj.id}"><i class="small fas fa-edit"></i></a>
+                          <a class="waves-effect waves-light btn-small btn-flat btn-settings-delete" data-id="${obj.id}"><i class="small fas fa-trash-alt"></i></a>
+                      </td>
+                  </tr>`;
+                
         return html;
     };
 
@@ -151,8 +173,8 @@ const settingController = () => {
                 return;
             }
             // add to ui 
-            
-
+            strings.tableBody.insertAdjacentHTML('beforeend', outputSingleType(r));
+            strings.saveTypeInput.value = '';
         });
 
     }

@@ -54,8 +54,9 @@ router.post('/types', async (req, res) => {
             })
         }
         
-        await queryUpdate('INSERT INTO budget_types SET ?', type)
-        res.send(type)
+        const insert = await queryUpdate('INSERT INTO budget_types SET ?', type)
+        type.id = insert.insertId;
+        res.send(type);
     } catch(e) {
         return res.status(500).send({error: e})
     }
