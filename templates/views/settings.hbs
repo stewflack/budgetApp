@@ -56,33 +56,29 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="name-field">Expense</td>
-                                    <td class="colour-cell">
-                                        <div class="type-colour red"></div>
-                                    </td>
-                                    <td class="icon-cell">
-                                        <a class="waves-effect waves-light btn-small btn-flat btn-settings-edit"><i class="small fas fa-edit"></i></a>
-                                        <a class="waves-effect waves-light btn-small btn-flat btn-settings-delete"><i class="small fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="name-field">Savings</td>
-                                    <td class="colour-cell">
-                                        <div class="type-colour green"></div>
-                                    </td>                                
-                                    <td class="icon-cell">
-                                        <a class="waves-effect waves-light btn-small btn-flat btn-settings-edit"><i class="small fas fa-edit"></i></a>
-                                        <a class="waves-effect waves-light btn-small btn-flat btn-settings-delete"><i class="small fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
+                            <tbody id="tbl-budget-body">
+                                
                             </tbody>
+                            <tr id="add-row">
+                                <td class="name-field">
+                                    <div class="input-field col s6">
+                                        <input  id="settings_budget_name" type="text" class="validate">
+                                        <label for="settings_budget_name">Budget Name</label>
+                                        <span class="helper-text" data-error="wrong"></span>
+
+                                    </div>
+                                </td>
+                                <td class="colour-cell" style="padding-top: 45px;">
+                                    <div class="color-picker"></div>
+                                </td>
+                                <td class="icon-cell">
+                                    <a class="waves-effect waves-light btn-small btn-flat btn-settings-save"><i class="far fa-save"></i></a>
+                                </td>
+                            </tr>
                         </table>
                     </div>
                     <div class="center">
                        <a class="waves-effect waves-light btn-small btn-flat btn-settings-add"><i class="small fas fa-plus"></i></a>
-                    <div class="color-picker"></div>
                     </div>
                 </div>
             </li>

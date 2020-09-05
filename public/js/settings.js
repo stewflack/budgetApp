@@ -1,6 +1,11 @@
 const strings = {
     editBtn: document.querySelector('.btn-settings-edit'),
-    deleteBtn: document.querySelector('.btn-settings-delete')
+    deleteBtn: document.querySelector('.btn-settings-delete'),
+    addBtn: document.querySelector('.btn-settings-add'),
+    saveBtn: document.querySelector('.btn-settings-save'),
+    saveTypeInput: document.getElementById('settings_budget_name'),
+    tableBody: document.getElementById('tbl-budget-body'),
+    inputError: document.querySelector('.helper-text')
 }
 
 const settingController = () => {
@@ -9,18 +14,6 @@ const settingController = () => {
          * id, type_name, colour
          */
         let html = '';
-        html += `
-                          <table style="table-layout: auto; width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>Type</th>
-                                    <th>Colour</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-        `;
-    
         obj.forEach(el => {
           html += `<tr>
                       <td class="name-field">${el.type_name}</td>
@@ -33,7 +26,6 @@ const settingController = () => {
                       </td>
                   </tr>`;
                 });
-        html += `</tbody></table>`;
         return html;
     };
 
@@ -41,7 +33,7 @@ const settingController = () => {
         const types = await request('/types', 'GET', {'Content-Type': 'application/json'});
         const typesObj = await types.json();
         // console.log(typesObj);
-        const output = document.getElementById('settingsTypeOutput');
+        const output = strings.tableBody;
         output.innerHTML = outputTypesTable(typesObj);
     };
 
@@ -96,16 +88,12 @@ const settingController = () => {
             // Input / output Options
             interaction: {
                 hex: true,
-                rgba: true,
-                hsla: true,
-                hsva: true,
-                cmyk: true,
                 input: true,
                 clear: true,
                 save: true
             }
         }
-    });
+    });  
 
     // As colour picker stores in rgb we need to covert it to hex which these functions do 
     function componentToHex(c) {
@@ -117,34 +105,6 @@ const settingController = () => {
         return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b); 
     } 
     
-    // alert(rgbToHex(0, 51, 255)); // #0033ff
-    /***
-     * Creating a new budget item
-     */
-    const buildFirstStageRow = () => {
-        // output table with input fields 
-        let html = `
-                <tr>
-                    <td class="name-field">
-                        <div class="input-field col s6">
-                            <input placeholder="Budget Name" id="settings_budget_name" type="text" class="validate">
-                            <label for="settings_budget_name">Budget Name</label>
-                        </div>
-                    </td>
-                    <td class="colour-cell">
-                        <div class="color-picker"></div>
-                    </td>
-                    <td class="icon-cell">
-                        <a class="waves-effect waves-light btn-small btn-flat btn-settings-edit" data-id="${el.id}"><i class="small fas fa-edit"></i></a>
-                        <a class="waves-effect waves-light btn-small btn-flat btn-settings-delete" data-id="${el.id}"><i class="small fas fa-trash-alt"></i></a>
-                    </td>
-                </tr>
-        `
-        // add buttons 
-
-        // return html
-    }
-
     const setUpEventListeners = () => {
         /** Edit and Delete types */
         document.addEventListener('click', async (e) => {
@@ -155,11 +115,52 @@ const settingController = () => {
                 const id = e.target.dataset.id;
                 await deleteBudgetType(id, e.target);
             }
+        });
+        let addCounter = 0;
+        
+        strings.addBtn.addEventListener('click', (e) => {
+            const row = document.getElementById('add-row');
+            if(row.style.display != 'none') {
+                row.style.display = 'none';
+                strings.inputError.dataset.error = '';
+                strings.saveTypeInput.classList.remove('invalid');
+            } else {
+                row.style.display = 'table-row';
+            }
+        });
+
+        let colour;
+        pickr.on('save',(color, instance) => {
+            colour = color.toHEXA().toString();
         })
+        
+        strings.saveBtn.addEventListener('click', async () => {
+            strings.inputError.dataset.error = '';
+            const obj = {
+                type_name: strings.saveTypeInput.value,
+                colour
+            }
+
+            const data = await postData('/types','POST', obj);
+            const r = await data.json()
+            console.log(r);
+            if (r.error) {
+                // output error
+                strings.saveTypeInput.classList.add('invalid');
+                strings.inputError.dataset.error = r.error;
+                return;
+            }
+            // add to ui 
+            
+
+        });
+
     }
 
     return {
         init: async () => {
+            const row = document.getElementById('add-row');
+            row.style.display = 'none';
             /** Collapseable table  */
             document.addEventListener('DOMContentLoaded', function() {
                 var elems = document.querySelectorAll('.collapsible');
