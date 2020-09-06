@@ -5,7 +5,8 @@ const strings = {
     saveBtn: document.querySelector('.btn-settings-save'),
     saveTypeInput: document.getElementById('settings_budget_name'),
     tableBody: document.getElementById('tbl-budget-body'),
-    inputError: document.querySelector('.helper-text')
+    inputError: document.querySelector('.helper-text'),
+    saveEdit: document.querySelector('.btn-settings-save-edit')
 }
 
 const settingController = () => {
@@ -17,7 +18,7 @@ const settingController = () => {
         let html = '';
         obj.forEach(el => {
           html += `<tr>
-                      <td class="name-field">${el.type_name}</td>
+                      <td id="${el.short_hand}-${el.id}" class="name-field">${el.type_name}</td>
                       <td class="colour-cell">
                           <div class="type-colour" style="background: ${el.colour}"></div>
                       </td>
@@ -38,7 +39,7 @@ const settingController = () => {
          * id, type_name, colour
          */   
         let html = `<tr>
-                      <td class="name-field">${obj.type_name}</td>
+                      <td id="${obj.short_hand}-${obj.id}" class="name-field">${obj.type_name}</td>
                       <td class="colour-cell">
                           <div class="type-colour" style="background: ${obj.colour}"></div>
                       </td>
@@ -133,6 +134,11 @@ const settingController = () => {
             if (e.target.classList.contains('btn-settings-edit')) {
                 const id = e.target.dataset.id;
                 
+                // For now can only edit the name and not the colour 
+                const name = e.target.parentElement.parentElement.children[0];
+                <a class="waves-effect waves-light btn-small btn-flat btn-settings-save-edit" data-id="${obj.id}"><i class="small fas fa-save"></i></a> // to be put into the html markup
+                e.target.insertAdjacentHTML('afterbegin', iconHTML);
+                name.contentEditable = true;
             } else if (e.target.classList.contains('btn-settings-delete')) {
                 const id = e.target.dataset.id;
                 await deleteBudgetType(id, e.target);
@@ -177,9 +183,7 @@ const settingController = () => {
             strings.saveTypeInput.value = '';
         });
 
-        strings.editBtn.addEventListener('click', () => {
-
-        });
+        
 
     }
 

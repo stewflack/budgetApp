@@ -18,7 +18,7 @@ router.get('/settings', (req, res) => {
  * Budget Types 
  */
 router.get('/types', async (req, res) => {
-    const types = await queryUpdate(`select id, type_name, colour from budget_types where user_id = ?`, 105);
+    const types = await queryUpdate(`select id, type_name, colour, short_hand from budget_types where user_id = ?`, 105);
     res.send(types);
 });
 
