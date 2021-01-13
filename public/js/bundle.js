@@ -275,10 +275,8 @@ const getBudgetSummary = async () => {
     }
 }
 
-// Example POST method implementation:
+
 async function postData(url = '',type, data) {
-    // console.log(data)
-    // Default options are marked with *
     try {
         const response = await fetch(url, {
             method: type,
@@ -289,7 +287,7 @@ async function postData(url = '',type, data) {
             cache: 'default',
             body: JSON.stringify(data)
         });
-        return response; // parses JSON response into native JavaScript objects
+        return response;
     } catch (e) {
         console.error(e)
     }
@@ -310,20 +308,6 @@ const deleteData = async (url, id) => {
         console.error(e)
     }
 }
-
-
-
-/***
- * Calculate the Percentages
- * Implement the EventListeners for editing, adding, deleting and reading data
- * Small UI changes including
- *          : Focus Fields
- *          : Colour CHanges
- *          ECT
- *
- * After this It SHOULD be at the same stage as before, next to implement user Authentication
- */
-
 
 module.exports = {
     getBudgets,

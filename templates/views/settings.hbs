@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<head>
+    <title>Settings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
+    <script src="https://kit.fontawesome.com/f3c7b02494.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    {{>navigation}}
+    <div class="b-container">
+        <h2>Settings</h2>
+          <ul class="collapsible">
+            <li>
+                <div class="collapsible-header"><i class="far fa-user-circle"></i>Account</div>
+                <div class="collapsible-body">
+                    <p>Enter your new account details here.</p>
+                    <div class="row">
+                        <form class="col s12" method="PATCH" action="/users/profile">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="settings-name" type="text" class="validate">
+                                    <label class="active" for="settings-name">Name</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="settings-email" type="email" class="validate">
+                                    <label class="active" for="settings-email">Email address</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input id="settings-password" type="password" class="validate">
+                                    <label class="active" for="settings-email">Password</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input id="settings-password-re" type="password" class="validate">
+                                    <label class="active" for="settings-email">Re-type password</label>
+                                </div>
+                            </div>
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Edit</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="collapsible-header"><i class="fas fa-money-check"></i>Budget Types</div>
+                <div class="collapsible-body">
+                    <div id="settingsTypeOutput">
+                        <table style="table-layout: auto; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Colour</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-budget-body">
+                                
+                            </tbody>
+                            <tr id="add-row">
+                                <td class="name-field">
+                                    <div class="input-field col s6">
+                                        <input  id="settings_budget_name" type="text" class="validate">
+                                        <label for="settings_budget_name">Budget Name</label>
+                                        <span class="helper-text" data-error="wrong"></span>
+
+                                    </div>
+                                </td>
+                                <td class="colour-cell" style="padding-top: 45px;">
+                                    <div class="color-picker"></div>
+                                </td>
+                                <td class="icon-cell">
+                                    <a class="waves-effect waves-light btn-small btn-flat btn-settings-save"><i class="far fa-save"></i></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="center">
+                       <a class="waves-effect waves-light btn-small btn-flat btn-settings-add"><i class="small fas fa-plus"></i></a>
+                    </div>
+                </div>
+            </li>
+            {{!-- <li>
+                <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+                <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            </li> --}}
+            </ul>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <script src="js/serverCalls.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

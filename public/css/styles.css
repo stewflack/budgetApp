@@ -383,9 +383,55 @@ h2 {
 Navigation 
 **************************/
 
-.navigation {
+/* .navigation {
     height: 30px;
     width: 100%;
     display: block;
-    margin-bottom: 15px;
+    margin-bottom: 15px; 
+} */
+
+/****************************
+SETTINGS
+****************************/
+
+.b-container {
+    width: 800px;
+    margin: 0 auto;
+}
+
+/* TABLE */
+.name-field {
+    width: 300px;
+}
+.icon-cell {
+    width: 150px;
+}
+
+.colour-cell {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.type-colour {
+    border-radius: 7.5px;
+    display: block;
+    width: 120px;
+    height: 30px;
+}
+
+.btn-settings-edit:hover {
+    background: #d32f2f;
+    color: white;
+}
+
+.btn-settings-delete:hover {
+    background: #f57c00;
+    color: white;
+}
+
+.btn-settings-add:hover {
+    background: #43a047;
+    color: white;
 }

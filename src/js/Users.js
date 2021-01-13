@@ -1,9 +1,6 @@
 const bcrypt = require('bcryptjs')
 const validator = require('validator')
 const jwt = require('jsonwebtoken')
-const session = require('express-session');
-
-
 
 const {queryUpdate, queryPromise} = require('../db/databaseMethods')
 // import validator from "validator/es";

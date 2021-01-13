@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node -r dotenv/config src/app.js dotenv_config_path=.env",
-    "dev": "browserify public/js/app.js -o v2/public/js/bundle.js & nodemon -r dotenv/config src/index.js -e js, hbs",
+    "dev": "browserify public/js/app.js -o public/js/bundle.js & nodemon -r dotenv/config src/index.js -e js, hbs",
     "test": "jest --setupFiles dotenv/config",
     "test-coverage": "jest --coverage --setupFiles dotenv/config"
   },
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.13.0",
+    "@simonwep/pickr": "^1.7.2",
     "awesome-notifications": "^3.1.0",
     "bcrypt": ">=5.0.0",
     "bcryptjs": "^2.4.3",
